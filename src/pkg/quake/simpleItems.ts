@@ -122,50 +122,50 @@ export const healthPacks = [HealthSmall, HealthLarge, MegaHealth];
 // ammo
 const ShellsSmall: SimpleItem = {
   name: "Shells (small)",
-  filename: "simple_shell0_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_shell0_0.png",
+  backgroundColor: "#ffff00",
   texturePath: "qw/textures/bmodels",
 };
 const ShellsLarge: SimpleItem = {
   name: "Shells (large)",
-  filename: "simple_shell1_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_shell1_0.png",
+  backgroundColor: "#ff9933",
   texturePath: "qw/textures/bmodels",
 };
 const NailsSmall: SimpleItem = {
   name: "Nails (small)",
-  filename: "simple_nail0_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_nail0_0.png",
+  backgroundColor: "#cc00ff",
   texturePath: "qw/textures/bmodels",
 };
 const NailsLarge: SimpleItem = {
   name: "Nails (large)",
-  filename: "simple_nail1_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_nail1_0.png",
+  backgroundColor: "#0066ff",
   texturePath: "qw/textures/bmodels",
 };
 const RocketsSmall: SimpleItem = {
   name: "Rockets (small)",
-  filename: "simple_rock0_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_rock0_0.png",
+  backgroundColor: "#66ff00",
   texturePath: "qw/textures/bmodels",
 };
 const RocketsLarge: SimpleItem = {
   name: "Rockets (large)",
-  filename: "simple_rock1_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_rock1_0.png",
+  backgroundColor: "#ff3300",
   texturePath: "qw/textures/bmodels",
 };
 const CellsSmall: SimpleItem = {
   name: "Cells (small)",
-  filename: "simple_batt0_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_batt0_0.png",
+  backgroundColor: "#ffffff",
   texturePath: "qw/textures/bmodels",
 };
 const CellsLarge: SimpleItem = {
   name: "Cells (large)",
-  filename: "simple_batt1_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_batt1_0.png",
+  backgroundColor: "#ffffff",
   texturePath: "qw/textures/bmodels",
 };
 

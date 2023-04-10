@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* main */
+@layer base {
+  html {
+    font-family: Roboto, sans-serif;
+  }
+
+  code {
+    @apply font-mono;
+  }
+}
+
+/* forms */
+select,
+input[type="number"],
+input[type="text"] {
+  @apply border rounded border-gray-300 mx-1 px-1 py-0.5 bg-white shadow;
+}
+
+input[type="checkbox"] {
+  @apply mr-1.5;
+}
+
+label,
+input[type="color"],
+select {
+  @apply cursor-pointer;
+}
+
+input[type="color"] {
+  @apply w-8 h-8 border-0 bg-transparent;
+}
+
+label:hover {
+  @apply text-sky-600;
+}
+
+label:hover code {
+  font-weight: bold;
+}
+
+/* debug */
+.debug {
+  border: 1px solid red;
+}
+
+.debug > * {
+  border: 1px solid blue;
+}
+
+/* animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-duration: 500ms;
+  animation-name: fadeIn;
+}
+
+model-viewer {
+  @apply w-full h-full;
+  min-width: 120px;
+}
+
+.app-border-dashed {
+  @apply border-2 border-dashed border-black/20;
+}
+
+.app-bg-checker {
+  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%),
+    linear-gradient(-45deg, #dddddd 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #dddddd 75%),
+    linear-gradient(-45deg, transparent 75%, #dddddd 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+/* editor */
+.editor-drag {
+  @apply border-solid border-green-400;
+}
+.editor-drag canvas {
+  @apply bg-green-400/25;
+}

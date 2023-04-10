@@ -80,7 +80,12 @@ onBeforeMount(() => {
         :style="`width: ${160 + 4}px; height: ${160 + 4}px`"
         class="app-bg-checker app-border-dashed"
       >
-        <div :id="`${props.containerId}`" class="editor-container" />
+        <div
+          :id="`${props.containerId}`"
+          class="editor-container cursor-pointer"
+          :title="`Download to ${props.item.texturePath}`"
+          @click="() => editor.download(props.item.filename)"
+        />
       </div>
       <input
         type="color"

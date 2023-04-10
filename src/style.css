@@ -31,7 +31,7 @@ select {
 }
 
 input[type="color"] {
-  @apply w-8 h-8 border-0 bg-transparent;
+  @apply w-6 h-6 border-0 bg-transparent;
 }
 
 label:hover {

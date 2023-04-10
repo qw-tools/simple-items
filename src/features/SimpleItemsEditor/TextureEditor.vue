@@ -65,21 +65,14 @@ onBeforeMount(() => {
       ><strong>{{ props.item.filename }}</strong>
     </div>
 
-    <!--    <button-->
-    <!--      class="block border border-gray-400 hover:bg-blue-100 rounded-md py-1.5 px-3 bg-sky-100 shadow text-sm ml-auto"-->
-    <!--      @click="() => editor?.download(props.item.filename)"-->
-    <!--    >-->
-    <!--      Download-->
-    <!--    </button>-->
-
-    <div class="p-2 border">
+    <div class="p-3 border">
       <div
-        :style="`width: ${160 + 4}px; height: ${160 + 4}px`"
-        class="app-bg-checker app-border-dashed"
+        class="app-bg-checker border border-gray-400 hover:border-blue-500 cursor-pointer"
       >
         <div
           :id="`${props.containerId}`"
-          class="editor-container cursor-pointer"
+          class="editor-container hover:bg-blue-500/30"
+          :style="`width: ${160}px; height: ${160}px`"
           :title="`Download to ${props.item.texturePath}`"
           @click="() => editor.download(props.item.filename)"
         />

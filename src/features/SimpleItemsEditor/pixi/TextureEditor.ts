@@ -68,12 +68,7 @@ export class TextureEditor extends PIXI.Application {
 
   destroy(): void {
     this._unlisten();
-
-    super.destroy(true, {
-      baseTexture: true,
-      children: true,
-      texture: true,
-    });
+    super.destroy();
   }
 
   private _listen(): void {

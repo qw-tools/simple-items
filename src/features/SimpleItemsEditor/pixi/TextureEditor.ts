@@ -135,10 +135,6 @@ export class TextureEditor extends PIXI.Application {
     this.filters = (e as FiltersChange).filters;
   }
 
-  private _preventDefault(e: Event): void {
-    e.preventDefault();
-  }
-
   set filters(filters: FilterInputs) {
     this._outlineFilter.enabled = filters.outline.enabled;
 
@@ -150,8 +146,6 @@ export class TextureEditor extends PIXI.Application {
     }
 
     this.textureScale = filters.scale.value;
-
-    console.log(filters.scale.value);
 
     this._onChange();
   }

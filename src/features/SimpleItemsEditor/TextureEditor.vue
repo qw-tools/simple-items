@@ -4,6 +4,7 @@ import { type SimpleItem } from "@/pkg/quake/simpleItems";
 import { TextureEditor } from "./pixi/TextureEditor";
 import { FilterInputs } from "./pixi/filter";
 import { publicUrl } from "@/pkg/viteUtil";
+import { nullOperation } from "@/pkg/functions";
 
 interface Props {
   item: SimpleItem;
@@ -20,20 +21,14 @@ function onBackgroundColorChange(e: Event): void {
 }
 
 onMounted(async () => {
-  console.log("onMounted", props.item);
-
   const { backgroundColor, filename } = props.item;
 
   editor = new TextureEditor({
     containerId: props.containerId,
     texturePath: publicUrl(`/assets/textures/${filename}`),
     backgroundColor,
-    onChange: async () => {
-      console.log("change");
-    },
-    onReady: () => {
-      console.log("ready");
-    },
+    onChange: nullOperation,
+    onReady: nullOperation,
   });
 
   document.getElementById(props.containerId)?.append(editor.getCanvas());
@@ -62,7 +57,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div>
+  <div class="fadeIn">
     <div class="text-sm font-mono text-xs hidden">
       <span class="text-gray-500">{{ props.item.texturePath }}/</span
       ><strong>{{ props.item.filename }}</strong>

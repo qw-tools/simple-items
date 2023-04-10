@@ -6,15 +6,22 @@ import SiteFooter from "@/Site/SiteFooter.vue";
 import TextureEditor from "./TextureEditor.vue";
 import FilterToolbar from "./FilterToolbar.vue";
 import {
+  ammo,
   armors,
   healthPacks,
   powerups,
+  SimpleItem,
   weapons,
 } from "@/pkg/quake/simpleItems";
 import { slugify } from "@/pkg/stringUtil";
+import { ref } from "vue";
 
-//const items = [armors, weapons, ammo, healthPacks, powerups].flat(1);
-const items = [armors, healthPacks, powerups, weapons].flat(1);
+const editOptions = {
+  weapons: [weapons, ammo].flat(1),
+  other: [armors, healthPacks, powerups].flat(1),
+};
+
+const items = ref<SimpleItem[]>(editOptions.weapons);
 
 let lastFilters: FilterInputs = getDefaultFilterInputs();
 
@@ -33,10 +40,18 @@ function onFiltersChange(filters: FilterInputs): void {
       </div>
     </div>
 
-    <div class="container fadeIn my-4">
+    <div class="container my-4">
       <div
         class="my-4 px-4 py-3 rounded border shadow bg-white grid gap-2 sm:gap-8 sm:grid-flow-col sm:auto-cols-max"
       >
+        <div class="text-sm">
+          <select v-model="items">
+            <option :value="editOptions.other">
+              Armors, Health packs, Powerups
+            </option>
+            <option :value="editOptions.weapons">Weapons &amp; Ammo</option>
+          </select>
+        </div>
         <FilterToolbar :on-change="onFiltersChange" />
       </div>
 

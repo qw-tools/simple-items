@@ -36,7 +36,13 @@ function onFiltersChange(filters: FilterInputs): void {
   <div class="bg-gray-100 border-b border-gray-300">
     <div class="bg-white shadow">
       <div class="container">
-        <h1 class="font-bold text-xl py-4">Simple Items Texture Editor</h1>
+        <h1 class="font-bold text-xl py-4">
+          Simple Items Texture Editor
+          <span
+            class="rounded-lg bg-yellow-200 font-normal px-2 py-1 ml-4 border text-sm font-mono"
+            >work in progress!</span
+          >
+        </h1>
       </div>
     </div>
 

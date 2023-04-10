@@ -28,7 +28,9 @@ onMounted(async () => {
     texturePath: publicUrl(`/assets/textures/${filename}`),
     backgroundColor,
     onChange: nullOperation,
-    onReady: nullOperation,
+    onReady: () => {
+      editor.filters = props.filters;
+    },
   });
 
   document.getElementById(props.containerId)?.append(editor.getCanvas());

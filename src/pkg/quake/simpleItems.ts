@@ -10,7 +10,7 @@ export interface SimpleItem {
 const GreenArmor: SimpleItem = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
-  backgroundColor: "#008800",
+  backgroundColor: "#00AA00",
   texturePath: "qw/textures/models",
 };
 const YellowArmor: SimpleItem = {
@@ -32,37 +32,37 @@ export const armors: SimpleItem[] = [GreenArmor, YellowArmor, RedArmor];
 const SuperShotgun: SimpleItem = {
   name: "Super Shotgun",
   filename: "simple_g_shot_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#ff9933",
   texturePath: "qw/textures/models",
 };
 const Nailgun: SimpleItem = {
   name: "Nailgun",
   filename: "simple_g_nail_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#cc00ff",
   texturePath: "qw/textures/models",
 };
 const SuperNailgun: SimpleItem = {
   name: "Super Nailgun",
   filename: "simple_g_nail2_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#0066ff",
   texturePath: "qw/textures/models",
 };
 const GrenadeLauncher: SimpleItem = {
   name: "Grenade Launcher",
   filename: "simple_g_rock_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#66ff00",
   texturePath: "qw/textures/models",
 };
 const RocketLauncher: SimpleItem = {
   name: "Rocket Launcher",
   filename: "simple_g_rock2_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#ff3300",
   texturePath: "qw/textures/models",
 };
 const LightningGun: SimpleItem = {
   name: "Lightning Gun",
   filename: "simple_g_light_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#ffffff",
   texturePath: "qw/textures/models",
 };
 
@@ -79,7 +79,7 @@ export const weapons = [
 const Quad: SimpleItem = {
   name: "Quad",
   filename: "simple_quaddama_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#0099ff",
   texturePath: "qw/textures/models",
 };
 const Pent: SimpleItem = {
@@ -91,7 +91,7 @@ const Pent: SimpleItem = {
 const Ring: SimpleItem = {
   name: "Ring",
   filename: "simple_invisibl_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#ffff00",
   texturePath: "qw/textures/models",
 };
 

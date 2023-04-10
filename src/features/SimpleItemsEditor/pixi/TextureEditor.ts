@@ -151,9 +151,7 @@ export class TextureEditor extends PIXI.Application {
 
   set textureScale(value: number) {
     this._textureScale = value;
-    this._textureSprite.width = value * EDITOR_SIZE;
-    this._textureSprite.height = value * EDITOR_SIZE;
-    this._centerTexture();
+    this._scaleTextureToFit();
   }
 
   private _centerTexture(): void {
@@ -167,20 +165,23 @@ export class TextureEditor extends PIXI.Application {
     this._textureSprite.position.set(centerOffset.x, centerOffset.y);
   }
 
-  set texture(texture: PIXI.Texture) {
+  private _scaleTextureToFit(): void {
     const fittedSize = calculateAspectRatioFit(
-      texture.orig.width,
-      texture.orig.height,
+      this._textureSprite.texture.orig.width,
+      this._textureSprite.texture.orig.height,
       EDITOR_SIZE * this._textureScale,
       EDITOR_SIZE * this._textureScale
     );
 
-    this._textureSprite?.destroy();
-    this._textureSprite = PIXI.Sprite.from(texture);
     this._textureSprite.width = fittedSize.width;
     this._textureSprite.height = fittedSize.height;
     this._centerTexture();
+  }
 
+  set texture(texture: PIXI.Texture) {
+    this._textureSprite?.destroy();
+    this._textureSprite = PIXI.Sprite.from(texture);
+    this._scaleTextureToFit();
     this._textureContainer.addChild(this._textureSprite);
 
     this._onChange();

@@ -5,11 +5,16 @@ import SiteHeader from "@/Site/SiteHeader.vue";
 import SiteFooter from "@/Site/SiteFooter.vue";
 import TextureEditor from "./TextureEditor.vue";
 import FilterToolbar from "./FilterToolbar.vue";
-import { armors, powerups, weapons } from "@/pkg/quake/simpleItems";
+import {
+  armors,
+  healthPacks,
+  powerups,
+  weapons,
+} from "@/pkg/quake/simpleItems";
 import { slugify } from "@/pkg/stringUtil";
 
 //const items = [armors, weapons, ammo, healthPacks, powerups].flat(1);
-const items = [armors, powerups, weapons].flat(1);
+const items = [armors, healthPacks, powerups, weapons].flat(1);
 
 let lastFilters: FilterInputs = getDefaultFilterInputs();
 
@@ -35,7 +40,7 @@ function onFiltersChange(filters: FilterInputs): void {
         <FilterToolbar :on-change="onFiltersChange" />
       </div>
 
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap gap-2">
         <div v-for="item in items" :key="item.filename">
           <div class="bg-gray-300 font-bold text-xs p-2">
             {{ item.name }}

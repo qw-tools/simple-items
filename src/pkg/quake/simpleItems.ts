@@ -100,20 +100,20 @@ export const powerups = [Quad, Pent, Ring];
 // health packs
 const MegaHealth: SimpleItem = {
   name: "Mega health",
-  filename: "simple_bh100_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_bh100_0.png",
+  backgroundColor: "#66ddee",
   texturePath: "qw/textures/bmodels",
 };
 const HealthLarge: SimpleItem = {
   name: "Large health",
-  filename: "simple_bh25_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_bh25_0.png",
+  backgroundColor: "#eeee00",
   texturePath: "qw/textures/bmodels",
 };
 const HealthSmall: SimpleItem = {
   name: "Small health",
-  filename: "simple_bh10_0.png",
-  backgroundColor: "#ff0000",
+  filename: "simple_b_bh10_0.png",
+  backgroundColor: "#33ff33",
   texturePath: "qw/textures/bmodels",
 };
 

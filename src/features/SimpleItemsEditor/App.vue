@@ -54,7 +54,7 @@ function onFiltersChange(settings: SharedSettings): void {
       </div>
 
       <div class="flex justify-between">
-        <div class="cursor-pointer">
+        <div>
           <SimpleItems
             :items="items"
             :settings="lastSettings"

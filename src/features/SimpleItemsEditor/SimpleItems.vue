@@ -53,6 +53,6 @@ onBeforeMount(() => {
   <div
     :id="`${props.containerId}`"
     :style="`min-height: ${120}px`"
-    class="editor-container fadeIn border border-black/20 shadow-md app-bg-checker"
+    class="editor-container fadeIn border border-black/20 shadow-md app-bg-checker cursor-pointer"
   />
 </template>

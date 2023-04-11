@@ -184,7 +184,8 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   set settings(settings: SharedSettings) {
-    this._itemLayer.children.forEach((item: ItemContainer) => {
+    for (let i = 0; i < this._itemLayer.children.length; i++) {
+      const item = this._itemLayer.getChildAt(i) as ItemContainer;
       item.itemScale = settings.scale.value;
       item.itemOutline.enabled = settings.outline.enabled;
 
@@ -194,7 +195,7 @@ export class SimpleItemsApp extends PIXI.Application {
         ).toNumber();
         item.itemOutline.thickness = settings.outline.size;
       }
-    });
+    }
 
     this._onChange();
   }

@@ -1,69 +1,69 @@
 // types
-export interface SimpleItem {
+export interface Item {
   name: string;
   backgroundColor: string;
   filename: string;
-  texturePath: string;
+  textureDirPath: string;
 }
 
 // armors
-const GreenArmor: SimpleItem = {
+const GreenArmor: Item = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
   backgroundColor: "#00AA00",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const YellowArmor: SimpleItem = {
+const YellowArmor: Item = {
   name: "Yellow Armor",
   filename: "simple_armor_1.png",
   backgroundColor: "#ffff00",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const RedArmor: SimpleItem = {
+const RedArmor: Item = {
   name: "Red Armor",
   filename: "simple_armor_2.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
 
-export const armors: SimpleItem[] = [GreenArmor, YellowArmor, RedArmor];
+export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];
 
 // weapons
-const SuperShotgun: SimpleItem = {
+const SuperShotgun: Item = {
   name: "Super Shotgun",
   filename: "simple_g_shot_0.png",
   backgroundColor: "#ff9933",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const Nailgun: SimpleItem = {
+const Nailgun: Item = {
   name: "Nailgun",
   filename: "simple_g_nail_0.png",
   backgroundColor: "#cc00ff",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const SuperNailgun: SimpleItem = {
+const SuperNailgun: Item = {
   name: "Super Nailgun",
   filename: "simple_g_nail2_0.png",
   backgroundColor: "#0066ff",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const GrenadeLauncher: SimpleItem = {
+const GrenadeLauncher: Item = {
   name: "Grenade Launcher",
   filename: "simple_g_rock_0.png",
   backgroundColor: "#66ff00",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const RocketLauncher: SimpleItem = {
+const RocketLauncher: Item = {
   name: "Rocket Launcher",
   filename: "simple_g_rock2_0.png",
   backgroundColor: "#ff3300",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const LightningGun: SimpleItem = {
+const LightningGun: Item = {
   name: "Lightning Gun",
   filename: "simple_g_light_0.png",
   backgroundColor: "#ffffff",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
 
 export const weapons = [
@@ -76,97 +76,97 @@ export const weapons = [
 ];
 
 // powerups
-const Quad: SimpleItem = {
+const Quad: Item = {
   name: "Quad",
   filename: "simple_quaddama_0.png",
   backgroundColor: "#0099ff",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const Pent: SimpleItem = {
+const Pent: Item = {
   name: "Pent",
   filename: "simple_invulner_0.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const Ring: SimpleItem = {
+const Ring: Item = {
   name: "Ring",
   filename: "simple_invisibl_0.png",
   backgroundColor: "#ffff00",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
 
 export const powerups = [Quad, Pent, Ring];
 
 // health packs
-const MegaHealth: SimpleItem = {
+const MegaHealth: Item = {
   name: "Mega health",
   filename: "simple_b_bh100_0.png",
   backgroundColor: "#66ddee",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const HealthLarge: SimpleItem = {
+const HealthLarge: Item = {
   name: "Large health",
   filename: "simple_b_bh25_0.png",
   backgroundColor: "#eeee00",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const HealthSmall: SimpleItem = {
+const HealthSmall: Item = {
   name: "Small health",
   filename: "simple_b_bh10_0.png",
   backgroundColor: "#33ff33",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
 
 export const healthPacks = [HealthSmall, HealthLarge, MegaHealth];
 
 // ammo
-const ShellsSmall: SimpleItem = {
+const ShellsSmall: Item = {
   name: "Shells (small)",
   filename: "simple_b_shell0_0.png",
   backgroundColor: "#ffff00",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const ShellsLarge: SimpleItem = {
+const ShellsLarge: Item = {
   name: "Shells (large)",
   filename: "simple_b_shell1_0.png",
   backgroundColor: "#ff9933",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const NailsSmall: SimpleItem = {
+const NailsSmall: Item = {
   name: "Nails (small)",
   filename: "simple_b_nail0_0.png",
   backgroundColor: "#cc00ff",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const NailsLarge: SimpleItem = {
+const NailsLarge: Item = {
   name: "Nails (large)",
   filename: "simple_b_nail1_0.png",
   backgroundColor: "#0066ff",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const RocketsSmall: SimpleItem = {
+const RocketsSmall: Item = {
   name: "Rockets (small)",
   filename: "simple_b_rock0_0.png",
   backgroundColor: "#66ff00",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const RocketsLarge: SimpleItem = {
+const RocketsLarge: Item = {
   name: "Rockets (large)",
   filename: "simple_b_rock1_0.png",
   backgroundColor: "#ff3300",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const CellsSmall: SimpleItem = {
+const CellsSmall: Item = {
   name: "Cells (small)",
   filename: "simple_b_batt0_0.png",
   backgroundColor: "#ffffff",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
-const CellsLarge: SimpleItem = {
+const CellsLarge: Item = {
   name: "Cells (large)",
   filename: "simple_b_batt1_0.png",
   backgroundColor: "#ffffff",
-  texturePath: "qw/textures/bmodels",
+  textureDirPath: "qw/textures/bmodels",
 };
 
 export const ammo = [
@@ -181,29 +181,29 @@ export const ammo = [
 ];
 
 // Runes
-const RuneResistance: SimpleItem = {
+const RuneResistance: Item = {
   name: "Resistance",
   filename: "simple_end1_0.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const RuneStrength: SimpleItem = {
+const RuneStrength: Item = {
   name: "Strength",
   filename: "simple_end2_0.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const RuneHaste: SimpleItem = {
+const RuneHaste: Item = {
   name: "Haste",
   filename: "simple_end3_0.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
-const RuneRegeneration: SimpleItem = {
+const RuneRegeneration: Item = {
   name: "Regeneration",
   filename: "simple_end4_0.png",
   backgroundColor: "#ff0000",
-  texturePath: "qw/textures/models",
+  textureDirPath: "qw/textures/models",
 };
 
 export const runes = [

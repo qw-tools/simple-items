@@ -1,33 +1,32 @@
 <script lang="ts" setup>
-import { FilterInputs, getDefaultFilterInputs } from "./pixi/filter";
-import { FiltersChange } from "./pixi/events";
+import {
+  getDefaultSharedSettings,
+  SharedSettings,
+} from "./pixi/SharedSettings";
+import { SharedSettingsChange } from "./pixi/events";
 import SiteHeader from "@/Site/SiteHeader.vue";
 import SiteFooter from "@/Site/SiteFooter.vue";
-import TextureEditor from "./TextureEditor.vue";
-import FilterToolbar from "./FilterToolbar.vue";
+import FilterToolbar from "./SharedSettingsToolbar.vue";
 import {
   ammo,
   armors,
   healthPacks,
+  Item,
   powerups,
-  SimpleItem,
   weapons,
-} from "@/pkg/quake/simpleItems";
-import { slugify } from "@/pkg/stringUtil";
+} from "@/pkg/quake/items";
 import { ref } from "vue";
+import SimpleItems from "./SimpleItems.vue";
 
-const editOptions = {
-  weapons: [weapons, ammo].flat(1),
-  other: [armors, healthPacks, powerups].flat(1),
-};
+const items = ref<Item[]>(
+  [weapons, ammo, powerups, armors, healthPacks].flat(1)
+);
 
-const items = ref<SimpleItem[]>(editOptions.weapons);
+let lastSettings: SharedSettings = getDefaultSharedSettings();
 
-let lastFilters: FilterInputs = getDefaultFilterInputs();
-
-function onFiltersChange(filters: FilterInputs): void {
-  document.dispatchEvent(new FiltersChange(filters));
-  lastFilters = filters;
+function onFiltersChange(settings: SharedSettings): void {
+  document.dispatchEvent(new SharedSettingsChange(settings));
+  lastSettings = settings;
 }
 </script>
 <template>
@@ -46,31 +45,44 @@ function onFiltersChange(filters: FilterInputs): void {
       </div>
     </div>
 
-    <div class="container my-4">
+    <div class="container my-4 space-y-4">
+      <div id="AppContainerWidth" />
       <div
         class="my-4 px-4 py-3 rounded border shadow bg-white grid gap-2 sm:gap-8 sm:grid-flow-col sm:auto-cols-max"
       >
-        <div class="text-sm">
-          <select v-model="items">
-            <option :value="editOptions.other">
-              Armors, Health packs, Powerups
-            </option>
-            <option :value="editOptions.weapons">Weapons &amp; Ammo</option>
-          </select>
-        </div>
         <FilterToolbar :on-change="onFiltersChange" />
       </div>
 
-      <div class="flex flex-wrap gap-2">
-        <div v-for="item in items" :key="item.filename">
-          <div class="bg-gray-300 font-bold text-xs p-2">
-            {{ item.name }}
-          </div>
-          <TextureEditor
-            :container-id="slugify(item.filename)"
-            :filters="lastFilters"
-            :item="item"
+      <div class="flex justify-between">
+        <div class="">
+          <SimpleItems
+            :items="items"
+            :settings="lastSettings"
+            container-id="SimpleItemsApp"
           />
+          <div id="SimpleItemsApp" />
+        </div>
+        <div id="AppSettings" class="p-2 bg-gray-200">
+          <div
+            v-for="item in items"
+            :key="item.filename"
+            class="flex space-x-2 items-center"
+          >
+            <div class="text-sm w-32">{{ item.name }}</div>
+            <div>
+              <input id="" :value="item.backgroundColor" name="" type="color" />
+            </div>
+            <div>
+              <select id="" class="text-sm" name="">
+                <option value="">inner</option>
+              </select>
+            </div>
+            <div>
+              <select id="" class="text-sm" name="">
+                <option value="">outer</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>

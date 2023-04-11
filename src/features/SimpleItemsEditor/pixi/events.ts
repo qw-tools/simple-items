@@ -1,14 +1,14 @@
-import { FilterInputs } from "./filter";
+import { SharedSettings } from "./SharedSettings";
 
 export enum EditorEvent {
-  FILTERS_CHANGE = "Editor.FILTERS_CHANGE",
+  SHARED_SETTINGS_CHANGE = "Editor.FILTERS_CHANGE",
 }
 
-export class FiltersChange extends Event {
-  filters: FilterInputs;
+export class SharedSettingsChange extends Event {
+  settings: SharedSettings;
 
-  constructor(filters: FilterInputs) {
-    super(EditorEvent.FILTERS_CHANGE);
-    this.filters = filters;
+  constructor(filters: SharedSettings) {
+    super(EditorEvent.SHARED_SETTINGS_CHANGE);
+    this.settings = filters;
   }
 }

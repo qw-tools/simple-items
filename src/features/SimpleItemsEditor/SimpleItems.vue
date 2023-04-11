@@ -32,7 +32,7 @@ onBeforeUnmount(() => {
 });
 
 onBeforeMount(() => {
-  const dropzoneClass = "app-dropzone";
+  const dropzoneClass = "editor-canvas";
 
   const prevent = function (e: DragEvent) {
     e.preventDefault();

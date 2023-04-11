@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js";
-import { OutlineFilter } from "pixi-filters";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
 import { EditorEvent, SharedSettingsChange } from "./events";
@@ -19,12 +18,7 @@ export interface SimpleItemsAppSettings {
 
 export class SimpleItemsApp extends PIXI.Application {
   private readonly _containerDiv: HTMLElement;
-  private readonly _outlineFilter: OutlineFilter = new OutlineFilter(
-    2,
-    0x000000,
-    1
-  );
-  private _itemContainer: PIXI.Container = new PIXI.Container();
+  private _itemLayer: PIXI.Container = new PIXI.Container();
   private _grid: PIXI.Graphics = new PIXI.Graphics();
   private _sharedSettings: SharedSettings = getDefaultSharedSettings();
   onReady: () => void = nullOperation;
@@ -34,12 +28,9 @@ export class SimpleItemsApp extends PIXI.Application {
     const { containerId } = settings;
     const containerDiv = document.getElementById(containerId) as HTMLElement;
 
-    super({
-      backgroundAlpha: 0,
-    });
+    super({ backgroundAlpha: 0 });
 
-    this._itemContainer.filters = [this._outlineFilter];
-    this.stage.addChild(this._itemContainer);
+    this.stage.addChild(this._itemLayer);
     this.stage.addChild(this._grid);
 
     // HTML elements
@@ -72,7 +63,7 @@ export class SimpleItemsApp extends PIXI.Application {
               outerShapeType: "circle",
             });
 
-            this._itemContainer.addChild(container);
+            this._itemLayer.addChild(container);
           }
         );
 
@@ -92,13 +83,6 @@ export class SimpleItemsApp extends PIXI.Application {
     window.addEventListener("resize", () => {
       this._resize();
     });
-    //
-    // canvas.addEventListener("dragenter", () => {
-    //   container.classList.add("editor-drag");
-    // });
-    // canvas.addEventListener("dragleave", () => {
-    //   container.classList.remove("editor-drag");
-    // });
 
     this._onSharedSettingsChange = this._onSharedSettingsChange.bind(this);
     document.addEventListener(
@@ -110,23 +94,25 @@ export class SimpleItemsApp extends PIXI.Application {
   private _resize(): void {
     const container = document.getElementById("AppContainerWidth");
     const sidebar = document.getElementById("AppSettings");
-    //console.log("resize", con.clientWidth, con.clientHeight);
+
+    if (!container || !sidebar) {
+      return;
+    }
+
     const sidebarGapWidth = 16;
     const availableWidth =
       container.clientWidth - sidebar.clientWidth - sidebarGapWidth;
     const availableColumnCount = Math.floor(availableWidth / GRID_SIZE);
     const minColumnCount = 3;
     const columnCount = Math.max(minColumnCount, availableColumnCount);
-    const rowCount = Math.ceil(
-      this._itemContainer.children.length / columnCount
-    );
+    const rowCount = Math.ceil(this._itemLayer.children.length / columnCount);
     this.renderer.resize(columnCount * GRID_SIZE, rowCount * GRID_SIZE);
 
     this._alignItems();
   }
 
   _alignItems(): void {
-    const items = this._itemContainer.children;
+    const items = this._itemLayer.children;
     const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
 
     for (let i = 0; i < items.length; i++) {
@@ -198,23 +184,19 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   set settings(settings: SharedSettings) {
-    this._outlineFilter.enabled = settings.outline.enabled;
+    this._itemLayer.children.forEach((item: ItemContainer) => {
+      item.itemScale = settings.scale.value;
+      item.itemOutline.enabled = settings.outline.enabled;
 
-    if (settings.outline.enabled) {
-      this._outlineFilter.color = new PIXI.Color(
-        settings.outline.color
-      ).toNumber();
-      this._outlineFilter.thickness = settings.outline.size;
-    }
-
-    this.itemScale = settings.scale.value;
-    this._onChange();
-  }
-
-  set itemScale(value: number) {
-    this._itemContainer.children.forEach((item: ItemContainer) => {
-      item.itemScale = value;
+      if (settings.outline.enabled) {
+        item.itemOutline.color = new PIXI.Color(
+          settings.outline.color
+        ).toNumber();
+        item.itemOutline.thickness = settings.outline.size;
+      }
     });
+
+    this._onChange();
   }
 
   download(filename = ""): void {

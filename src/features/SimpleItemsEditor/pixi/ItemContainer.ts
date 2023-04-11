@@ -84,35 +84,32 @@ export class ItemContainer extends PIXI.Container {
   private _listen(): void {
     this.eventMode = "static";
 
-    this.addEventListener("click", () => {
-      console.log("click");
-      //container.classList.add("editor-drag");
+    const stopEvent = (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    this.addEventListener("click", (e: MouseEvent) => {
+      stopEvent(e);
       this.toggleSelected();
     });
 
-    this.addEventListener("mouseover", () => {
-      console.log("mouseover");
+    this.addEventListener("mouseover", (e: MouseEvent) => {
+      stopEvent(e);
+
       if (this.isSelected) {
         return;
       }
       this._background.visible = true;
     });
-    this.addEventListener("mouseleave", () => {
-      console.log("mouseleave");
+    this.addEventListener("mouseleave", (e: MouseEvent) => {
+      stopEvent(e);
+
       if (this.isSelected) {
         return;
       }
 
       this._background.visible = false;
-    });
-
-    this.addEventListener("dragenter", () => {
-      console.log("dragenter");
-      //container.classList.add("editor-drag");
-    });
-    this.addEventListener("dragleave", () => {
-      console.log("dragenter");
-      //container.classList.remove("editor-drag");
     });
   }
 

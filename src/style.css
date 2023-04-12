@@ -15,6 +15,7 @@
 
 /* forms */
 select,
+button,
 input[type="number"],
 input[type="text"] {
   @apply border rounded border-gray-300 mx-1 px-1 py-0.5 bg-white shadow;
@@ -31,7 +32,7 @@ select {
 }
 
 input[type="color"] {
-  @apply w-6 h-6 border-0 bg-transparent;
+  @apply w-8 h-8 border-0 bg-transparent;
 }
 
 label:hover {
@@ -40,6 +41,14 @@ label:hover {
 
 label:hover code {
   font-weight: bold;
+}
+
+button {
+  @apply rounded-md;
+}
+
+button:hover {
+  @apply bg-gray-100;
 }
 
 /* debug */

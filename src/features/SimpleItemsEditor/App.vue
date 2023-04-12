@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import SiteHeader from "@/Site/SiteHeader.vue";
 import SiteFooter from "@/Site/SiteFooter.vue";
-import FilterToolbar from "./SharedSettingsToolbar.vue";
+import Settings from "./Settings.vue";
 import {
   ammo,
   armors,
@@ -36,38 +36,17 @@ const items = ref<Item[]>(
 
     <div class="container my-4 space-y-4">
       <div id="AppContainerWidth" />
-      <div
-        class="my-4 px-4 py-3 rounded border shadow bg-white grid gap-2 sm:gap-8 sm:grid-flow-col sm:auto-cols-max"
-      >
-        <FilterToolbar />
-      </div>
 
       <div class="flex justify-between">
         <div>
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
           <div id="SimpleItemsApp" />
         </div>
-        <div id="AppSettings" class="p-2 bg-gray-200">
-          <div
-            v-for="item in items"
-            :key="item.filename"
-            class="flex space-x-2 items-center"
-          >
-            <div class="text-sm w-32">{{ item.name }}</div>
-            <div>
-              <input id="" :value="item.backgroundColor" name="" type="color" />
-            </div>
-            <div>
-              <select id="" class="text-sm" name="">
-                <option value="">inner</option>
-              </select>
-            </div>
-            <div>
-              <select id="" class="text-sm" name="">
-                <option value="">outer</option>
-              </select>
-            </div>
-          </div>
+        <div
+          id="AppSettings"
+          class="px-4 bg-gray-200 border border-black/10 w-[240px] shadow-md"
+        >
+          <Settings />
         </div>
       </div>
     </div>

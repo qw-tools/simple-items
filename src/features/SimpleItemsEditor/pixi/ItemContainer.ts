@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
-import { publicUrl } from "@/pkg/viteUtil";
+import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 
 const GRID_SIZE = 120;
 
@@ -20,7 +20,7 @@ export class ItemContainer extends PIXI.Container {
   private _itemScale = 0.8;
   private _shapeLayer: PIXI.Container = new PIXI.Container();
   private _background: PIXI.Graphics = new PIXI.Graphics();
-  private readonly _checkbox: PIXI.Sprite = new PIXI.Sprite();
+  private readonly _checkbox: Checkbox = new Checkbox();
   private _isSelected = false;
 
   constructor(settings: ItemContainerSettings) {
@@ -45,13 +45,7 @@ export class ItemContainer extends PIXI.Container {
     this.itemScale = settings.scale;
 
     // checkbox
-    this._checkbox = PIXI.Sprite.from(
-      publicUrl("/assets/img/icons/icons8-ok-48.png")
-    );
-    this._checkbox.visible = false;
-    this._checkbox.width = 24;
-    this._checkbox.height = 24;
-    this._checkbox.position.set(GRID_SIZE - 32, GRID_SIZE - 32);
+    this._checkbox.position.set(GRID_SIZE - 28, GRID_SIZE - 28);
     this.addChild(this._checkbox);
 
     // events
@@ -74,7 +68,7 @@ export class ItemContainer extends PIXI.Container {
 
   private toggleSelected(): void {
     this._isSelected = !this._isSelected;
-    this._checkbox.visible = this._isSelected;
+    this._checkbox.toggle();
   }
 
   get isSelected(): boolean {

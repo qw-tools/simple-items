@@ -93,13 +93,11 @@ export class SimpleItemsApp extends PIXI.Application {
 
     this._containerDiv.addEventListener("dragenter", () => {
       console.log("dragenter");
-      //this._containerDiv.classList.add("editor-drag");
       this._highlight.visible = true;
     });
     this._containerDiv.addEventListener("dragleave", () => {
       console.log("dragenter");
       this._highlight.visible = false;
-      //this._containerDiv.classList.remove("editor-drag");
     });
 
     this._onDragOver = this._onDragOver.bind(this);

@@ -8,13 +8,14 @@ import {
   healthPacks,
   Item,
   powerups,
+  runes,
   weapons,
 } from "@/pkg/quake/items";
 import { ref } from "vue";
 import SimpleItems from "./SimpleItems.vue";
 
 const items = ref<Item[]>(
-  [weapons, ammo, powerups, armors, healthPacks].flat(1)
+  [weapons, ammo, runes, powerups, armors, healthPacks].flat(1)
 );
 </script>
 <template>

@@ -184,25 +184,25 @@ export const ammo = [
 const RuneResistance: Item = {
   name: "Resistance",
   filename: "simple_end1_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#cc8899",
   textureDirPath: "qw/textures/models",
 };
 const RuneStrength: Item = {
   name: "Strength",
   filename: "simple_end2_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#cc8899",
   textureDirPath: "qw/textures/models",
 };
 const RuneHaste: Item = {
   name: "Haste",
   filename: "simple_end3_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#cc8899",
   textureDirPath: "qw/textures/models",
 };
 const RuneRegeneration: Item = {
   name: "Regeneration",
   filename: "simple_end4_0.png",
-  backgroundColor: "#ff0000",
+  backgroundColor: "#cc8899",
   textureDirPath: "qw/textures/models",
 };
 

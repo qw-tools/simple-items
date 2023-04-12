@@ -3,6 +3,9 @@ import { publicUrl } from "@/pkg/viteUtil";
 
 const SIZE = 24;
 
+const CHECKED = publicUrl("/assets/img/icons/checked_checkbox_48.png");
+const UNCHECKED = publicUrl("/assets/img/icons/unchecked_checkbox_48.png");
+
 export class Checkbox extends PIXI.Container {
   private _isSelected;
   private readonly _selectedImg: PIXI.Sprite;
@@ -11,15 +14,11 @@ export class Checkbox extends PIXI.Container {
   constructor(isSelected = false) {
     super();
 
-    this._selectedImg = PIXI.Sprite.from(
-      publicUrl("/assets/img/icons/checked_checkbox_48.png")
-    );
+    this._selectedImg = PIXI.Sprite.from(CHECKED);
     this._selectedImg.width = SIZE;
     this._selectedImg.height = SIZE;
 
-    this._unselectedImg = PIXI.Sprite.from(
-      publicUrl("/assets/img/icons/unchecked_checkbox_48.png")
-    );
+    this._unselectedImg = PIXI.Sprite.from(UNCHECKED);
     this._unselectedImg.width = SIZE;
     this._unselectedImg.height = SIZE;
     this._isSelected = isSelected;

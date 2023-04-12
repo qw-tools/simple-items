@@ -145,7 +145,7 @@ export class SimpleItemsApp extends PIXI.Application {
     };
   }
 
-  _alignItems(): void {
+  private _alignItems(): void {
     const items = this._itemLayer.children;
     const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
 

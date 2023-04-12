@@ -55,7 +55,7 @@ function onOutlineColorChange(e): void {
         min="1"
         step="1"
         type="range"
-        @change="onOutlineWidthChange"
+        @input="onOutlineWidthChange"
       />
 
       <label class="text-xs whitespace-nowrap">

@@ -1,21 +1,37 @@
 <script lang="ts" setup>
 import { SETTINGS } from "@/features/SimpleItemsEditor/pixi/config";
-import * as handlers from "./eventHandlers";
+import * as EE from "@/features/SimpleItemsEditor/pixi/events";
+
+function onChange(e: InputEvent): void {
+  const inputElement = e.target as HTMLInputElement;
+  const value =
+    inputElement.type === "checkbox"
+      ? inputElement.checked
+      : inputElement.value;
+
+  const changeEvent = EE.createSettingsChange({
+    property: parseInt(inputElement.name),
+    value,
+  });
+
+  document.dispatchEvent(changeEvent);
+}
 </script>
 <template>
   <div class="divide-y divide-black/20">
     <div class="flex items-center space-x-2 py-3">
       <label class="text-sm font-bold">
         <input
-          :checked="SETTINGS.outline.enabled"
           type="checkbox"
-          @change="handlers.onOutlineEnabledChange"
+          :checked="SETTINGS.outline.enabled"
+          :name="EE.Prop.OUTLINE_ENABLED"
+          @change="onChange"
         />
         Outline
       </label>
 
       <label class="text-xs">
-        <input type="color" @input="handlers.onOutlineColorChange" />
+        <input type="color" @input="onChange" :name="EE.Prop.OUTLINE_COLOR" />
       </label>
 
       <input
@@ -24,7 +40,8 @@ import * as handlers from "./eventHandlers";
         min="1"
         step="1"
         type="number"
-        @input="handlers.onOutlineWidthChange"
+        :name="EE.Prop.OUTLINE_WIDTH"
+        @input="onChange"
       />
       <span class="text-gray-600 text-xs">px</span>
     </div>
@@ -33,25 +50,20 @@ import * as handlers from "./eventHandlers";
       <div class="text-sm font-bold">Primary graphic</div>
 
       <div class="flex items-center space-x-2">
-        <input type="color" @input="handlers.onBackgroundColorChange" />
-        <div class="text-sm">
-          <select id="" name="">
-            <option value="">RL</option>
-            <option value="">GL</option>
-            <option value="">HEALTH</option>
-          </select>
-        </div>
+        <div class="text-sm w-20">Color</div>
+        <input type="color" @input="onChange" :name="EE.Prop.PRIMARY_COLOR" />
       </div>
 
       <div class="flex items-center space-x-2">
-        <div class="text-sm">Scale</div>
+        <div class="text-sm w-20">Scale</div>
         <input
           class="w-20"
           max="1"
           min="0.1"
           step="0.05"
           type="range"
-          @input="handlers.onScaleChange"
+          :name="EE.Prop.PRIMARY_SCALE"
+          @input="onChange"
         />
       </div>
     </div>

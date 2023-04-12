@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
-import { EditorEvent as EE } from "./events";
+import * as EE from "./events";
 import { SETTINGS } from "./config";
 import type { Item } from "@/pkg/quake/items";
 import { publicUrl } from "@/pkg/viteUtil";
@@ -106,62 +106,38 @@ export class SimpleItemsApp extends PIXI.Application {
     this._onFileDrop = this._onFileDrop.bind(this);
     this._containerDiv.addEventListener("drop", this._onFileDrop);
 
-    this._onBgChange = this._onBgChange.bind(this);
-    document.addEventListener(EE.BACKGROUND_COLOR, this._onBgChange);
-
-    this._onScaleChange = this._onScaleChange.bind(this);
-    document.addEventListener(EE.SCALE, this._onScaleChange);
-
-    this._onOutlineEnabledChange = this._onOutlineEnabledChange.bind(this);
-    document.addEventListener(EE.OUTLINE_ENABLED, this._onOutlineEnabledChange);
-
-    this._onOutlineColorChange = this._onOutlineColorChange.bind(this);
-    document.addEventListener(EE.OUTLINE_COLOR, this._onOutlineColorChange);
-
-    this._onOutlineWidthChange = this._onOutlineWidthChange.bind(this);
-    document.addEventListener(EE.OUTLINE_WIDTH, this._onOutlineWidthChange);
+    this._onSettingsChange = this._onSettingsChange.bind(this);
+    document.addEventListener(EE.Name.SETTINGS_CHANGE, this._onSettingsChange);
   }
 
-  private _onBgChange(e: CustomEvent): void {
-    this._getSelectedItems().map((item: ItemContainer) => {
-      item.itemBackgroundColor = e.detail.value;
-    });
-  }
+  private _onSettingsChange(e: Event): void {
+    const { property, value } = (e as CustomEvent).detail;
 
-  private _onScaleChange(e: CustomEvent): void {
-    this._getSelectedItems().map((item: ItemContainer) => {
-      item.itemScale = e.detail.value;
-    });
-  }
+    console.log(value, typeof value);
 
-  private _onOutlineEnabledChange(e: CustomEvent): void {
-    this._getSelectedItems().map((item: ItemContainer) => {
-      item.itemOutline.enabled = e.detail.value;
-    });
-  }
+    const getAction = () => {
+      switch (property) {
+        case EE.Prop.PRIMARY_COLOR:
+          return (item: ItemContainer) => (item.primaryColor = value);
+        case EE.Prop.PRIMARY_SCALE:
+          return (item: ItemContainer) =>
+            (item.primaryScale = parseFloat(value));
+        case EE.Prop.OUTLINE_ENABLED:
+          return (item: ItemContainer) => (item.outline.enabled = value);
+        case EE.Prop.OUTLINE_COLOR:
+          return (item: ItemContainer) =>
+            (item.outline.color = new PIXI.Color(value).toNumber());
+        case EE.Prop.OUTLINE_WIDTH:
+          return (item: ItemContainer) => (item.outline.thickness = value);
+        default:
+          return nullOperation;
+      }
+    };
 
-  private _onOutlineWidthChange(e: CustomEvent): void {
-    this._getSelectedItems().map((item: ItemContainer) => {
-      item.itemOutline.thickness = e.detail.value;
-    });
-  }
+    const action = getAction();
 
-  private _onOutlineColorChange(e: CustomEvent): void {
-    this._getSelectedItems().map((item: ItemContainer) => {
-      item.itemOutline.color = e.detail.value;
-    });
+    this._getSelectedItems().map(action);
   }
-
-  // private _onOutlineChange(e: OutlineChangeEvent): void {
-  //   this._getSelectedItems().map((item: ItemContainer) => {
-  //     item.itemOutline.enabled = e.enabled;
-  //
-  //     if (e.enabled) {
-  //       item.itemOutline.color = new PIXI.Color(e.color).toNumber();
-  //       item.itemOutline.thickness = e.size;
-  //     }
-  //   });
-  // }
 
   private _resize(): void {
     const { x, y } = this._calcGridSize();

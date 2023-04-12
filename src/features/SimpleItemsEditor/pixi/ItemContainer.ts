@@ -15,8 +15,9 @@ type ItemContainerSettings = {
 export class ItemContainer extends PIXI.Container {
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
-  private _innerShape: PIXI.Sprite = new PIXI.Sprite();
-  private _itemScale = 0.8;
+  private _primaryShape: PIXI.Sprite = new PIXI.Sprite();
+  private _secondaryShape: PIXI.Graphics = new PIXI.Graphics();
+  private _primaryScale = 0.8;
   private _shapeLayer: PIXI.Container = new PIXI.Container();
   private _background: PIXI.Graphics = new PIXI.Graphics();
   private readonly _checkbox: Checkbox = new Checkbox();
@@ -34,14 +35,37 @@ export class ItemContainer extends PIXI.Container {
     this._background.visible = false;
     this.addChild(this._background);
 
-    // shapes
-    this._shapeLayer.addChild(this._innerShape);
+    // todo: secondary
+    // const outerScale = 0.6;
+    // const outerSize = outerScale * GRID_SIZE;
+    // this._secondaryShape.beginFill("red", 1);
+    // this._secondaryShape.drawRect(0, 0, outerSize, outerSize);
+    // this._secondaryShape.endFill();
+    //
+    // const innerScale = 0.8;
+    //
+    // if (innerScale > 0) {
+    //   const innerSize = innerScale * outerSize;
+    //   const innerOffset = outerSize / 2 - innerSize / 2;
+    //
+    //   this._secondaryShape.beginHole();
+    //   this._secondaryShape.drawRect(
+    //     innerOffset,
+    //     innerOffset,
+    //     innerSize,
+    //     innerSize
+    //   );
+    //   this._secondaryShape.endHole();
+    // }
+
+    this._shapeLayer.addChild(this._secondaryShape, this._primaryShape);
+    this._shapeLayer.addChild(this._secondaryShape);
     this._shapeLayer.filters = [this._colorOverlay, this._outline];
     this.addChild(this._shapeLayer);
 
-    this.itemBackgroundColor = settings.backgroundColor;
-    this.itemTexture = settings.innerTexture;
-    this.itemScale = settings.scale;
+    this.primaryColor = settings.backgroundColor;
+    this.primaryTexture = settings.innerTexture;
+    this.primaryScale = settings.scale;
 
     // checkbox
     this._checkbox.visible = false;
@@ -52,18 +76,25 @@ export class ItemContainer extends PIXI.Container {
     this._listen();
   }
 
-  set itemBackgroundColor(value: string) {
-    this._colorOverlay.color = new PIXI.Color(value).toNumber();
-  }
-
-  get itemOutline(): OutlineFilter {
+  get outline(): OutlineFilter {
     return this._outline;
   }
 
-  set itemScale(value: number) {
-    this._itemScale = value;
+  set primaryColor(value: string) {
+    this._colorOverlay.color = new PIXI.Color(value).toNumber();
+  }
 
-    this._scaleInnerTextureToFit();
+  set primaryScale(value: number) {
+    this._primaryScale = value;
+
+    this._scaleShapesToFit();
+  }
+
+  set primaryTexture(texture: PIXI.Texture) {
+    this._primaryShape?.destroy();
+    this._primaryShape = PIXI.Sprite.from(texture);
+    this._scaleShapesToFit();
+    this._shapeLayer.addChild(this._primaryShape);
   }
 
   private toggleSelected(): void {
@@ -109,35 +140,36 @@ export class ItemContainer extends PIXI.Container {
     });
   }
 
-  private _centerInnerTexture(): void {
-    const centerOffset = calculateCenterOffset(
-      this._innerShape.width,
-      this._innerShape.height,
+  private _centerShapes(): void {
+    const primaryOffset = calculateCenterOffset(
+      this._primaryShape.width,
+      this._primaryShape.height,
       GRID_SIZE,
       GRID_SIZE
     );
+    this._primaryShape.x = primaryOffset.x;
+    this._primaryShape.y = primaryOffset.y;
 
-    this._innerShape.x = centerOffset.x;
-    this._innerShape.y = centerOffset.y;
+    const secondaryOffset = calculateCenterOffset(
+      this._secondaryShape.width,
+      this._secondaryShape.height,
+      GRID_SIZE,
+      GRID_SIZE
+    );
+    this._secondaryShape.x = secondaryOffset.x;
+    this._secondaryShape.y = secondaryOffset.y;
   }
 
-  private _scaleInnerTextureToFit(): void {
+  private _scaleShapesToFit(): void {
     const fittedSize = calculateAspectRatioFit(
-      this._innerShape.texture.orig.width,
-      this._innerShape.texture.orig.height,
-      GRID_SIZE * this._itemScale,
-      GRID_SIZE * this._itemScale
+      this._primaryShape.texture.orig.width,
+      this._primaryShape.texture.orig.height,
+      GRID_SIZE * this._primaryScale,
+      GRID_SIZE * this._primaryScale
     );
 
-    this._innerShape.width = fittedSize.width;
-    this._innerShape.height = fittedSize.height;
-    this._centerInnerTexture();
-  }
-
-  set itemTexture(texture: PIXI.Texture) {
-    this._innerShape?.destroy();
-    this._innerShape = PIXI.Sprite.from(texture);
-    this._scaleInnerTextureToFit();
-    this._shapeLayer.addChild(this._innerShape);
+    this._primaryShape.width = fittedSize.width;
+    this._primaryShape.height = fittedSize.height;
+    this._centerShapes();
   }
 }

@@ -1,34 +1,25 @@
-export enum EditorEvent {
-  BACKGROUND_COLOR = "Editor.BACKGROUND_COLOR",
-  OUTLINE_COLOR = "Editor.OUTLINE_COLOR",
-  OUTLINE_ENABLED = "Editor.OUTLINE_ENABLED",
-  OUTLINE_WIDTH = "Editor.OUTLINE_WIDTH",
-  SCALE = "Editor.SCALE",
+export enum Name {
+  SETTINGS_CHANGE = "Editor.SETTINGS_CHANGE",
 }
 
-function createCustomEvent(name, value): CustomEvent {
-  return new CustomEvent(name, { detail: { value } });
+export enum Prop {
+  OUTLINE_COLOR,
+  OUTLINE_ENABLED,
+  OUTLINE_WIDTH,
+
+  PRIMARY_COLOR,
+  PRIMARY_SCALE,
+  SECONDARY_COLOR,
+  SECONDARY_SCALE,
 }
 
-// scale
-export function ScaleChangeEvent(value: number): CustomEvent {
-  return createCustomEvent(EditorEvent.SCALE, value);
+export type Value = number | string | boolean;
+
+export interface ChangeDetails {
+  property: Prop;
+  value: Value;
 }
 
-// color
-export function BackgroundColorChangeEvent(value: string): CustomEvent {
-  return createCustomEvent(EditorEvent.BACKGROUND_COLOR, value);
-}
-
-// outline
-export function OutlineColorChangeEvent(value: string): CustomEvent {
-  return createCustomEvent(EditorEvent.OUTLINE_COLOR, value);
-}
-
-export function OutlineEnabledChangeEvent(value: boolean): CustomEvent {
-  return createCustomEvent(EditorEvent.OUTLINE_ENABLED, value);
-}
-
-export function OutlineWidthChangeEvent(value: number): CustomEvent {
-  return createCustomEvent(EditorEvent.OUTLINE_WIDTH, value);
+export function createSettingsChange(detail: ChangeDetails): CustomEvent {
+  return new CustomEvent(Name.SETTINGS_CHANGE, { detail });
 }

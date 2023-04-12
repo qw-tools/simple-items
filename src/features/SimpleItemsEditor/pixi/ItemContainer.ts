@@ -45,6 +45,7 @@ export class ItemContainer extends PIXI.Container {
     this.itemScale = settings.scale;
 
     // checkbox
+    this._checkbox.visible = false;
     this._checkbox.position.set(GRID_SIZE - 28, GRID_SIZE - 28);
     this.addChild(this._checkbox);
 
@@ -94,6 +95,7 @@ export class ItemContainer extends PIXI.Container {
       if (this.isSelected) {
         return;
       }
+      this._checkbox.visible = true;
       this._background.visible = true;
     });
     this.addEventListener("mouseleave", (e: MouseEvent) => {
@@ -104,6 +106,7 @@ export class ItemContainer extends PIXI.Container {
       }
 
       this._background.visible = false;
+      this._checkbox.visible = false;
     });
   }
 

@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
-import { EditorEvent, SharedSettingsChange } from "./events";
-import { getDefaultSharedSettings, SharedSettings } from "./SharedSettings";
+import { EditorEvent as EE } from "./events";
+import { SETTINGS } from "./config";
 import type { Item } from "@/pkg/quake/items";
 import { publicUrl } from "@/pkg/viteUtil";
 import { ItemContainer } from "@/features/SimpleItemsEditor/pixi/ItemContainer";
@@ -22,7 +22,6 @@ export class SimpleItemsApp extends PIXI.Application {
   private _itemLayer: PIXI.Container = new PIXI.Container();
   private _grid: PIXI.Graphics = new PIXI.Graphics();
   private _highlight: PIXI.Graphics = new PIXI.Graphics();
-  private _sharedSettings: SharedSettings = getDefaultSharedSettings();
   private _gridSizeCache: Point2D = { x: 1, y: 1 };
   onReady: () => void = nullOperation;
   onChange: () => void = nullOperation;
@@ -66,7 +65,7 @@ export class SimpleItemsApp extends PIXI.Application {
           (innerTexture: PIXI.Texture, itemIndex) => {
             const container = new ItemContainer({
               size: GRID_SIZE,
-              scale: this._sharedSettings.scale.value,
+              scale: SETTINGS.scale,
               backgroundColor: settings.items[itemIndex].backgroundColor,
               innerTexture: innerTexture,
               outerShapeType: "circle",
@@ -109,12 +108,62 @@ export class SimpleItemsApp extends PIXI.Application {
     this._onFileDrop = this._onFileDrop.bind(this);
     this._containerDiv.addEventListener("drop", this._onFileDrop);
 
-    this._onSharedSettingsChange = this._onSharedSettingsChange.bind(this);
-    document.addEventListener(
-      EditorEvent.SHARED_SETTINGS_CHANGE,
-      this._onSharedSettingsChange
-    );
+    this._onBgChange = this._onBgChange.bind(this);
+    document.addEventListener(EE.BACKGROUND_COLOR, this._onBgChange);
+
+    this._onScaleChange = this._onScaleChange.bind(this);
+    document.addEventListener(EE.SCALE, this._onScaleChange);
+
+    this._onOutlineEnabledChange = this._onOutlineEnabledChange.bind(this);
+    document.addEventListener(EE.OUTLINE_ENABLED, this._onOutlineEnabledChange);
+
+    this._onOutlineColorChange = this._onOutlineColorChange.bind(this);
+    document.addEventListener(EE.OUTLINE_COLOR, this._onOutlineColorChange);
+
+    this._onOutlineWidthChange = this._onOutlineWidthChange.bind(this);
+    document.addEventListener(EE.OUTLINE_WIDTH, this._onOutlineWidthChange);
   }
+
+  private _onBgChange(e: CustomEvent): void {
+    this._getSelectedItems().map((item: ItemContainer) => {
+      item.itemBackgroundColor = e.detail.value;
+    });
+  }
+
+  private _onScaleChange(e: CustomEvent): void {
+    this._getSelectedItems().map((item: ItemContainer) => {
+      item.itemScale = e.detail.value;
+    });
+  }
+
+  private _onOutlineEnabledChange(e: CustomEvent): void {
+    this._getSelectedItems().map((item: ItemContainer) => {
+      item.itemOutline.enabled = e.detail.value;
+    });
+  }
+
+  private _onOutlineWidthChange(e: CustomEvent): void {
+    this._getSelectedItems().map((item: ItemContainer) => {
+      item.itemOutline.thickness = e.detail.value;
+    });
+  }
+
+  private _onOutlineColorChange(e: CustomEvent): void {
+    this._getSelectedItems().map((item: ItemContainer) => {
+      item.itemOutline.color = e.detail.value;
+    });
+  }
+
+  // private _onOutlineChange(e: OutlineChangeEvent): void {
+  //   this._getSelectedItems().map((item: ItemContainer) => {
+  //     item.itemOutline.enabled = e.enabled;
+  //
+  //     if (e.enabled) {
+  //       item.itemOutline.color = new PIXI.Color(e.color).toNumber();
+  //       item.itemOutline.thickness = e.size;
+  //     }
+  //   });
+  // }
 
   private _resize(): void {
     const { x, y } = this._calcGridSize();
@@ -238,10 +287,10 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _unlisten(): void {
-    document.removeEventListener(
-      EditorEvent.SHARED_SETTINGS_CHANGE,
-      this._onSharedSettingsChange
-    );
+    // document.removeEventListener(
+    //   EditorEvent.SHARED_SETTINGS_CHANGE,
+    //   this._onSharedSettingsChange
+    // );
   }
 
   private _onChange(): void {
@@ -249,25 +298,10 @@ export class SimpleItemsApp extends PIXI.Application {
     this.onChange();
   }
 
-  private _onSharedSettingsChange(e: Event): void {
-    this.settings = (e as SharedSettingsChange).settings;
-  }
-
-  set settings(settings: SharedSettings) {
-    for (let i = 0; i < this._itemLayer.children.length; i++) {
-      const item = this._itemLayer.getChildAt(i) as ItemContainer;
-      item.itemScale = settings.scale.value;
-      item.itemOutline.enabled = settings.outline.enabled;
-
-      if (settings.outline.enabled) {
-        item.itemOutline.color = new PIXI.Color(
-          settings.outline.color
-        ).toNumber();
-        item.itemOutline.thickness = settings.outline.size;
-      }
-    }
-
-    this._onChange();
+  private _getSelectedItems(): ItemContainer[] {
+    return this._itemLayer.children
+      .filter((item: ItemContainer) => item.isSelected)
+      .map((i) => i as ItemContainer);
   }
 
   download(filename = ""): void {

@@ -2,8 +2,7 @@ import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
-
-const GRID_SIZE = 120;
+import { GRID_SIZE } from "@/features/SimpleItemsEditor/pixi/config";
 
 type ItemContainerSettings = {
   size: number;

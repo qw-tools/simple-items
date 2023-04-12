@@ -1,25 +1,34 @@
-import { SharedSettings } from "./SharedSettings";
-import { Item } from "@/pkg/quake/items";
-
 export enum EditorEvent {
-  SHARED_SETTINGS_CHANGE = "Editor.FILTERS_CHANGE",
-  ITEM_SELECTED = "Editor.ITEM_SELECTED",
+  BACKGROUND_COLOR = "Editor.BACKGROUND_COLOR",
+  OUTLINE_COLOR = "Editor.OUTLINE_COLOR",
+  OUTLINE_ENABLED = "Editor.OUTLINE_ENABLED",
+  OUTLINE_WIDTH = "Editor.OUTLINE_WIDTH",
+  SCALE = "Editor.SCALE",
 }
 
-export class SharedSettingsChange extends Event {
-  settings: SharedSettings;
-
-  constructor(settings: SharedSettings) {
-    super(EditorEvent.SHARED_SETTINGS_CHANGE);
-    this.settings = settings;
-  }
+function createCustomEvent(name, value): CustomEvent {
+  return new CustomEvent(name, { detail: { value } });
 }
 
-export class ItemSelected extends Event {
-  item: Item;
+// scale
+export function ScaleChangeEvent(value: number): CustomEvent {
+  return createCustomEvent(EditorEvent.SCALE, value);
+}
 
-  constructor(item: Item) {
-    super(EditorEvent.ITEM_SELECTED);
-    this.item = item;
-  }
+// color
+export function BackgroundColorChangeEvent(value: string): CustomEvent {
+  return createCustomEvent(EditorEvent.BACKGROUND_COLOR, value);
+}
+
+// outline
+export function OutlineColorChangeEvent(value: string): CustomEvent {
+  return createCustomEvent(EditorEvent.OUTLINE_COLOR, value);
+}
+
+export function OutlineEnabledChangeEvent(value: boolean): CustomEvent {
+  return createCustomEvent(EditorEvent.OUTLINE_ENABLED, value);
+}
+
+export function OutlineWidthChangeEvent(value: number): CustomEvent {
+  return createCustomEvent(EditorEvent.OUTLINE_WIDTH, value);
 }

@@ -2,12 +2,10 @@
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { type Item } from "@/pkg/quake/items";
 import { SimpleItemsApp } from "./pixi/SimpleItemsApp";
-import { SharedSettings } from "./pixi/SharedSettings";
 import { nullOperation } from "@/pkg/functions";
 
 interface Props {
   items: Item[];
-  settings: SharedSettings;
   containerId: string;
 }
 
@@ -19,9 +17,7 @@ onMounted(async () => {
     containerId: props.containerId,
     items: props.items,
     onChange: nullOperation,
-    onReady: () => {
-      editor.settings = props.settings;
-    },
+    onReady: nullOperation,
   });
 
   document.getElementById(props.containerId)?.append(editor.getCanvas());

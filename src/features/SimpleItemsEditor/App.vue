@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-import {
-  getDefaultSharedSettings,
-  SharedSettings,
-} from "./pixi/SharedSettings";
-import { SharedSettingsChange } from "./pixi/events";
 import SiteHeader from "@/Site/SiteHeader.vue";
 import SiteFooter from "@/Site/SiteFooter.vue";
 import FilterToolbar from "./SharedSettingsToolbar.vue";
@@ -21,13 +16,6 @@ import SimpleItems from "./SimpleItems.vue";
 const items = ref<Item[]>(
   [weapons, ammo, powerups, armors, healthPacks].flat(1)
 );
-
-let lastSettings: SharedSettings = getDefaultSharedSettings();
-
-function onFiltersChange(settings: SharedSettings): void {
-  document.dispatchEvent(new SharedSettingsChange(settings));
-  lastSettings = settings;
-}
 </script>
 <template>
   <SiteHeader current-app="simple-items" />
@@ -50,16 +38,12 @@ function onFiltersChange(settings: SharedSettings): void {
       <div
         class="my-4 px-4 py-3 rounded border shadow bg-white grid gap-2 sm:gap-8 sm:grid-flow-col sm:auto-cols-max"
       >
-        <FilterToolbar :on-change="onFiltersChange" />
+        <FilterToolbar />
       </div>
 
       <div class="flex justify-between">
         <div>
-          <SimpleItems
-            :items="items"
-            :settings="lastSettings"
-            container-id="SimpleItemsApp"
-          />
+          <SimpleItems :items="items" container-id="SimpleItemsApp" />
           <div id="SimpleItemsApp" />
         </div>
         <div id="AppSettings" class="p-2 bg-gray-200">

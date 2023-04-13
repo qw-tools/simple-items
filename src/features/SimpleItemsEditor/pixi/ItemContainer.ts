@@ -106,6 +106,10 @@ export class ItemContainer extends PIXI.Container {
     this.primaryScale = settings.scale;
     this.primaryColor = settings.color;
     this.primaryTexture = settings.texturePath;
+
+    this.outline.enabled = settings.outline.enabled;
+    this.outline.color = new PIXI.Color(settings.outline.color).toNumber();
+    this.outline.thickness = settings.outline.width;
   }
 
   public resetSettings(): void {

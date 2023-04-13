@@ -75,11 +75,6 @@ export class SimpleItemsApp extends PIXI.Application {
       .catch(nullOperation);
   }
 
-  destroy(): void {
-    this._unlisten();
-    super.destroy();
-  }
-
   private _listen(): void {
     window.addEventListener("resize", () => {
       this._resize();
@@ -120,7 +115,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _onSelectAll(): void {
-    this._tiles.children.forEach((tile: ItemTile) => {
+    this._getTiles().forEach((tile: ItemTile) => {
       tile.select();
     });
 
@@ -136,7 +131,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _onSelectInvert(): void {
-    this._tiles.children.forEach((tile: ItemTile) => {
+    this._getTiles().forEach((tile: ItemTile) => {
       tile.toggleSelect();
     });
 
@@ -247,7 +242,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _onDragOver(event: DragEvent): void {
-    const itemIndex = this._eventToItemIndex(event);
+    const itemIndex = this._eventToTileIndex(event);
 
     if (itemIndex === -1) {
       this._highlight.visible = false;
@@ -260,7 +255,7 @@ export class SimpleItemsApp extends PIXI.Application {
     this._highlight.visible = true;
   }
 
-  private _eventToItemIndex(event: MouseEvent): number {
+  private _eventToTileIndex(event: MouseEvent): number {
     const containerBounds = this._containerDiv.getBoundingClientRect();
     const x = event.clientX - containerBounds.left;
     const y = event.clientY - containerBounds.top;
@@ -293,7 +288,7 @@ export class SimpleItemsApp extends PIXI.Application {
       return;
     }
 
-    const itemIndex = this._eventToItemIndex(event);
+    const tileIndex = this._eventToTileIndex(event);
 
     console.log("FIILZE", itemIndex);
 
@@ -303,18 +298,6 @@ export class SimpleItemsApp extends PIXI.Application {
     } catch (e) {
       // do nothing
     }
-  }
-
-  private _unlisten(): void {
-    // document.removeEventListener(
-    //   EditorEvent.SHARED_SETTINGS_CHANGE,
-    //   this._onSharedSettingsChange
-    // );
-  }
-
-  private _onChange(): void {
-    this.render();
-    this.onChange();
   }
 
   private _getTiles(): ItemTile[] {

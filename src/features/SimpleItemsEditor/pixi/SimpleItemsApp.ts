@@ -123,12 +123,11 @@ export class SimpleItemsApp extends PIXI.Application {
           return (item: ItemContainer) =>
             (item.primaryScale = parseFloat(value));
         case EE.Prop.OUTLINE_ENABLED:
-          return (item: ItemContainer) => (item.outline.enabled = value);
+          return (item: ItemContainer) => (item.outlineEnabled = value);
         case EE.Prop.OUTLINE_COLOR:
-          return (item: ItemContainer) =>
-            (item.outline.color = new PIXI.Color(value).toNumber());
+          return (item: ItemContainer) => (item.outlineColor = value);
         case EE.Prop.OUTLINE_WIDTH:
-          return (item: ItemContainer) => (item.outline.thickness = value);
+          return (item: ItemContainer) => (item.outlineWidth = value);
         default:
           return nullOperation;
       }

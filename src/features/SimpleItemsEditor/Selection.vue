@@ -34,9 +34,24 @@ function onSelectInvert(): void {
 }
 </script>
 <template>
-  <div class="flex items-center space-x-2 text-sm justify-center mb-4">
-    <button class="p-1.5 px-3" @click="onSelectAll">Select all</button>
-    <button class="p-1.5 px-3" @click="onDeselectAll">Deselect all</button>
-    <button class="p-1.5 px-3" @click="onSelectInvert">Invert selection</button>
+  <div class="flex items-center space-x-3 text-sm justify-center mb-4">
+    <button class="flex items-center p-1.5 px-2" @click="onSelectAll">
+      <img
+        class="w-5 h-5 mr-1"
+        src="/assets/img/icons/checked_checkbox_48.png"
+      />
+      Select all
+    </button>
+    <button class="flex items-center p-1.5 px-2" @click="onDeselectAll">
+      <img
+        class="w-5 h-5 mr-1"
+        src="/assets/img/icons/unchecked_checkbox_48.png"
+      />
+      Deselect all
+    </button>
+    <button class="flex items-center p-1.5 px-2" @click="onSelectInvert">
+      <img class="w-5 h-5 mr-1" src="/assets/img/icons/alternate_48.png" />
+      Invert selection
+    </button>
   </div>
 </template>

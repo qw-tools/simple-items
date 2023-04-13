@@ -52,6 +52,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           type="range"
           @input="onChange"
         />
+        <span class="text-gray-600 text-xs">{{ settings.scale }}</span>
       </div>
 
       <div class="flex items-center space-x-2 hidden">
@@ -75,6 +76,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           type="color"
           @input="onChange"
         />
+        <span class="text-gray-600 text-xs">{{ settings.color }}</span>
       </div>
 
       <div class="flex items-center space-x-2">

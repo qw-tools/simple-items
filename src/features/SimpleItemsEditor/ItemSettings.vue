@@ -82,7 +82,7 @@ function onReset(): void {
       </div>
     </div>
 
-    <div class="py-3 space-y-1.5">
+    <div class="py-3 space-y-1.5 hidden">
       <label class="text-sm">
         <input type="checkbox" /> Secondary graphic
       </label>

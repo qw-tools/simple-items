@@ -24,7 +24,10 @@ function onReset(): void {
 <template>
   <div class="divide-y divide-black/20">
     <div class="py-3 space-y-1">
-      <div class="text-sm font-bold">Settings</div>
+      <div class="flex items-center justify-between">
+        <div class="text-sm font-bold">Settings</div>
+        <button class="text-sm px-2 py-1" @click="onReset">reset</button>
+      </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Shape</div>
@@ -80,7 +83,7 @@ function onReset(): void {
     </div>
 
     <div class="py-3 space-y-1.5">
-      <label class="text-sm font-bold">
+      <label class="text-sm">
         <input type="checkbox" /> Secondary graphic
       </label>
 
@@ -116,12 +119,6 @@ function onReset(): void {
         <div class="text-sm w-20">Inner width</div>
         <input class="w-20" max="1" min="0.1" step="0.1" type="range" />
       </div>
-    </div>
-
-    <div class="py-3">
-      <button class="text-sm px-3 py-1.5" @click="onReset">
-        reset to default
-      </button>
     </div>
   </div>
 </template>

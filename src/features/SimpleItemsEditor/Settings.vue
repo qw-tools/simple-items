@@ -49,7 +49,7 @@ function onReset(): void {
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Color</div>
-        <input :name="EE.Prop.PRIMARY_COLOR" type="color" @input="onChange" />
+        <input :name="EE.Prop.COLOR" type="color" @input="onChange" />
       </div>
 
       <div class="flex items-center space-x-2">

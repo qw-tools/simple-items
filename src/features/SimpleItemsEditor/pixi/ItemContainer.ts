@@ -83,7 +83,7 @@ export class ItemContainer extends PIXI.Container {
     this._outline.thickness = value;
   }
 
-  set primaryColor(value: string) {
+  set color(value: string) {
     this._itemSettings.color = value;
     this._colorOverlay.color = new PIXI.Color(value).toNumber();
   }
@@ -111,8 +111,9 @@ export class ItemContainer extends PIXI.Container {
   }
 
   public applySettings(settings: ItemSettings): void {
+    this.color = settings.color;
+
     this.primaryScale = settings.scale;
-    this.primaryColor = settings.color;
     this.primaryTexture = settings.texturePath;
 
     this.outlineEnabled = settings.outline.enabled;

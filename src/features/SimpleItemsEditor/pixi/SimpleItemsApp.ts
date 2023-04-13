@@ -117,8 +117,8 @@ export class SimpleItemsApp extends PIXI.Application {
 
     const getAction = () => {
       switch (property) {
-        case EE.Prop.PRIMARY_COLOR:
-          return (item: ItemContainer) => (item.primaryColor = value);
+        case EE.Prop.COLOR:
+          return (item: ItemContainer) => (item.color = value);
         case EE.Prop.PRIMARY_SCALE:
           return (item: ItemContainer) =>
             (item.primaryScale = parseFloat(value));

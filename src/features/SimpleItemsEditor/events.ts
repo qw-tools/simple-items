@@ -4,14 +4,12 @@ export enum Name {
 }
 
 export enum Prop {
+  COLOR,
   OUTLINE_COLOR,
   OUTLINE_ENABLED,
   OUTLINE_WIDTH,
 
-  PRIMARY_COLOR,
   PRIMARY_SCALE,
-  SECONDARY_COLOR,
-  SECONDARY_SCALE,
 }
 
 export type Value = number | string | boolean;

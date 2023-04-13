@@ -43,12 +43,12 @@ label:hover code {
   font-weight: bold;
 }
 
-button {
-  @apply rounded-md;
+button:hover {
+  @apply bg-sky-50 border-sky-300;
 }
 
-button:hover {
-  @apply bg-gray-100;
+button:disabled {
+  @apply opacity-60 grayscale pointer-events-none;
 }
 
 /* debug */

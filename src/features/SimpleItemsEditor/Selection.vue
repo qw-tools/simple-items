@@ -1,22 +1,11 @@
 <script lang="ts" setup>
 import * as EE from "@/features/SimpleItemsEditor/events";
+import { ref } from "vue";
+
+const selectedCount = ref<number>(0);
 
 function onSelectionChange(e: CustomEvent) {
-  console.log("SELECTION CHANGE", e.detail.items);
-
-  const { items } = e.detail;
-
-  switch (items.length) {
-    case 0:
-      console.log("ZERO");
-      break;
-    case 1:
-      console.log("ONE");
-      break;
-    default:
-      console.log("MANY");
-      break;
-  }
+  selectedCount.value = e.detail.items.length;
 }
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
@@ -42,14 +31,22 @@ function onSelectInvert(): void {
       />
       Select all
     </button>
-    <button class="flex items-center p-1.5 px-2" @click="onDeselectAll">
+    <button
+      :disabled="0 === selectedCount"
+      class="flex items-center p-1.5 px-2"
+      @click="onDeselectAll"
+    >
       <img
         class="w-5 h-5 mr-1"
         src="/assets/img/icons/unchecked_checkbox_48.png"
       />
       Deselect all
     </button>
-    <button class="flex items-center p-1.5 px-2" @click="onSelectInvert">
+    <button
+      :disabled="0 === selectedCount"
+      class="flex items-center p-1.5 px-2"
+      @click="onSelectInvert"
+    >
       <img class="w-5 h-5 mr-1" src="/assets/img/icons/alternate_48.png" />
       Invert selection
     </button>

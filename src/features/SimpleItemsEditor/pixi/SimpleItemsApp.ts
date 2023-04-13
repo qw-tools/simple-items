@@ -123,21 +123,31 @@ export class SimpleItemsApp extends PIXI.Application {
     this._tiles.children.forEach((tile: ItemTile) => {
       tile.select();
     });
+
+    this._announceSelectionChange();
   }
 
   private _onSelectNone(): void {
     this._getSelectedTiles().forEach((tile: ItemTile) => {
       tile.deselect();
     });
+
+    this._announceSelectionChange();
   }
 
   private _onSelectInvert(): void {
     this._tiles.children.forEach((tile: ItemTile) => {
       tile.toggleSelect();
     });
+
+    this._announceSelectionChange();
   }
 
-  private _onClick(e: MouseEvent): void {
+  private _onClick(): void {
+    this._announceSelectionChange();
+  }
+
+  private _announceSelectionChange(): void {
     document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
   }
 

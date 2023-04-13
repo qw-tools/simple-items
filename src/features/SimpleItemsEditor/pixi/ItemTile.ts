@@ -59,7 +59,7 @@ export class ItemTile extends PIXI.Container {
 
     // item
     this._item = deepCopy(item);
-    this._defaultSettings = item.settings;
+    this._defaultSettings = deepCopy(item.settings);
     this.applySettings(this._defaultSettings);
 
     // checkbox

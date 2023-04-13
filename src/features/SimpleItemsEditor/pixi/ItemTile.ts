@@ -108,8 +108,14 @@ export class ItemTile extends PIXI.Container {
     this._item.settings.texturePath = source.toString();
     this._primaryShape?.destroy();
     this._primaryShape = PIXI.Sprite.from(source);
-    this._scaleShapesToFit();
-    this._shapeLayer.addChild(this._primaryShape);
+
+    const isBlob = this._item.settings.texturePath.startsWith("blob:");
+    const delay = isBlob ? 64 : 1;
+
+    window.setTimeout(() => {
+      this._scaleShapesToFit();
+      this._shapeLayer.addChild(this._primaryShape);
+    }, delay);
   }
 
   public toggleSelect(): void {

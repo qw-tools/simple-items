@@ -100,6 +100,11 @@ export class ItemTile extends PIXI.Container {
     this._scaleShapesToFit();
   }
 
+  set primaryRotation(value: number) {
+    this._item.settings.rotation = value;
+    this._primaryShape.rotation = value * (Math.PI / 180);
+  }
+
   set primaryTexture(source: PIXI.SpriteSource) {
     this._item.settings.texturePath = source.toString();
     this._primaryShape?.destroy();
@@ -194,14 +199,14 @@ export class ItemTile extends PIXI.Container {
     this._primaryShape.x = primaryOffset.x;
     this._primaryShape.y = primaryOffset.y;
 
-    const secondaryOffset = calculateCenterOffset(
-      this._secondaryShape.width,
-      this._secondaryShape.height,
-      GRID_SIZE,
-      GRID_SIZE
-    );
-    this._secondaryShape.x = secondaryOffset.x;
-    this._secondaryShape.y = secondaryOffset.y;
+    // const secondaryOffset = calculateCenterOffset(
+    //   this._secondaryShape.width,
+    //   this._secondaryShape.height,
+    //   GRID_SIZE,
+    //   GRID_SIZE
+    // );
+    // this._secondaryShape.x = secondaryOffset.x;
+    // this._secondaryShape.y = secondaryOffset.y;
   }
 
   private _scaleShapesToFit(): void {

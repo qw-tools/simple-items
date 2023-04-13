@@ -164,6 +164,8 @@ export class SimpleItemsApp extends PIXI.Application {
       switch (property) {
         case EE.Prop.COLOR:
           return (item: ItemTile) => (item.color = value);
+        case EE.Prop.PRIMARY_ROTATION:
+          return (item: ItemTile) => (item.primaryRotation = parseInt(value));
         case EE.Prop.PRIMARY_SCALE:
           return (item: ItemTile) => (item.primaryScale = parseFloat(value));
         case EE.Prop.OUTLINE_ENABLED:

@@ -7,8 +7,9 @@ export interface Item {
 
 export interface ItemSettings {
   texturePath: string;
-  scale: number;
   color: string;
+  rotation: number;
+  scale: number;
   outline: OutlineSettings;
 }
 

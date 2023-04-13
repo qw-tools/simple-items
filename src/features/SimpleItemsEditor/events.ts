@@ -15,6 +15,7 @@ export enum Prop {
   OUTLINE_ENABLED,
   OUTLINE_WIDTH,
 
+  PRIMARY_ROTATION,
   PRIMARY_SCALE,
 }
 

@@ -54,6 +54,19 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         />
       </div>
 
+      <div class="flex items-center space-x-2 hidden">
+        <div class="text-sm w-20">Rotation</div>
+        <input
+          v-model="settings.rotation"
+          :name="EE.Prop.PRIMARY_ROTATION"
+          class="w-20"
+          max="360"
+          min="0"
+          type="range"
+          @input="onChange"
+        />
+      </div>
+
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Color</div>
         <input

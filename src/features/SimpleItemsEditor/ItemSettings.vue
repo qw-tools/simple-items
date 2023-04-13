@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import { ITEM_SETTINGS } from "@/features/SimpleItemsEditor/config";
-import * as EE from "@/features/SimpleItemsEditor/events";
+import * as EE from "./events";
+
+const settings = ref(ITEM_SETTINGS);
 
 function onChange(e: InputEvent): void {
   const inputElement = e.target as HTMLInputElement;
@@ -20,6 +23,14 @@ function onChange(e: InputEvent): void {
 function onReset(): void {
   document.dispatchEvent(new Event(EE.Name.SETTINGS_RESET));
 }
+
+function onSelectionChange(e: CustomEvent) {
+  if (e.detail.items.length === 1) {
+    settings.value = e.detail.items[0].settings;
+  }
+}
+
+document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 </script>
 <template>
   <div class="divide-y divide-black/20">
@@ -30,13 +41,9 @@ function onReset(): void {
       </div>
 
       <div class="flex items-center space-x-2">
-        <div class="text-sm w-20">Shape</div>
-        <div>[shape]</div>
-      </div>
-
-      <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Scale</div>
         <input
+          v-model="settings.scale"
           :name="EE.Prop.PRIMARY_SCALE"
           class="w-20"
           max="1"
@@ -49,14 +56,19 @@ function onReset(): void {
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Color</div>
-        <input :name="EE.Prop.COLOR" type="color" @input="onChange" />
+        <input
+          v-model="settings.color"
+          :name="EE.Prop.COLOR"
+          type="color"
+          @input="onChange"
+        />
       </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">
           <label class="text-sm">
             <input
-              :checked="ITEM_SETTINGS.outline.enabled"
+              v-model="settings.outline.enabled"
               :name="EE.Prop.OUTLINE_ENABLED"
               type="checkbox"
               @change="onChange"
@@ -66,10 +78,16 @@ function onReset(): void {
         </div>
 
         <label class="text-xs">
-          <input :name="EE.Prop.OUTLINE_COLOR" type="color" @input="onChange" />
+          <input
+            v-model="settings.outline.color"
+            :name="EE.Prop.OUTLINE_COLOR"
+            type="color"
+            @input="onChange"
+          />
         </label>
 
         <input
+          v-model="settings.outline.width"
           :name="EE.Prop.OUTLINE_WIDTH"
           class="w-10 text-sm"
           max="16"

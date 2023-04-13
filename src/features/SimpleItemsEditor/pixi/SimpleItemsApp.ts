@@ -124,7 +124,7 @@ export class SimpleItemsApp extends PIXI.Application {
       tile.select();
     });
 
-    this._announceSelectionChange();
+    this._onSelectionChange();
   }
 
   private _onSelectNone(): void {
@@ -132,7 +132,7 @@ export class SimpleItemsApp extends PIXI.Application {
       tile.deselect();
     });
 
-    this._announceSelectionChange();
+    this._onSelectionChange();
   }
 
   private _onSelectInvert(): void {
@@ -140,14 +140,14 @@ export class SimpleItemsApp extends PIXI.Application {
       tile.toggleSelect();
     });
 
-    this._announceSelectionChange();
+    this._onSelectionChange();
   }
 
   private _onClick(): void {
-    this._announceSelectionChange();
+    this._onSelectionChange();
   }
 
-  private _announceSelectionChange(): void {
+  private _onSelectionChange(): void {
     document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
   }
 
@@ -315,10 +315,12 @@ export class SimpleItemsApp extends PIXI.Application {
     this.onChange();
   }
 
+  private _getTiles(): ItemTile[] {
+    return this._tiles.children as ItemTile[];
+  }
+
   private _getSelectedTiles(): ItemTile[] {
-    return this._tiles.children
-      .filter((item: ItemTile) => item.isSelected)
-      .map((i) => i as ItemTile);
+    return this._getTiles().filter((item: ItemTile) => item.isSelected);
   }
 
   private _getSelectedItems(): Item[] {

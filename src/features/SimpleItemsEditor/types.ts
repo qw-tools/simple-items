@@ -2,7 +2,7 @@ export interface Item {
   name: string;
   filename: string;
   textureDirPath: string;
-  defaultSettings: ItemSettings;
+  settings: ItemSettings;
 }
 
 export interface ItemSettings {

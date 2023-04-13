@@ -4,10 +4,11 @@ import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
+import { deepCopy } from "@/pkg/dataUtil";
 
 export class ItemTile extends PIXI.Container {
   private readonly _item: Item;
-  private readonly _itemSettings: ItemSettings;
+  private readonly _defaultSettings: ItemSettings;
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
   private readonly _checkbox: Checkbox = new Checkbox();
@@ -57,9 +58,9 @@ export class ItemTile extends PIXI.Container {
     this.addChild(this._shapeLayer);
 
     // item
-    this._item = item;
-    this._itemSettings = Object.assign({}, item.defaultSettings);
-    this.applySettings(this._itemSettings);
+    this._item = deepCopy(item);
+    this._defaultSettings = item.settings;
+    this.applySettings(this._defaultSettings);
 
     // checkbox
     this._checkbox.visible = false;
@@ -75,29 +76,32 @@ export class ItemTile extends PIXI.Container {
   }
 
   set outlineEnabled(value: boolean) {
+    this._item.settings.outline.enabled = value;
     this._outline.enabled = value;
   }
 
   set outlineColor(value: string) {
+    this._item.settings.outline.color = value;
     this._outline.color = new PIXI.Color(value).toNumber();
   }
 
   set outlineWidth(value: number) {
+    this._item.settings.outline.width = value;
     this._outline.thickness = value;
   }
 
   set color(value: string) {
-    this._itemSettings.color = value;
+    this._item.settings.color = value;
     this._colorOverlay.color = new PIXI.Color(value).toNumber();
   }
 
   set primaryScale(value: number) {
-    this._itemSettings.scale = value;
+    this._item.settings.scale = value;
     this._scaleShapesToFit();
   }
 
   set primaryTexture(source: PIXI.SpriteSource) {
-    this._itemSettings.texturePath = source.toString();
+    this._item.settings.texturePath = source.toString();
     this._primaryShape?.destroy();
     this._primaryShape = PIXI.Sprite.from(source);
     this._scaleShapesToFit();
@@ -150,7 +154,7 @@ export class ItemTile extends PIXI.Container {
   }
 
   public resetSettings(): void {
-    this.applySettings(this._item.defaultSettings);
+    this.applySettings(this._item.settings);
   }
 
   private _listen(): void {
@@ -162,6 +166,7 @@ export class ItemTile extends PIXI.Container {
     };
 
     this.addEventListener("click", () => {
+      console.log("Item.onClick");
       this.toggleSelect();
     });
 
@@ -200,7 +205,7 @@ export class ItemTile extends PIXI.Container {
   }
 
   private _scaleShapesToFit(): void {
-    const maxSize = GRID_SIZE * this._itemSettings.scale;
+    const maxSize = GRID_SIZE * this._item.settings.scale;
     const fittedSize = calculateAspectRatioFit(
       this._primaryShape.texture.orig.width,
       this._primaryShape.texture.orig.height,

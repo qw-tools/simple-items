@@ -43,7 +43,6 @@ function onSelectInvert(): void {
       Deselect all
     </button>
     <button
-      :disabled="0 === selectedCount"
       class="flex items-center p-1.5 px-2"
       @click="onSelectInvert"
     >

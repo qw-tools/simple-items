@@ -13,6 +13,7 @@ import {
 import { ref } from "vue";
 import SimpleItems from "./SimpleItems.vue";
 import { Item } from "@/features/SimpleItemsEditor/types";
+import Selection from "@/features/SimpleItemsEditor/Selection.vue";
 
 const items = ref<Item[]>(
   [weapons, ammo, runes, powerups, armors, healthPacks].flat(1)
@@ -34,11 +35,12 @@ const items = ref<Item[]>(
       </div>
     </div>
 
-    <div class="container my-4 space-y-4">
+    <div class="container my-4">
       <div id="AppContainerWidth" />
 
       <div class="flex justify-between">
         <div>
+          <Selection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
           <div id="SimpleItemsApp" />
         </div>

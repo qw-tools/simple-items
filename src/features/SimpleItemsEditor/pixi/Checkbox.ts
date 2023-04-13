@@ -22,12 +22,34 @@ export class Checkbox extends PIXI.Container {
     this._unselectedImg.width = SIZE;
     this._unselectedImg.height = SIZE;
     this._isSelected = isSelected;
+    this._updateTextures();
 
     this.addChild(this._selectedImg, this._unselectedImg);
   }
 
+  public isSelected(): boolean {
+    return this._isSelected;
+  }
+
+  public select(): void {
+    this._isSelected = true;
+    this._updateTextures();
+  }
+
+  public deselect(): void {
+    this._isSelected = false;
+    this._updateTextures();
+  }
+
   public toggle(): void {
-    this._isSelected = !this._isSelected;
+    if (this.isSelected()) {
+      this.deselect();
+    } else {
+      this.select();
+    }
+  }
+
+  private _updateTextures(): void {
     this._selectedImg.visible = this._isSelected;
     this._unselectedImg.visible = !this._isSelected;
   }

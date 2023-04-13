@@ -5,7 +5,7 @@ import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
 
-export class ItemContainer extends PIXI.Container {
+export class ItemTile extends PIXI.Container {
   private readonly _item: Item;
   private readonly _itemSettings: ItemSettings;
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
@@ -15,7 +15,6 @@ export class ItemContainer extends PIXI.Container {
   private _secondaryShape: PIXI.Graphics = new PIXI.Graphics();
   private _shapeLayer: PIXI.Container = new PIXI.Container();
   private _background: PIXI.Graphics = new PIXI.Graphics();
-  private _isSelected = false;
 
   constructor(item: Item) {
     super();
@@ -71,6 +70,10 @@ export class ItemContainer extends PIXI.Container {
     this._listen();
   }
 
+  get item(): Item {
+    return this._item;
+  }
+
   set outlineEnabled(value: boolean) {
     this._outline.enabled = value;
   }
@@ -101,13 +104,38 @@ export class ItemContainer extends PIXI.Container {
     this._shapeLayer.addChild(this._primaryShape);
   }
 
-  private toggleSelected(): void {
-    this._isSelected = !this._isSelected;
+  public toggleSelect(): void {
     this._checkbox.toggle();
+
+    if (this._checkbox.isSelected()) {
+      this._focus();
+    } else {
+      this._unfocus();
+    }
+  }
+
+  public select(): void {
+    this._checkbox.select();
+    this._focus();
+  }
+
+  public deselect(): void {
+    this._checkbox.deselect();
+    this._unfocus();
+  }
+
+  private _focus(): void {
+    this._background.visible = true;
+    this._checkbox.visible = true;
+  }
+
+  private _unfocus(): void {
+    this._background.visible = false;
+    this._checkbox.visible = false;
   }
 
   get isSelected(): boolean {
-    return this._isSelected;
+    return this._checkbox.isSelected();
   }
 
   public applySettings(settings: ItemSettings): void {
@@ -133,29 +161,21 @@ export class ItemContainer extends PIXI.Container {
       e.stopPropagation();
     };
 
-    this.addEventListener("click", (e: MouseEvent) => {
-      stopEvent(e);
-      this.toggleSelected();
+    this.addEventListener("click", () => {
+      this.toggleSelect();
     });
 
     this.addEventListener("mouseover", (e: MouseEvent) => {
       stopEvent(e);
 
-      if (this.isSelected) {
-        return;
-      }
-      this._checkbox.visible = true;
-      this._background.visible = true;
+      this._focus();
     });
     this.addEventListener("mouseleave", (e: MouseEvent) => {
       stopEvent(e);
 
-      if (this.isSelected) {
-        return;
+      if (!this.isSelected) {
+        this._unfocus();
       }
-
-      this._background.visible = false;
-      this._checkbox.visible = false;
     });
   }
 

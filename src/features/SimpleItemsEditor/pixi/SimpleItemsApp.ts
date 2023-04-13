@@ -2,10 +2,11 @@ import * as PIXI from "pixi.js";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
 import { publicUrl } from "@/pkg/viteUtil";
-import { ItemContainer } from "@/features/SimpleItemsEditor/pixi/ItemContainer";
+import { ItemTile } from "@/features/SimpleItemsEditor/pixi/ItemTile";
 import { Point2D } from "@/pkg/geometry";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "../events";
+import { createSelectionChange } from "../events";
 
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 
@@ -18,8 +19,8 @@ export interface SimpleItemsAppSettings {
 
 export class SimpleItemsApp extends PIXI.Application {
   private readonly _containerDiv: HTMLElement;
-  private _itemLayer: PIXI.Container = new PIXI.Container();
-  private _grid: PIXI.Graphics = new PIXI.Graphics();
+  private _tiles: PIXI.Container = new PIXI.Container();
+  private _gridLines: PIXI.Graphics = new PIXI.Graphics();
   private _highlight: PIXI.Graphics = new PIXI.Graphics();
   private _gridSizeCache: Point2D = { x: 1, y: 1 };
   onReady: () => void = nullOperation;
@@ -37,8 +38,8 @@ export class SimpleItemsApp extends PIXI.Application {
     this._highlight.endFill();
 
     this.stage.addChild(this._highlight);
-    this.stage.addChild(this._itemLayer);
-    this.stage.addChild(this._grid);
+    this.stage.addChild(this._tiles);
+    this.stage.addChild(this._gridLines);
 
     // HTML elements
     this._containerDiv = containerDiv;
@@ -62,9 +63,9 @@ export class SimpleItemsApp extends PIXI.Application {
       .then((result) => {
         Object.values(result).forEach(
           (primaryTexture: PIXI.Texture, itemIndex) => {
-            const container = new ItemContainer(settings.items[itemIndex]);
+            const container = new ItemTile(settings.items[itemIndex]);
 
-            this._itemLayer.addChild(container);
+            this._tiles.addChild(container);
           }
         );
 
@@ -93,6 +94,9 @@ export class SimpleItemsApp extends PIXI.Application {
       this._highlight.visible = false;
     });
 
+    this._onClick = this._onClick.bind(this);
+    this._containerDiv.addEventListener("click", this._onClick);
+
     this._onDragOver = this._onDragOver.bind(this);
     this._containerDiv.addEventListener("dragover", this._onDragOver);
 
@@ -104,10 +108,41 @@ export class SimpleItemsApp extends PIXI.Application {
 
     this._onSettingsReset = this._onSettingsReset.bind(this);
     document.addEventListener(EE.Name.SETTINGS_RESET, this._onSettingsReset);
+
+    this._onSelectAll = this._onSelectAll.bind(this);
+    document.addEventListener(EE.Name.SELECT_ALL, this._onSelectAll);
+
+    this._onSelectNone = this._onSelectNone.bind(this);
+    document.addEventListener(EE.Name.SELECT_NONE, this._onSelectNone);
+
+    this._onSelectInvert = this._onSelectInvert.bind(this);
+    document.addEventListener(EE.Name.SELECT_INVERT, this._onSelectInvert);
+  }
+
+  private _onSelectAll(): void {
+    this._tiles.children.forEach((tile: ItemTile) => {
+      tile.select();
+    });
+  }
+
+  private _onSelectNone(): void {
+    this._getSelectedTiles().forEach((tile: ItemTile) => {
+      tile.deselect();
+    });
+  }
+
+  private _onSelectInvert(): void {
+    this._tiles.children.forEach((tile: ItemTile) => {
+      tile.toggleSelect();
+    });
+  }
+
+  private _onClick(e: MouseEvent): void {
+    document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
   }
 
   private _onSettingsReset(): void {
-    this._getSelectedItems().forEach((item: ItemContainer) => {
+    this._getSelectedTiles().forEach((item: ItemTile) => {
       item.resetSettings();
     });
   }
@@ -118,16 +153,15 @@ export class SimpleItemsApp extends PIXI.Application {
     const getAction = () => {
       switch (property) {
         case EE.Prop.COLOR:
-          return (item: ItemContainer) => (item.color = value);
+          return (item: ItemTile) => (item.color = value);
         case EE.Prop.PRIMARY_SCALE:
-          return (item: ItemContainer) =>
-            (item.primaryScale = parseFloat(value));
+          return (item: ItemTile) => (item.primaryScale = parseFloat(value));
         case EE.Prop.OUTLINE_ENABLED:
-          return (item: ItemContainer) => (item.outlineEnabled = value);
+          return (item: ItemTile) => (item.outlineEnabled = value);
         case EE.Prop.OUTLINE_COLOR:
-          return (item: ItemContainer) => (item.outlineColor = value);
+          return (item: ItemTile) => (item.outlineColor = value);
         case EE.Prop.OUTLINE_WIDTH:
-          return (item: ItemContainer) => (item.outlineWidth = value);
+          return (item: ItemTile) => (item.outlineWidth = value);
         default:
           return nullOperation;
       }
@@ -135,7 +169,7 @@ export class SimpleItemsApp extends PIXI.Application {
 
     const action = getAction();
 
-    this._getSelectedItems().map(action);
+    this._getSelectedTiles().map(action);
   }
 
   private _resize(): void {
@@ -159,7 +193,7 @@ export class SimpleItemsApp extends PIXI.Application {
     const availableColumnCount = Math.floor(availableWidth / GRID_SIZE);
     const minColumnCount = 3;
     const columnCount = Math.max(minColumnCount, availableColumnCount);
-    const rowCount = Math.ceil(this._itemLayer.children.length / columnCount);
+    const rowCount = Math.ceil(this._tiles.children.length / columnCount);
 
     return {
       x: columnCount,
@@ -168,7 +202,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _alignItems(): void {
-    const items = this._itemLayer.children;
+    const items = this._tiles.children;
     const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
 
     for (let i = 0; i < items.length; i++) {
@@ -180,22 +214,22 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _drawGrid(): void {
-    this._grid.clear();
-    this._grid.lineStyle(1, "black", 0.1);
+    this._gridLines.clear();
+    this._gridLines.lineStyle(1, "black", 0.1);
 
     let x = GRID_SIZE;
 
     while (x < this.screen.width) {
-      this._grid.moveTo(x, 0);
-      this._grid.lineTo(x, 1600);
+      this._gridLines.moveTo(x, 0);
+      this._gridLines.lineTo(x, 1600);
       x += GRID_SIZE;
     }
 
     let y = GRID_SIZE;
 
     while (y < 1600) {
-      this._grid.moveTo(0, y);
-      this._grid.lineTo(this.screen.width, y);
+      this._gridLines.moveTo(0, y);
+      this._gridLines.lineTo(this.screen.width, y);
       y += GRID_SIZE;
     }
   }
@@ -208,7 +242,7 @@ export class SimpleItemsApp extends PIXI.Application {
       return;
     }
 
-    const item = this._itemLayer.getChildAt(itemIndex);
+    const item = this._tiles.getChildAt(itemIndex);
     this._highlight.x = item.x;
     this._highlight.y = item.y;
     this._highlight.visible = true;
@@ -222,14 +256,14 @@ export class SimpleItemsApp extends PIXI.Application {
     const colIndex = Math.floor(x / GRID_SIZE);
     const rowIndex = Math.floor(y / GRID_SIZE);
 
-    const itemIndex = colIndex + rowIndex * this._gridSizeCache.x;
-    const maxItemIndex = this._itemLayer.children.length - 1;
+    const tileIndex = colIndex + rowIndex * this._gridSizeCache.x;
+    const maxTileIndex = this._tiles.children.length - 1;
 
-    if (itemIndex > maxItemIndex) {
+    if (tileIndex > maxTileIndex) {
       return -1;
     }
 
-    return itemIndex;
+    return tileIndex;
   }
 
   private _onFileDrop(event: DragEvent): void {
@@ -271,10 +305,14 @@ export class SimpleItemsApp extends PIXI.Application {
     this.onChange();
   }
 
-  private _getSelectedItems(): ItemContainer[] {
-    return this._itemLayer.children
-      .filter((item: ItemContainer) => item.isSelected)
-      .map((i) => i as ItemContainer);
+  private _getSelectedTiles(): ItemTile[] {
+    return this._tiles.children
+      .filter((item: ItemTile) => item.isSelected)
+      .map((i) => i as ItemTile);
+  }
+
+  private _getSelectedItems(): Item[] {
+    return this._getSelectedTiles().map((i) => i.item);
   }
 
   download(filename = ""): void {

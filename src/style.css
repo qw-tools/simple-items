@@ -43,8 +43,12 @@ label:hover code {
   font-weight: bold;
 }
 
+button {
+  @apply bg-gradient-to-b from-white to-gray-100;
+}
+
 button:hover {
-  @apply bg-sky-50 border-sky-300;
+  @apply to-sky-50 border-sky-300;
 }
 
 button:disabled {

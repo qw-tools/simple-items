@@ -55,7 +55,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         <span class="text-gray-600 text-xs">{{ settings.scale }}</span>
       </div>
 
-      <div class="flex items-center space-x-2 hidden">
+      <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Rotation</div>
         <input
           v-model="settings.rotation"
@@ -66,6 +66,8 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           type="range"
           @input="onChange"
         />
+
+        <span class="text-gray-600 text-xs">{{ settings.rotation }}</span>
       </div>
 
       <div class="flex items-center space-x-2">

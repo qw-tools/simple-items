@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
-import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
+import { calculateAspectRatioFit } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
-import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
 import { deepCopy } from "@/pkg/dataUtil";
 
@@ -108,6 +108,8 @@ export class ItemTile extends PIXI.Container {
     this._item.settings.texturePath = source.toString();
     this._primaryShape?.destroy();
     this._primaryShape = PIXI.Sprite.from(source);
+    this._primaryShape.anchor.set(0.5);
+    this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
 
     const isBlob = this._item.settings.texturePath.startsWith("blob:");
     const delay = isBlob ? 64 : 1;
@@ -194,26 +196,6 @@ export class ItemTile extends PIXI.Container {
     });
   }
 
-  private _centerShapes(): void {
-    const primaryOffset = calculateCenterOffset(
-      this._primaryShape.width,
-      this._primaryShape.height,
-      GRID_SIZE,
-      GRID_SIZE
-    );
-    this._primaryShape.x = primaryOffset.x;
-    this._primaryShape.y = primaryOffset.y;
-
-    // const secondaryOffset = calculateCenterOffset(
-    //   this._secondaryShape.width,
-    //   this._secondaryShape.height,
-    //   GRID_SIZE,
-    //   GRID_SIZE
-    // );
-    // this._secondaryShape.x = secondaryOffset.x;
-    // this._secondaryShape.y = secondaryOffset.y;
-  }
-
   private _scaleShapesToFit(): void {
     const maxSize = GRID_SIZE * this._item.settings.scale;
     const fittedSize = calculateAspectRatioFit(
@@ -225,6 +207,5 @@ export class ItemTile extends PIXI.Container {
 
     this._primaryShape.width = fittedSize.width;
     this._primaryShape.height = fittedSize.height;
-    this._centerShapes();
   }
 }

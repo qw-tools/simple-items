@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
-import { type Item } from "@/pkg/quake/items";
 import { SimpleItemsApp } from "./pixi/SimpleItemsApp";
 import { nullOperation } from "@/pkg/functions";
+import { Item } from "@/features/SimpleItemsEditor/types";
 
 interface Props {
   items: Item[];

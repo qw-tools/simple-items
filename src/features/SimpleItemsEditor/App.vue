@@ -6,13 +6,13 @@ import {
   ammo,
   armors,
   healthPacks,
-  Item,
   powerups,
   runes,
   weapons,
-} from "@/pkg/quake/items";
+} from "@/features/SimpleItemsEditor/items";
 import { ref } from "vue";
 import SimpleItems from "./SimpleItems.vue";
+import { Item } from "@/features/SimpleItemsEditor/types";
 
 const items = ref<Item[]>(
   [weapons, ammo, runes, powerups, armors, healthPacks].flat(1)

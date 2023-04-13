@@ -1,14 +1,13 @@
 import * as PIXI from "pixi.js";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
-import * as EE from "./events";
-import { SETTINGS } from "./config";
-import type { Item } from "@/pkg/quake/items";
 import { publicUrl } from "@/pkg/viteUtil";
 import { ItemContainer } from "@/features/SimpleItemsEditor/pixi/ItemContainer";
 import { Point2D } from "@/pkg/geometry";
+import { Item } from "@/features/SimpleItemsEditor/types";
+import * as EE from "../events";
 
-const GRID_SIZE = 120;
+import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 
 export interface SimpleItemsAppSettings {
   containerId: string;
@@ -63,12 +62,13 @@ export class SimpleItemsApp extends PIXI.Application {
       .then((result) => {
         Object.values(result).forEach(
           (innerTexture: PIXI.Texture, itemIndex) => {
+            const { color, scale } = settings.items[itemIndex].defaultSettings;
+
             const container = new ItemContainer({
               size: GRID_SIZE,
-              scale: SETTINGS.scale,
-              backgroundColor: settings.items[itemIndex].backgroundColor,
+              scale,
+              color,
               innerTexture: innerTexture,
-              outerShapeType: "circle",
             });
 
             this._itemLayer.addChild(container);

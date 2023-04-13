@@ -2,14 +2,13 @@ import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
-import { GRID_SIZE } from "@/features/SimpleItemsEditor/pixi/config";
+import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 
 type ItemContainerSettings = {
   size: number;
   scale: number;
-  backgroundColor: string;
+  color: string;
   innerTexture: PIXI.Texture;
-  outerShapeType: string;
 };
 
 export class ItemContainer extends PIXI.Container {
@@ -63,7 +62,7 @@ export class ItemContainer extends PIXI.Container {
     this._shapeLayer.filters = [this._colorOverlay, this._outline];
     this.addChild(this._shapeLayer);
 
-    this.primaryColor = settings.backgroundColor;
+    this.primaryColor = settings.color;
     this.primaryTexture = settings.innerTexture;
     this.primaryScale = settings.scale;
 

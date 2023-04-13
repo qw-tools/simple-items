@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { SETTINGS } from "@/features/SimpleItemsEditor/pixi/config";
-import * as EE from "@/features/SimpleItemsEditor/pixi/events";
+import { ITEM_SETTINGS } from "@/features/SimpleItemsEditor/config";
+import * as EE from "@/features/SimpleItemsEditor/events";
 
 function onChange(e: InputEvent): void {
   const inputElement = e.target as HTMLInputElement;
@@ -19,52 +19,59 @@ function onChange(e: InputEvent): void {
 </script>
 <template>
   <div class="divide-y divide-black/20">
-    <div class="flex items-center space-x-2 py-3">
-      <label class="text-sm font-bold">
-        <input
-          type="checkbox"
-          :checked="SETTINGS.outline.enabled"
-          :name="EE.Prop.OUTLINE_ENABLED"
-          @change="onChange"
-        />
-        Outline
-      </label>
-
-      <label class="text-xs">
-        <input type="color" @input="onChange" :name="EE.Prop.OUTLINE_COLOR" />
-      </label>
-
-      <input
-        class="w-10 text-sm"
-        max="16"
-        min="1"
-        step="1"
-        type="number"
-        :name="EE.Prop.OUTLINE_WIDTH"
-        @input="onChange"
-      />
-      <span class="text-gray-600 text-xs">px</span>
-    </div>
-
     <div class="py-3 space-y-1">
-      <div class="text-sm font-bold">Primary graphic</div>
+      <div class="text-sm font-bold">Settings</div>
 
       <div class="flex items-center space-x-2">
-        <div class="text-sm w-20">Color</div>
-        <input type="color" @input="onChange" :name="EE.Prop.PRIMARY_COLOR" />
+        <div class="text-sm w-20">Shape</div>
+        <div>[shape]</div>
       </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Scale</div>
         <input
+          :name="EE.Prop.PRIMARY_SCALE"
           class="w-20"
           max="1"
           min="0.1"
           step="0.05"
           type="range"
-          :name="EE.Prop.PRIMARY_SCALE"
           @input="onChange"
         />
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <div class="text-sm w-20">Color</div>
+        <input :name="EE.Prop.PRIMARY_COLOR" type="color" @input="onChange" />
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <div class="text-sm w-20">
+          <label class="text-sm">
+            <input
+              :checked="ITEM_SETTINGS.outline.enabled"
+              :name="EE.Prop.OUTLINE_ENABLED"
+              type="checkbox"
+              @change="onChange"
+            />
+            Outline
+          </label>
+        </div>
+
+        <label class="text-xs">
+          <input :name="EE.Prop.OUTLINE_COLOR" type="color" @input="onChange" />
+        </label>
+
+        <input
+          :name="EE.Prop.OUTLINE_WIDTH"
+          class="w-10 text-sm"
+          max="16"
+          min="1"
+          step="1"
+          type="number"
+          @input="onChange"
+        />
+        <span class="text-gray-600 text-xs">px</span>
       </div>
     </div>
 

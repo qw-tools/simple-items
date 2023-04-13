@@ -61,8 +61,9 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           v-model="settings.rotation"
           :name="EE.Prop.PRIMARY_ROTATION"
           class="w-20"
-          max="360"
-          min="0"
+          max="180"
+          min="-180"
+          step="15"
           type="range"
           @input="onChange"
         />

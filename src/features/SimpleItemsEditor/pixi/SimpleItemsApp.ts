@@ -61,15 +61,8 @@ export class SimpleItemsApp extends PIXI.Application {
     PIXI.Assets.load(textureUrls)
       .then((result) => {
         Object.values(result).forEach(
-          (innerTexture: PIXI.Texture, itemIndex) => {
-            const { color, scale } = settings.items[itemIndex].defaultSettings;
-
-            const container = new ItemContainer({
-              size: GRID_SIZE,
-              scale,
-              color,
-              innerTexture: innerTexture,
-            });
+          (primaryTexture: PIXI.Texture, itemIndex) => {
+            const container = new ItemContainer(settings.items[itemIndex]);
 
             this._itemLayer.addChild(container);
           }
@@ -108,12 +101,19 @@ export class SimpleItemsApp extends PIXI.Application {
 
     this._onSettingsChange = this._onSettingsChange.bind(this);
     document.addEventListener(EE.Name.SETTINGS_CHANGE, this._onSettingsChange);
+
+    this._onSettingsReset = this._onSettingsReset.bind(this);
+    document.addEventListener(EE.Name.SETTINGS_RESET, this._onSettingsReset);
+  }
+
+  private _onSettingsReset(): void {
+    this._getSelectedItems().forEach((item: ItemContainer) => {
+      item.resetSettings();
+    });
   }
 
   private _onSettingsChange(e: Event): void {
     const { property, value } = (e as CustomEvent).detail;
-
-    console.log(value, typeof value);
 
     const getAction = () => {
       switch (property) {

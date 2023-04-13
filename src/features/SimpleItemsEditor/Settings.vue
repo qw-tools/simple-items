@@ -16,6 +16,10 @@ function onChange(e: InputEvent): void {
 
   document.dispatchEvent(changeEvent);
 }
+
+function onReset(): void {
+  document.dispatchEvent(new Event(EE.Name.SETTINGS_RESET));
+}
 </script>
 <template>
   <div class="divide-y divide-black/20">
@@ -114,8 +118,10 @@ function onChange(e: InputEvent): void {
       </div>
     </div>
 
-    <div class="pt-6">
-      <button class="text-sm px-3 py-1.5">reset to default</button>
+    <div class="py-3">
+      <button class="text-sm px-3 py-1.5" @click="onReset">
+        reset to default
+      </button>
     </div>
   </div>
 </template>

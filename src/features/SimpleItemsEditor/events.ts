@@ -1,5 +1,6 @@
 export enum Name {
   SETTINGS_CHANGE = "Editor.SETTINGS_CHANGE",
+  SETTINGS_RESET = "Editor.SETTINGS_RESET",
 }
 
 export enum Prop {

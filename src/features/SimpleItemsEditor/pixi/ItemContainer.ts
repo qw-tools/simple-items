@@ -3,15 +3,10 @@ import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit, calculateCenterOffset } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
-
-type ItemContainerSettings = {
-  size: number;
-  scale: number;
-  color: string;
-  innerTexture: PIXI.Texture;
-};
+import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
 
 export class ItemContainer extends PIXI.Container {
+  private readonly _item: Item;
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
   private _primaryShape: PIXI.Sprite = new PIXI.Sprite();
@@ -22,7 +17,7 @@ export class ItemContainer extends PIXI.Container {
   private readonly _checkbox: Checkbox = new Checkbox();
   private _isSelected = false;
 
-  constructor(settings: ItemContainerSettings) {
+  constructor(item: Item) {
     super();
 
     this.hitArea = new PIXI.Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
@@ -62,9 +57,9 @@ export class ItemContainer extends PIXI.Container {
     this._shapeLayer.filters = [this._colorOverlay, this._outline];
     this.addChild(this._shapeLayer);
 
-    this.primaryColor = settings.color;
-    this.primaryTexture = settings.innerTexture;
-    this.primaryScale = settings.scale;
+    // item
+    this._item = item;
+    this.resetSettings();
 
     // checkbox
     this._checkbox.visible = false;
@@ -89,9 +84,11 @@ export class ItemContainer extends PIXI.Container {
     this._scaleShapesToFit();
   }
 
-  set primaryTexture(texture: PIXI.Texture) {
+  set primaryTexture(source: PIXI.SpriteSource) {
+    console.log("source", source);
+
     this._primaryShape?.destroy();
-    this._primaryShape = PIXI.Sprite.from(texture);
+    this._primaryShape = PIXI.Sprite.from(source);
     this._scaleShapesToFit();
     this._shapeLayer.addChild(this._primaryShape);
   }
@@ -103,6 +100,16 @@ export class ItemContainer extends PIXI.Container {
 
   get isSelected(): boolean {
     return this._isSelected;
+  }
+
+  public applySettings(settings: ItemSettings): void {
+    this.primaryScale = settings.scale;
+    this.primaryColor = settings.color;
+    this.primaryTexture = settings.texturePath;
+  }
+
+  public resetSettings(): void {
+    this.applySettings(this._item.defaultSettings);
   }
 
   private _listen(): void {

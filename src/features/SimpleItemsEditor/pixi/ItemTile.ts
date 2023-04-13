@@ -154,7 +154,7 @@ export class ItemTile extends PIXI.Container {
   }
 
   public resetSettings(): void {
-    this.applySettings(this._item.settings);
+    this.applySettings(this._defaultSettings);
   }
 
   private _listen(): void {

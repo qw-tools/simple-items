@@ -53,7 +53,6 @@ export class ItemTile extends PIXI.Container {
     // }
 
     this._shapeLayer.addChild(this._secondaryShape, this._primaryShape);
-    this._shapeLayer.addChild(this._secondaryShape);
     this._shapeLayer.filters = [this._colorOverlay, this._outline];
     this.addChild(this._shapeLayer);
 

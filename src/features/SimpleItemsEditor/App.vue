@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import SiteHeader from "@/Site/SiteHeader.vue";
 import SiteFooter from "@/Site/SiteFooter.vue";
-import Settings from "./Settings.vue";
+import ItemSettings from "./ItemSettings.vue";
 import {
   ammo,
   armors,
@@ -10,10 +11,9 @@ import {
   runes,
   weapons,
 } from "@/features/SimpleItemsEditor/items";
-import { ref } from "vue";
 import SimpleItems from "./SimpleItems.vue";
 import { Item } from "@/features/SimpleItemsEditor/types";
-import Selection from "@/features/SimpleItemsEditor/Selection.vue";
+import ItemSelection from "@/features/SimpleItemsEditor/ItemSelection.vue";
 
 const items = ref<Item[]>(
   [weapons, ammo, runes, powerups, armors, healthPacks].flat(1)
@@ -40,7 +40,7 @@ const items = ref<Item[]>(
 
       <div class="flex justify-between">
         <div>
-          <Selection />
+          <ItemSelection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
           <div id="SimpleItemsApp" />
         </div>
@@ -48,7 +48,7 @@ const items = ref<Item[]>(
           id="AppSettings"
           class="px-4 bg-gray-200 border border-black/10 w-[240px] shadow-md"
         >
-          <Settings />
+          <ItemSettings />
         </div>
       </div>
     </div>

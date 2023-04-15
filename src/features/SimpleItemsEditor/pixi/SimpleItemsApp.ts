@@ -281,8 +281,8 @@ export class SimpleItemsApp extends PIXI.Application {
       return;
     }
 
-    const files = Array.from(event.dataTransfer.files);
-    const imageFiles = files.filter((f) => f.type.startsWith("image"));
+    const files: File[] = Array.from(event.dataTransfer.files);
+    const imageFiles: File[] = files.filter((f) => f.type.startsWith("image"));
 
     if (0 === imageFiles.length) {
       return;
@@ -302,6 +302,10 @@ export class SimpleItemsApp extends PIXI.Application {
 
   private _getTiles(): ItemTile[] {
     return this._tiles.children as ItemTile[];
+  }
+
+  private _getTileByIndex(index: number): ItemTile {
+    return this._getTiles()[index];
   }
 
   private _getSelectedTiles(): ItemTile[] {

@@ -112,7 +112,13 @@ const Ring: Item = {
   ...toSettings("ring.svg", { color: "#ffff00" }),
 };
 
-export const powerups = [Quad, Pent, Ring];
+const Suit: Item = {
+  name: "Suit",
+  textureDirPath: modelsDirPath,
+  ...toSettings("biohazard.png", { color: "#66ff00" }),
+};
+
+export const powerups = [Quad, Pent, Ring, Suit];
 
 // health packs
 const HealthSmall: Item = {

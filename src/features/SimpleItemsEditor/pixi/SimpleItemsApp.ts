@@ -30,7 +30,7 @@ export class SimpleItemsApp extends PIXI.Application {
     const { containerId } = settings;
     const containerDiv = document.getElementById(containerId) as HTMLElement;
 
-    super({ backgroundAlpha: 0 });
+    super({ antialias: true, backgroundAlpha: 0 });
 
     this._highlight.visible = false;
     this._highlight.beginFill("#00ff00", 0.2);
@@ -196,7 +196,6 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _resize(): void {
-    console.log("_resize");
     const { x, y } = this._calcGridSize();
     this._gridSizeCache = { x, y };
     this.renderer.resize(x * GRID_SIZE, y * GRID_SIZE);
@@ -228,8 +227,6 @@ export class SimpleItemsApp extends PIXI.Application {
   private _alignItems(): void {
     const items = this._tiles.children;
     const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
-
-    console.log("_alignItems", items.length, itemsPerRow);
 
     for (let i = 0; i < items.length; i++) {
       items[i].x = (i % itemsPerRow) * GRID_SIZE;

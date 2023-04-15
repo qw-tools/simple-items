@@ -3,7 +3,11 @@ import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
-import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
+import {
+  Item,
+  ItemSettings,
+  SecondarySettings,
+} from "@/features/SimpleItemsEditor/types";
 import { deepCopy } from "@/pkg/dataUtil";
 
 export class ItemTile extends PIXI.Container {
@@ -12,8 +16,9 @@ export class ItemTile extends PIXI.Container {
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
   private readonly _checkbox: Checkbox = new Checkbox();
   private _primaryShape: PIXI.Sprite = new PIXI.Sprite();
+  private _primaryShapeLayer: PIXI.Container = new PIXI.Container();
   private _secondaryShape: PIXI.Graphics = new PIXI.Graphics();
-  private _shapeLayer: PIXI.Container = new PIXI.Container();
+  private _secondaryShapeLayer: PIXI.Container = new PIXI.Container();
   private _background: PIXI.Graphics = new PIXI.Graphics();
 
   constructor(item: Item) {
@@ -28,10 +33,13 @@ export class ItemTile extends PIXI.Container {
     this._background.visible = false;
     this.addChild(this._background);
 
-    // secondary
-    this._shapeLayer.addChild(this._secondaryShape, this._primaryShape);
-    this._shapeLayer.filters = [this._colorOverlay, this._outline];
-    this.addChild(this._shapeLayer);
+    // shape layers
+    const filters = [this._colorOverlay, this._outline];
+    this._primaryShapeLayer.filters = filters;
+    this._secondaryShapeLayer.filters = filters;
+
+    this.addChild(this._secondaryShapeLayer, this._primaryShapeLayer);
+    //this._shapeLayer.filters = [this._colorOverlay];
 
     // item
     this._item = deepCopy(item);
@@ -39,7 +47,8 @@ export class ItemTile extends PIXI.Container {
 
     // checkbox
     this._checkbox.visible = false;
-    this._checkbox.position.set(GRID_SIZE - 28, GRID_SIZE - 28);
+    const checkboxPos: number = GRID_SIZE - 28;
+    this._checkbox.position.set(checkboxPos, checkboxPos);
     this.addChild(this._checkbox);
 
     // events
@@ -93,7 +102,7 @@ export class ItemTile extends PIXI.Container {
       this._primaryShape.anchor.set(0.5);
       this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
       this._scalePrimaryToFit();
-      this._shapeLayer.addChild(this._primaryShape);
+      this._primaryShapeLayer.addChild(this._primaryShape);
     }, loadGraceTimeout);
   }
 
@@ -124,8 +133,8 @@ export class ItemTile extends PIXI.Container {
 
   private _updateSecondaryGraphics(settings: ItemSettings): void {
     this._secondaryShape.destroy(true);
-    this._secondaryShape = createGraphics(settings);
-    this._shapeLayer.addChildAt(this._secondaryShape, 0);
+    this._secondaryShape = createSecondaryGraphics(settings.secondary);
+    this._secondaryShapeLayer.addChildAt(this._secondaryShape, 0);
   }
 
   public toggleSelect(): void {
@@ -216,24 +225,24 @@ export class ItemTile extends PIXI.Container {
   }
 }
 
-function createGraphics(settings: ItemSettings): PIXI.Graphics {
+function createSecondaryGraphics(settings: SecondarySettings): PIXI.Graphics {
   // general
   const gfx = new PIXI.Graphics();
   gfx.width = GRID_SIZE;
   gfx.height = GRID_SIZE;
+  gfx.visible = settings.enabled;
   gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
-  gfx.visible = settings.secondary.enabled;
-  gfx.scale.set(settings.secondary.scale);
-  gfx.rotation = settings.secondary.rotation;
+  gfx.scale.set(settings.scale);
+  gfx.rotation = settings.rotation * (Math.PI / 180);
 
   // outer
-  const outerSize = GRID_SIZE * settings.secondary.outerScale;
+  const outerSize = GRID_SIZE * settings.outerScale;
   gfx.beginFill();
   gfx.drawRect(-outerSize / 2, -outerSize / 2, outerSize, outerSize);
   gfx.endFill();
 
   // inner
-  const { innerScale } = settings.secondary;
+  const { innerScale } = settings;
 
   if (innerScale > 0) {
     const innerSize = innerScale * outerSize;
@@ -241,8 +250,6 @@ function createGraphics(settings: ItemSettings): PIXI.Graphics {
     gfx.drawRect(-innerSize / 2, -innerSize / 2, innerSize, innerSize);
     gfx.endHole();
   }
-
-  console.log("createGraphics", settings.secondary);
 
   return gfx;
 }

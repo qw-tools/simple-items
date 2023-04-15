@@ -40,43 +40,10 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 </script>
 <template>
   <div class="divide-y divide-black/20">
-    <div class="py-3 space-y-1">
+    <div class="py-3">
       <div class="flex items-center justify-between mb-3">
         <div class="text-sm font-bold">Settings</div>
         <button class="text-sm px-2 py-1" @click="onReset">reset</button>
-      </div>
-
-      <div class="flex items-center space-x-2">
-        <div class="text-sm w-20">Scale</div>
-        <input
-          v-model="settings.primary.scale"
-          :name="EE.Prop.PRIMARY_SCALE"
-          class="w-20"
-          max="1"
-          min="0.1"
-          step="0.05"
-          type="range"
-          @input="onChange"
-        />
-        <span class="text-gray-600 text-xs">{{ settings.primary.scale }}</span>
-      </div>
-
-      <div class="flex items-center space-x-2">
-        <div class="text-sm w-20">Rotation</div>
-        <input
-          v-model="settings.primary.rotation"
-          :name="EE.Prop.PRIMARY_ROTATION"
-          class="w-20"
-          max="180"
-          min="-180"
-          step="15"
-          type="range"
-          @input="onChange"
-        />
-
-        <span class="text-gray-600 text-xs">{{
-          settings.primary.rotation
-        }}</span>
       </div>
 
       <div class="flex items-center space-x-2">
@@ -124,10 +91,43 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         />
         <span class="text-gray-600 text-xs">px</span>
       </div>
+
+      <div class="flex items-center space-x-2">
+        <div class="text-sm w-20">Scale</div>
+        <input
+          v-model="settings.primary.scale"
+          :name="EE.Prop.PRIMARY_SCALE"
+          class="w-20"
+          max="1"
+          min="0.1"
+          step="0.05"
+          type="range"
+          @input="onChange"
+        />
+        <span class="text-gray-600 text-xs">{{ settings.primary.scale }}</span>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <div class="text-sm w-20">Rotation</div>
+        <input
+          v-model="settings.primary.rotation"
+          :name="EE.Prop.PRIMARY_ROTATION"
+          class="w-20"
+          max="180"
+          min="-180"
+          step="15"
+          type="range"
+          @input="onChange"
+        />
+
+        <span class="text-gray-600 text-xs">{{
+          settings.primary.rotation
+        }}</span>
+      </div>
     </div>
 
     <div class="py-3 space-y-1.5">
-      <label class="text-sm flex items-center">
+      <label class="text-sm flex items-center font-bold">
         <input
           v-model="settings.secondary.enabled"
           :name="EE.Prop.SECONDARY_ENABLED"
@@ -137,7 +137,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         Secondary graphics
       </label>
 
-      <div>
+      <div class="hidden">
         <div class="text-sm w-20">Shape</div>
 
         <div class="flex flex-cols items-center cursor-pointer">
@@ -193,7 +193,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           class="w-20"
           max="1"
           min="0.1"
-          step="0.1"
+          step="0.05"
           type="range"
           @input="onChange"
         />
@@ -209,9 +209,9 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           v-model="settings.secondary.innerScale"
           :name="EE.Prop.SECONDARY_INNER_SCALE"
           class="w-20"
-          max="0.9"
+          max="0.95"
           min="0"
-          step="0.1"
+          step="0.05"
           type="range"
           @input="onChange"
         />

@@ -13,9 +13,9 @@ export const ITEM_SETTINGS: ItemSettings = {
   secondary: {
     enabled: false,
     rotation: 0,
-    scale: 0.8,
+    scale: 0.6,
     outerScale: 1.0,
-    innerScale: 0.9,
+    innerScale: 0.8,
   },
   outline: {
     enabled: true,

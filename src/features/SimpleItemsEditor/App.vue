@@ -35,7 +35,7 @@ const items = ref<Item[]>(
       </div>
     </div>
 
-    <div class="container my-4">
+    <div class="container mt-4 mb-8">
       <div id="AppContainerWidth" />
 
       <div class="flex justify-between">

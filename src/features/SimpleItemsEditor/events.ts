@@ -1,4 +1,5 @@
 import { Item } from "@/features/SimpleItemsEditor/types";
+import { deepCopy } from "@/pkg/dataUtil";
 
 export enum Name {
   SETTINGS_CHANGE = "Editor.SETTINGS_CHANGE",
@@ -25,9 +26,11 @@ export interface ChangeDetails {
 }
 
 export function createSettingsChange(detail: ChangeDetails): CustomEvent {
-  return new CustomEvent(Name.SETTINGS_CHANGE, { detail });
+  return new CustomEvent(Name.SETTINGS_CHANGE, { detail: deepCopy(detail) });
 }
 
 export function createSelectionChange(items: Item[]): CustomEvent {
-  return new CustomEvent(Name.SELECT_CHANGE, { detail: { items } });
+  return new CustomEvent(Name.SELECT_CHANGE, {
+    detail: { items: deepCopy(items) },
+  });
 }

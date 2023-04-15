@@ -7,6 +7,7 @@ import {
   ammo,
   armors,
   healthPacks,
+  misc,
   powerups,
   runes,
   weapons,
@@ -16,7 +17,7 @@ import { Item } from "@/features/SimpleItemsEditor/types";
 import ItemSelection from "@/features/SimpleItemsEditor/ItemSelection.vue";
 
 const items = ref<Item[]>(
-  [weapons, ammo, runes, powerups, armors, healthPacks].flat(1)
+  [weapons, ammo, runes, powerups, armors, healthPacks, misc].flat(1)
 );
 </script>
 <template>

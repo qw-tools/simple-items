@@ -261,3 +261,12 @@ export const runes = [
   RuneHaste,
   RuneRegeneration,
 ];
+
+// misc
+const Backpack: Item = {
+  name: "Backpack",
+  textureDirPath: modelsDirPath,
+  ...toSettings("backpack.png", { color: "#ff9900" }),
+};
+
+export const misc = [Backpack];

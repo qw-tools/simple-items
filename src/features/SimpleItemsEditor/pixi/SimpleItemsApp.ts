@@ -309,7 +309,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _getSelectedItems(): Item[] {
-    return this._getSelectedTiles().map((i) => i.item);
+    return this._getSelectedTiles().map((i: ItemTile) => i.item);
   }
 
   download(filename = ""): void {

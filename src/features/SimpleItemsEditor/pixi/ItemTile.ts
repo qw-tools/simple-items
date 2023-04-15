@@ -93,12 +93,12 @@ export class ItemTile extends PIXI.Container {
   }
 
   set primaryScale(value: number) {
-    this._item.settings.scale = value;
+    this._item.settings.primary.scale = value;
     this._scaleShapesToFit();
   }
 
   set primaryRotation(value: number) {
-    this._item.settings.rotation = value;
+    this._item.settings.primary.rotation = value;
     this._primaryShape.rotation = value * (Math.PI / 180);
   }
 

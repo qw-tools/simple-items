@@ -156,8 +156,8 @@ export class ItemTile extends PIXI.Container {
     this.color = settings.color;
 
     this.primaryTexture = settings.texturePath;
-    this.primaryScale = settings.scale;
-    this.primaryRotation = settings.rotation;
+    this.primaryScale = settings.primary.scale;
+    this.primaryRotation = settings.primary.rotation;
 
     this.outlineEnabled = settings.outline.enabled;
     this.outlineColor = settings.outline.color;

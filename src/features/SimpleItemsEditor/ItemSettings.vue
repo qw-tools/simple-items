@@ -49,7 +49,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Scale</div>
         <input
-          v-model="settings.scale"
+          v-model="settings.primary.scale"
           :name="EE.Prop.PRIMARY_SCALE"
           class="w-20"
           max="1"
@@ -58,13 +58,13 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           type="range"
           @input="onChange"
         />
-        <span class="text-gray-600 text-xs">{{ settings.scale }}</span>
+        <span class="text-gray-600 text-xs">{{ settings.primary.scale }}</span>
       </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Rotation</div>
         <input
-          v-model="settings.rotation"
+          v-model="settings.primary.rotation"
           :name="EE.Prop.PRIMARY_ROTATION"
           class="w-20"
           max="180"
@@ -74,7 +74,9 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           @input="onChange"
         />
 
-        <span class="text-gray-600 text-xs">{{ settings.rotation }}</span>
+        <span class="text-gray-600 text-xs">{{
+          settings.primary.rotation
+        }}</span>
       </div>
 
       <div class="flex items-center space-x-2">

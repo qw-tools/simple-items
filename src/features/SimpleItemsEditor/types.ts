@@ -9,8 +9,10 @@ export interface Item {
 export interface ItemSettings {
   texturePath: string;
   color: string;
-  rotation: number;
-  scale: number;
+  primary: {
+    rotation: number;
+    scale: number;
+  };
   outline: OutlineSettings;
 }
 

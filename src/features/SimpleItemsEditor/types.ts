@@ -3,6 +3,7 @@ export interface Item {
   filename: string;
   textureDirPath: string;
   settings: ItemSettings;
+  defaultSettings: ItemSettings;
 }
 
 export interface ItemSettings {

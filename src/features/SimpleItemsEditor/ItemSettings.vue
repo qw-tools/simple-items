@@ -6,6 +6,7 @@ import * as EE from "./events";
 import { deepCopy } from "@/pkg/dataUtil";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
+const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 
 function onChange(e: InputEvent): void {
   const inputElement = e.target as HTMLInputElement;
@@ -24,12 +25,14 @@ function onChange(e: InputEvent): void {
 
 function onReset(): void {
   document.dispatchEvent(new Event(EE.Name.SETTINGS_RESET));
+  settings.value = deepCopy(defaults.value);
 }
 
 function onSelectionChange(e: CustomEvent): void {
   if (e.detail.items.length === 1) {
     const item: Item = e.detail.items[0];
     settings.value = item.settings;
+    defaults.value = item.defaultSettings;
   }
 }
 

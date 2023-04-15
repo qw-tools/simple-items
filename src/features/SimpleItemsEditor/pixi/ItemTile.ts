@@ -8,7 +8,6 @@ import { deepCopy } from "@/pkg/dataUtil";
 
 export class ItemTile extends PIXI.Container {
   private readonly _item: Item;
-  private readonly _defaultSettings: ItemSettings;
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
   private readonly _checkbox: Checkbox = new Checkbox();
@@ -58,8 +57,7 @@ export class ItemTile extends PIXI.Container {
 
     // item
     this._item = deepCopy(item);
-    this._defaultSettings = deepCopy(item.settings);
-    this.applySettings(this._defaultSettings);
+    this.applySettings(this._item.defaultSettings);
 
     // checkbox
     this._checkbox.visible = false;
@@ -167,7 +165,7 @@ export class ItemTile extends PIXI.Container {
   }
 
   public resetSettings(): void {
-    this.applySettings(this._defaultSettings);
+    this.applySettings(this._item.defaultSettings);
   }
 
   private _listen(): void {

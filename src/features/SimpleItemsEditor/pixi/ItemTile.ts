@@ -54,7 +54,6 @@ export class ItemTile extends PIXI.Container {
 
     // events
     this._listen();
-    this.select();
   }
 
   get item(): Item {

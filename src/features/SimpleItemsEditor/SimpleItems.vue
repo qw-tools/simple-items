@@ -3,6 +3,7 @@ import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { SimpleItemsApp } from "./pixi/SimpleItemsApp";
 import { nullOperation } from "@/pkg/functions";
 import { Item } from "@/features/SimpleItemsEditor/types";
+import * as EE from "@/features/SimpleItemsEditor/events";
 
 interface Props {
   items: Item[];
@@ -17,7 +18,9 @@ onMounted(async () => {
     containerId: props.containerId,
     items: props.items,
     onChange: nullOperation,
-    onReady: nullOperation,
+    onReady: () => {
+      document.dispatchEvent(new CustomEvent(EE.Name.SELECT_ALL));
+    },
   });
 
   document.getElementById(props.containerId)?.append(editor.getCanvas());

@@ -290,13 +290,17 @@ export class SimpleItemsApp extends PIXI.Application {
 
     const tileIndex = this._eventToTileIndex(event);
 
-    if (tileIndex >= 0) {
-      try {
-        (this._tiles.getChildAt(tileIndex) as ItemTile).primaryTexture =
-          URL.createObjectURL(imageFiles[0]);
-      } catch (e) {
-        // do nothing
-      }
+    if (tileIndex < 0) {
+      return;
+    }
+
+    try {
+      const tile: ItemTile = this._getTileByIndex(tileIndex);
+      tile.primaryTexture = URL.createObjectURL(imageFiles[0]);
+      tile.select();
+      this._onSelectionChange();
+    } catch (e) {
+      // do nothing
     }
   }
 

@@ -106,18 +106,18 @@ export class ItemTile extends PIXI.Container {
 
   set primaryTexture(source: PIXI.SpriteSource) {
     this._item.settings.texturePath = source.toString();
-    this._primaryShape?.destroy();
-    this._primaryShape = PIXI.Sprite.from(source);
-    this._primaryShape.anchor.set(0.5);
-    this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
 
-    const isBlob = this._item.settings.texturePath.startsWith("blob:");
-    const delay = isBlob ? 64 : 1;
+    const newSprite = PIXI.Sprite.from(source);
+    const loadGraceTimeout = 32; // ms
 
     window.setTimeout(() => {
+      this._primaryShape?.destroy();
+      this._primaryShape = newSprite;
+      this._primaryShape.anchor.set(0.5);
+      this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
       this._scaleShapesToFit();
       this._shapeLayer.addChild(this._primaryShape);
-    }, delay);
+    }, loadGraceTimeout);
   }
 
   public toggleSelect(): void {

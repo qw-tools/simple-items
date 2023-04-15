@@ -115,16 +115,6 @@ const Ring: Item = {
 export const powerups = [Quad, Pent, Ring];
 
 // health packs
-
-const HealthLarge: Item = {
-  name: "Large health",
-  textureDirPath: bmodelsDirPath,
-  ...toSettings("cross.svg", {
-    color: "#eeee00",
-    primary: { ...ds.primary, scale: 0.5 },
-    secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
-  }),
-};
 const HealthSmall: Item = {
   name: "Small health",
   textureDirPath: bmodelsDirPath,
@@ -134,6 +124,16 @@ const HealthSmall: Item = {
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
   }),
 };
+const HealthLarge: Item = {
+  name: "Large health",
+  textureDirPath: bmodelsDirPath,
+  ...toSettings("cross.svg", {
+    color: "#eeee00",
+    primary: { ...ds.primary, scale: 0.6 },
+    secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
+  }),
+};
+
 const MegaHealth: Item = {
   name: "Mega health",
   textureDirPath: bmodelsDirPath,

@@ -6,6 +6,14 @@ export interface Item {
   defaultSettings: ItemSettings;
 }
 
+export interface SecondarySettings {
+  enabled: boolean;
+  rotation: number;
+  scale: number;
+  outerScale: number;
+  innerScale: number;
+}
+
 export interface ItemSettings {
   texturePath: string;
   color: string;
@@ -13,6 +21,7 @@ export interface ItemSettings {
     rotation: number;
     scale: number;
   };
+  secondary: SecondarySettings;
   outline: OutlineSettings;
 }
 

@@ -126,9 +126,15 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
       </div>
     </div>
 
-    <div class="py-3 space-y-1.5 hidden">
-      <label class="text-sm">
-        <input type="checkbox" /> Secondary graphic
+    <div class="py-3 space-y-1.5">
+      <label class="text-sm flex items-center">
+        <input
+          v-model="settings.secondary.enabled"
+          :name="EE.Prop.SECONDARY_ENABLED"
+          type="checkbox"
+          @change="onChange"
+        />
+        Secondary graphics
       </label>
 
       <div>
@@ -146,22 +152,73 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Scale</div>
-        <input class="w-20" max="1" min="0.1" step="0.05" type="range" />
+        <input
+          v-model="settings.secondary.scale"
+          :name="EE.Prop.SECONDARY_SCALE"
+          class="w-20"
+          max="1"
+          min="0.1"
+          step="0.05"
+          type="range"
+          @input="onChange"
+        />
+        <span class="text-gray-600 text-xs">{{
+          settings.secondary.scale
+        }}</span>
       </div>
 
       <div class="flex items-center space-x-2">
-        <div class="text-sm w-20">Angle</div>
-        <input class="w-20" max="180" min="-180" step="1" type="range" />
+        <div class="text-sm w-20">Rotation</div>
+        <input
+          v-model="settings.secondary.rotation"
+          :name="EE.Prop.SECONDARY_ROTATION"
+          class="w-20"
+          max="180"
+          min="-180"
+          step="15"
+          type="range"
+          @input="onChange"
+        />
+
+        <span class="text-gray-600 text-xs">{{
+          settings.secondary.rotation
+        }}</span>
       </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Outer width</div>
-        <input class="w-20" max="1" min="0.1" step="0.1" type="range" />
+        <input
+          v-model="settings.secondary.outerScale"
+          :name="EE.Prop.SECONDARY_OUTER_SCALE"
+          class="w-20"
+          max="1"
+          min="0.1"
+          step="0.1"
+          type="range"
+          @input="onChange"
+        />
+
+        <span class="text-gray-600 text-xs">{{
+          settings.secondary.outerScale
+        }}</span>
       </div>
 
       <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Inner width</div>
-        <input class="w-20" max="1" min="0.1" step="0.1" type="range" />
+        <input
+          v-model="settings.secondary.innerScale"
+          :name="EE.Prop.SECONDARY_INNER_SCALE"
+          class="w-20"
+          max="0.9"
+          min="0"
+          step="0.1"
+          type="range"
+          @input="onChange"
+        />
+
+        <span class="text-gray-600 text-xs">{{
+          settings.secondary.innerScale
+        }}</span>
       </div>
     </div>
   </div>

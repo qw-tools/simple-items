@@ -10,6 +10,13 @@ export const ITEM_SETTINGS: ItemSettings = {
     rotation: 0,
     scale: 0.8,
   },
+  secondary: {
+    enabled: false,
+    rotation: 0,
+    scale: 0.8,
+    outerScale: 1.0,
+    innerScale: 0.9,
+  },
   outline: {
     enabled: true,
     color: "#000000",

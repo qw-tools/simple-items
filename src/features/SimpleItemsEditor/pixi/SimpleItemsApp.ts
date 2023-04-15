@@ -64,15 +64,17 @@ export class SimpleItemsApp extends PIXI.Application {
         Object.values(result).forEach(
           (primaryTexture: PIXI.Texture, itemIndex) => {
             const container = new ItemTile(settings.items[itemIndex]);
-
             this._tiles.addChild(container);
           }
         );
 
+        console.log("PIXI.Assets.load(textureUrls)");
         this._resize();
         this.onReady();
       })
-      .catch(nullOperation);
+      .catch((e) => {
+        console.log("FAIL LOAD", e);
+      });
   }
 
   private _listen(): void {
@@ -163,6 +165,20 @@ export class SimpleItemsApp extends PIXI.Application {
           return (item: ItemTile) => (item.primaryRotation = parseInt(value));
         case EE.Prop.PRIMARY_SCALE:
           return (item: ItemTile) => (item.primaryScale = parseFloat(value));
+
+        case EE.Prop.SECONDARY_ENABLED:
+          return (item: ItemTile) => (item.secondaryEnabled = value);
+        case EE.Prop.SECONDARY_ROTATION:
+          return (item: ItemTile) => (item.secondaryRotation = parseInt(value));
+        case EE.Prop.SECONDARY_SCALE:
+          return (item: ItemTile) => (item.secondaryScale = parseFloat(value));
+        case EE.Prop.SECONDARY_OUTER_SCALE:
+          return (item: ItemTile) =>
+            (item.secondaryOuterScale = parseFloat(value));
+        case EE.Prop.SECONDARY_INNER_SCALE:
+          return (item: ItemTile) =>
+            (item.secondaryInnerScale = parseFloat(value));
+
         case EE.Prop.OUTLINE_ENABLED:
           return (item: ItemTile) => (item.outlineEnabled = value);
         case EE.Prop.OUTLINE_COLOR:
@@ -180,6 +196,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _resize(): void {
+    console.log("_resize");
     const { x, y } = this._calcGridSize();
     this._gridSizeCache = { x, y };
     this.renderer.resize(x * GRID_SIZE, y * GRID_SIZE);
@@ -211,6 +228,8 @@ export class SimpleItemsApp extends PIXI.Application {
   private _alignItems(): void {
     const items = this._tiles.children;
     const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
+
+    console.log("_alignItems", items.length, itemsPerRow);
 
     for (let i = 0; i < items.length; i++) {
       items[i].x = (i % itemsPerRow) * GRID_SIZE;

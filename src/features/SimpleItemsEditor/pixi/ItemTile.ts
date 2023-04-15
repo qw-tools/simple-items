@@ -28,29 +28,7 @@ export class ItemTile extends PIXI.Container {
     this._background.visible = false;
     this.addChild(this._background);
 
-    // todo: secondary
-    // const outerScale = 0.6;
-    // const outerSize = outerScale * GRID_SIZE;
-    // this._secondaryShape.beginFill("red", 1);
-    // this._secondaryShape.drawRect(0, 0, outerSize, outerSize);
-    // this._secondaryShape.endFill();
-    //
-    // const innerScale = 0.8;
-    //
-    // if (innerScale > 0) {
-    //   const innerSize = innerScale * outerSize;
-    //   const innerOffset = outerSize / 2 - innerSize / 2;
-    //
-    //   this._secondaryShape.beginHole();
-    //   this._secondaryShape.drawRect(
-    //     innerOffset,
-    //     innerOffset,
-    //     innerSize,
-    //     innerSize
-    //   );
-    //   this._secondaryShape.endHole();
-    // }
-
+    // secondary
     this._shapeLayer.addChild(this._secondaryShape, this._primaryShape);
     this._shapeLayer.filters = [this._colorOverlay, this._outline];
     this.addChild(this._shapeLayer);
@@ -66,6 +44,7 @@ export class ItemTile extends PIXI.Container {
 
     // events
     this._listen();
+    this.select();
   }
 
   get item(): Item {
@@ -94,7 +73,7 @@ export class ItemTile extends PIXI.Container {
 
   set primaryScale(value: number) {
     this._item.settings.primary.scale = value;
-    this._scaleShapesToFit();
+    this._scalePrimaryToFit();
   }
 
   set primaryRotation(value: number) {
@@ -113,9 +92,40 @@ export class ItemTile extends PIXI.Container {
       this._primaryShape = newSprite;
       this._primaryShape.anchor.set(0.5);
       this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
-      this._scaleShapesToFit();
+      this._scalePrimaryToFit();
       this._shapeLayer.addChild(this._primaryShape);
     }, loadGraceTimeout);
+  }
+
+  set secondaryEnabled(value: boolean) {
+    this._item.settings.secondary.enabled = value;
+    this._secondaryShape.visible = value;
+  }
+
+  set secondaryScale(value: number) {
+    this._item.settings.secondary.scale = value;
+    this._secondaryShape.scale.set(value);
+  }
+
+  set secondaryOuterScale(value: number) {
+    this._item.settings.secondary.outerScale = value;
+    this._updateSecondaryGraphics(this._item.settings);
+  }
+
+  set secondaryInnerScale(value: number) {
+    this._item.settings.secondary.innerScale = value;
+    this._updateSecondaryGraphics(this._item.settings);
+  }
+
+  set secondaryRotation(value: number) {
+    this._item.settings.secondary.rotation = value;
+    this._secondaryShape.rotation = value * (Math.PI / 180);
+  }
+
+  private _updateSecondaryGraphics(settings: ItemSettings): void {
+    this._secondaryShape.destroy(true);
+    this._secondaryShape = createGraphics(settings);
+    this._shapeLayer.addChildAt(this._secondaryShape, 0);
   }
 
   public toggleSelect(): void {
@@ -162,6 +172,8 @@ export class ItemTile extends PIXI.Container {
     this.outlineEnabled = settings.outline.enabled;
     this.outlineColor = settings.outline.color;
     this.outlineWidth = settings.outline.width;
+
+    this._updateSecondaryGraphics(settings);
   }
 
   public resetSettings(): void {
@@ -195,16 +207,42 @@ export class ItemTile extends PIXI.Container {
     });
   }
 
-  private _scaleShapesToFit(): void {
-    const maxSize = GRID_SIZE * this._item.settings.scale;
-    const fittedSize = calculateAspectRatioFit(
-      this._primaryShape.texture.orig.width,
-      this._primaryShape.texture.orig.height,
-      maxSize,
-      maxSize
-    );
-
+  private _scalePrimaryToFit(): void {
+    const { width, height } = this._primaryShape.texture.orig;
+    const maxSize = GRID_SIZE * this._item.settings.primary.scale;
+    const fittedSize = calculateAspectRatioFit(width, height, maxSize, maxSize);
     this._primaryShape.width = fittedSize.width;
     this._primaryShape.height = fittedSize.height;
   }
+}
+
+function createGraphics(settings: ItemSettings): PIXI.Graphics {
+  // general
+  const gfx = new PIXI.Graphics();
+  gfx.width = GRID_SIZE;
+  gfx.height = GRID_SIZE;
+  gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
+  gfx.visible = settings.secondary.enabled;
+  gfx.scale.set(settings.secondary.scale);
+  gfx.rotation = settings.secondary.rotation;
+
+  // outer
+  const outerSize = GRID_SIZE * settings.secondary.outerScale;
+  gfx.beginFill();
+  gfx.drawRect(-outerSize / 2, -outerSize / 2, outerSize, outerSize);
+  gfx.endFill();
+
+  // inner
+  const { innerScale } = settings.secondary;
+
+  if (innerScale > 0) {
+    const innerSize = innerScale * outerSize;
+    gfx.beginHole();
+    gfx.drawRect(-innerSize / 2, -innerSize / 2, innerSize, innerSize);
+    gfx.endHole();
+  }
+
+  console.log("createGraphics", settings.secondary);
+
+  return gfx;
 }

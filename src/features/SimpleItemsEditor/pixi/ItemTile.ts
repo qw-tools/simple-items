@@ -4,6 +4,7 @@ import { calculateAspectRatioFit } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import {
+  GraphicsShape,
   Item,
   ItemSettings,
   SecondarySettings,
@@ -109,6 +110,11 @@ export class ItemTile extends PIXI.Container {
   set secondaryEnabled(value: boolean) {
     this._item.settings.secondary.enabled = value;
     this._secondaryShape.visible = value;
+  }
+
+  set secondaryShape(value: GraphicsShape) {
+    this._item.settings.secondary.shape = value;
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set secondaryScale(value: number) {
@@ -236,9 +242,21 @@ function createSecondaryGraphics(settings: SecondarySettings): PIXI.Graphics {
   gfx.rotation = settings.rotation * (Math.PI / 180);
 
   // outer
-  const outerSize = GRID_SIZE * settings.outerScale;
+  const { outerScale, shape } = settings;
+  const outerSize = GRID_SIZE * outerScale;
+  const outerRadius = outerSize / 2;
   gfx.beginFill();
-  gfx.drawRect(-outerSize / 2, -outerSize / 2, outerSize, outerSize);
+
+  if ("circle" === shape) {
+    gfx.drawCircle(0, 0, outerRadius);
+  } else if ("square" === shape) {
+    gfx.drawRect(-outerRadius, -outerRadius, outerSize, outerSize);
+  } else {
+    // hexagon
+    const path = getPolygonPath(6).map((n: number) => n * outerRadius);
+    gfx.drawPolygon(path);
+  }
+
   gfx.endFill();
 
   // inner
@@ -246,10 +264,32 @@ function createSecondaryGraphics(settings: SecondarySettings): PIXI.Graphics {
 
   if (innerScale > 0) {
     const innerSize = innerScale * outerSize;
+    const innerRadius = innerSize / 2;
     gfx.beginHole();
-    gfx.drawRect(-innerSize / 2, -innerSize / 2, innerSize, innerSize);
+
+    if ("circle" === shape) {
+      gfx.drawCircle(0, 0, innerRadius);
+    } else if ("square" === shape) {
+      gfx.drawRect(-innerRadius, -innerRadius, innerSize, innerSize);
+    } else {
+      // hexagon
+      gfx.drawPolygon(getPolygonPath(6).map((n: number) => n * innerRadius));
+    }
+
     gfx.endHole();
   }
 
   return gfx;
+}
+
+function getPolygonPath(count: number): number[] {
+  const result: number[] = [];
+  const startAngle = 0; //Math.PI / 2;
+
+  for (let i = 0; i < count; i++) {
+    result.push(Math.cos((startAngle + 2 * Math.PI * i) / count));
+    result.push(Math.sin((startAngle + 2 * Math.PI * i) / count));
+  }
+
+  return result;
 }

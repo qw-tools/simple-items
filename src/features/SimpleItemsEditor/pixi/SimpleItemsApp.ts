@@ -56,19 +56,16 @@ export class SimpleItemsApp extends PIXI.Application {
 
     // load textures
     const textureUrls = settings.items.map((item: Item) =>
-      publicUrl(`assets/textures/${item.filename}`)
+      publicUrl(`/assets/textures/${item.filename}`)
     );
 
     PIXI.Assets.load(textureUrls)
-      .then((result) => {
-        Object.values(result).forEach(
-          (primaryTexture: PIXI.Texture, itemIndex) => {
-            const container = new ItemTile(settings.items[itemIndex]);
-            this._tiles.addChild(container);
-          }
-        );
+      .then(() => {
+        settings.items.forEach((item: Item) => {
+          const container = new ItemTile(item);
+          this._tiles.addChild(container);
+        });
 
-        console.log("PIXI.Assets.load(textureUrls)");
         this._resize();
         this.onReady();
       })
@@ -168,6 +165,8 @@ export class SimpleItemsApp extends PIXI.Application {
 
         case EE.Prop.SECONDARY_ENABLED:
           return (item: ItemTile) => (item.secondaryEnabled = value);
+        case EE.Prop.SECONDARY_SHAPE:
+          return (item: ItemTile) => (item.secondaryShape = value);
         case EE.Prop.SECONDARY_ROTATION:
           return (item: ItemTile) => (item.secondaryRotation = parseInt(value));
         case EE.Prop.SECONDARY_SCALE:

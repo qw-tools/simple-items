@@ -12,6 +12,7 @@ export const ITEM_SETTINGS: ItemSettings = {
   },
   secondary: {
     enabled: false,
+    shape: "square",
     rotation: 0,
     scale: 0.6,
     outerScale: 1.0,

@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ITEM_SETTINGS } from "@/features/SimpleItemsEditor/config";
-import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
+import {
+  GraphicsShape,
+  Item,
+  ItemSettings,
+} from "@/features/SimpleItemsEditor/types";
 import * as EE from "./events";
 import { deepCopy } from "@/pkg/dataUtil";
+import classNames from "classnames";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
@@ -34,6 +39,16 @@ function onSelectionChange(e: CustomEvent): void {
     settings.value = item.settings;
     defaults.value = item.defaultSettings;
   }
+}
+
+function setShape(value: GraphicsShape): void {
+  settings.value.secondary.shape = value;
+
+  const changeEvent = EE.createSettingsChange({
+    property: EE.Prop.SECONDARY_SHAPE,
+    value,
+  });
+  document.dispatchEvent(changeEvent);
 }
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
@@ -137,17 +152,38 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         Secondary graphics
       </label>
 
-      <div class="hidden">
+      <div class="flex items-center space-x-2">
         <div class="text-sm w-20">Shape</div>
-
-        <div class="flex flex-cols items-center cursor-pointer">
-          <img class="w-7 h-7" src="/assets/img/icons/circle.png" />
-          <img class="w-7 h-7 grayscale" src="/assets/img/icons/triangle.png" />
-          <img class="w-7 h-7 grayscale" src="/assets/img/icons/square.png" />
-          <img class="w-7 h-7 grayscale" src="/assets/img/icons/rhombus.png" />
-          <img class="w-7 h-7 grayscale" src="/assets/img/icons/pentagon.png" />
-          <img class="w-7 h-7 grayscale" src="/assets/img/icons/hexagon.png" />
-        </div>
+        <img
+          class="w-6 h-6 cursor-pointer grayscale hover:grayscale-0"
+          src="/assets/img/icons/square.png"
+          :class="
+            classNames({
+              'grayscale-0': settings.secondary.shape === 'square',
+            })
+          "
+          @click.prevent="() => setShape('square')"
+        />
+        <img
+          class="w-7 h-7 cursor-pointer grayscale hover:grayscale-0"
+          src="/assets/img/icons/circle.png"
+          :class="
+            classNames({
+              'grayscale-0': settings.secondary.shape === 'circle',
+            })
+          "
+          @click.prevent="() => setShape('circle')"
+        />
+        <img
+          class="w-7 h-7 cursor-pointer grayscale hover:grayscale-0"
+          src="/assets/img/icons/hexagon.png"
+          :class="
+            classNames({
+              'grayscale-0': settings.secondary.shape === 'hexagon',
+            })
+          "
+          @click.prevent="() => setShape('hexagon')"
+        />
       </div>
 
       <div class="flex items-center space-x-2">

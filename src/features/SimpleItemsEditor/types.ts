@@ -6,8 +6,11 @@ export interface Item {
   defaultSettings: ItemSettings;
 }
 
+export type GraphicsShape = "square" | "circle" | "hexagon";
+
 export interface SecondarySettings {
   enabled: boolean;
+  shape: GraphicsShape;
   rotation: number;
   scale: number;
   outerScale: number;

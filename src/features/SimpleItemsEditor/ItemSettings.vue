@@ -41,7 +41,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 <template>
   <div class="divide-y divide-black/20">
     <div class="py-3 space-y-1">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between mb-3">
         <div class="text-sm font-bold">Settings</div>
         <button class="text-sm px-2 py-1" @click="onReset">reset</button>
       </div>

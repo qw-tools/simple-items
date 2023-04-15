@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ITEM_SETTINGS } from "@/features/SimpleItemsEditor/config";
+import { Item, ItemSettings } from "@/features/SimpleItemsEditor/types";
 import * as EE from "./events";
+import { deepCopy } from "@/pkg/dataUtil";
 
-const settings = ref(ITEM_SETTINGS);
+const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 
 function onChange(e: InputEvent): void {
   const inputElement = e.target as HTMLInputElement;
@@ -24,9 +26,10 @@ function onReset(): void {
   document.dispatchEvent(new Event(EE.Name.SETTINGS_RESET));
 }
 
-function onSelectionChange(e: CustomEvent) {
+function onSelectionChange(e: CustomEvent): void {
   if (e.detail.items.length === 1) {
-    settings.value = e.detail.items[0].settings;
+    const item: Item = e.detail.items[0];
+    settings.value = item.settings;
   }
 }
 

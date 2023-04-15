@@ -108,7 +108,7 @@ export class ItemTile extends PIXI.Container {
     this._item.settings.texturePath = source.toString();
 
     const newSprite = PIXI.Sprite.from(source);
-    const loadGraceTimeout = 32; // ms
+    const loadGraceTimeout = 64; // ms
 
     window.setTimeout(() => {
       this._primaryShape?.destroy();

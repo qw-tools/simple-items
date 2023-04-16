@@ -147,10 +147,6 @@ export class ItemTile extends PIXI.Container {
   }
 
   private _updateSecondaryGraphics(settings: ItemSettings): void {
-    if (!settings.secondary.enabled) {
-      return;
-    }
-
     this._secondaryShape.destroy(true);
     this._secondaryShape = createSecondaryGraphics(settings);
     this._secondaryShapeLayer.addChild(this._secondaryShape);
@@ -245,6 +241,11 @@ export class ItemTile extends PIXI.Container {
 function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
   // general
   const gfx = new SmoothGraphics();
+
+  if (!settings.secondary.enabled) {
+    return gfx;
+  }
+
   gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
   gfx.scale.set(settings.secondary.scale);
   gfx.rotation = settings.secondary.rotation * (Math.PI / 180);

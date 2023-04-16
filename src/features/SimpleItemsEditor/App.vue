@@ -39,17 +39,16 @@ const items = ref<Item[]>(
     <div class="container mt-4 mb-8">
       <div id="AppContainerWidth" />
 
-      <div class="flex justify-between">
+      <div class="flex justify-around">
         <div>
           <ItemSelection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
           <div id="SimpleItemsApp" />
         </div>
-        <div
-          id="AppSettings"
-          class="px-4 bg-gray-200 border border-black/10 w-[240px] shadow-md"
-        >
-          <ItemSettings />
+        <div id="AppSettings" class="w-[240px]">
+          <div class="bg-gray-200 p-4 border border-black/10 shadow-md mt-12">
+            <ItemSettings />
+          </div>
         </div>
       </div>
     </div>

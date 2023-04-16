@@ -36,10 +36,10 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 </script>
 <template>
   <div class="divide-y divide-black/20">
-    <div class="py-3">
+    <div class="pb-4">
       <div class="flex items-center justify-between mb-3">
         <div class="text-sm font-bold">Settings</div>
-        <button class="text-sm px-2 py-1" @click="onReset">reset</button>
+        <button class="text-xs px-2 py-1" @click="onReset">Reset</button>
       </div>
 
       <div class="flex items-center space-x-2">
@@ -122,7 +122,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
       </div>
     </div>
 
-    <div class="py-3 space-y-1.5">
+    <div class="pt-4 space-y-1.5">
       <label class="text-sm flex items-center font-bold">
         <input
           v-model="settings.secondary.enabled"

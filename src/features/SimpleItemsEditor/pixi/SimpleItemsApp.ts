@@ -274,10 +274,13 @@ export class SimpleItemsApp extends PIXI.Application {
     const containerBounds = this._containerDiv.getBoundingClientRect();
     const x = event.clientX - containerBounds.left;
     const y = event.clientY - containerBounds.top;
+    return this._pointToIndex({ x, y });
+  }
 
+  private _pointToIndex(point: Point2D): number {
+    const { x, y } = point;
     const colIndex = Math.floor(x / GRID_SIZE);
     const rowIndex = Math.floor(y / GRID_SIZE);
-
     const tileIndex = colIndex + rowIndex * this._gridSizeCache.x;
     const maxTileIndex = this._tiles.children.length - 1;
 

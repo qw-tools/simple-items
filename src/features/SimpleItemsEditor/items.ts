@@ -262,30 +262,29 @@ export const ammo = [
 ];
 
 // Runes
-const runeColor = "#cc8899";
 const RuneResistance: Item = {
   name: "Resistance",
   filename: "simple_end1_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end1_0.png", { color: runeColor }),
+  ...toSettings("simple_end1_0.png", { color: "#00ff00" }),
 };
 const RuneStrength: Item = {
   name: "Strength",
   filename: "simple_end2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end2_0.png", { color: runeColor }),
+  ...toSettings("simple_end2_0.png", { color: "#ff0000" }),
 };
 const RuneHaste: Item = {
   name: "Haste",
   filename: "simple_end3_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end3_0.png", { color: runeColor }),
+  ...toSettings("simple_end3_0.png", { color: "#ffff00" }),
 };
 const RuneRegeneration: Item = {
   name: "Regeneration",
   filename: "simple_end4_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end4_0.png", { color: runeColor }),
+  ...toSettings("simple_end4_0.png", { color: "#00ffff" }),
 };
 
 export const runes = [

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
-import { calculateAspectRatioFit } from "@/pkg/geometry";
+import { calculateAspectRatioFit, getPolygonPath } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
 import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import {
@@ -279,16 +279,4 @@ function createSecondaryGraphics(settings: SecondarySettings): PIXI.Graphics {
   }
 
   return gfx;
-}
-
-function getPolygonPath(count: number): number[] {
-  const result: number[] = [];
-  const startAngle = 0; //Math.PI / 2;
-
-  for (let i = 0; i < count; i++) {
-    result.push(Math.cos((startAngle + 2 * Math.PI * i) / count));
-    result.push(Math.sin((startAngle + 2 * Math.PI * i) / count));
-  }
-
-  return result;
 }

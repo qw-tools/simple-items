@@ -18,3 +18,15 @@ export function calculateAspectRatioFit(
 
   return { width: srcWidth * ratio, height: srcHeight * ratio };
 }
+
+export function getPolygonPath(count: number): number[] {
+  const result: number[] = [];
+  const startAngle = 0; //Math.PI / 2;
+
+  for (let i = 0; i < count; i++) {
+    result.push(Math.cos((startAngle + 2 * Math.PI * i) / count));
+    result.push(Math.sin((startAngle + 2 * Math.PI * i) / count));
+  }
+
+  return result;
+}

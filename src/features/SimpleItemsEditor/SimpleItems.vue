@@ -4,6 +4,7 @@ import { ItemGrid } from "./pixi/ItemGrid";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "@/features/SimpleItemsEditor/events";
 import { dispatch } from "@/features/SimpleItemsEditor/events";
+import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 
 interface Props {
   items: Item[];
@@ -48,7 +49,7 @@ onBeforeMount(() => {
 <template>
   <div
     :id="`${props.containerId}`"
-    :style="`min-height: ${120}px`"
+    :style="`min-height: ${GRID_SIZE}px`"
     class="editor-container fadeIn border border-black/20 shadow-md app-bg-checker cursor-pointer"
   />
 </template>

@@ -311,7 +311,7 @@ export class ItemGrid extends PIXI.Application {
         case EE.Prop.OUTLINE_COLOR:
           return (item: ItemTile) => (item.outlineColor = value);
         case EE.Prop.OUTLINE_WIDTH:
-          return (item: ItemTile) => (item.outlineWidth = value);
+          return (item: ItemTile) => (item.outlineWidth = parseInt(value));
         default:
           return nullOperation;
       }

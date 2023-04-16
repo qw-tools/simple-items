@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .ts,.vue"
   },
   "dependencies": {
+    "@pixi/graphics-smooth": "^1.1.0",
     "@zip.js/zip.js": "^2.7.5",
     "classnames": "^2.3.2",
     "deepmerge": "^4.3.1",

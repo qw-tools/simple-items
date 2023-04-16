@@ -10,6 +10,7 @@ import {
   SecondarySettings,
 } from "@/features/SimpleItemsEditor/types";
 import { deepCopy } from "@/pkg/dataUtil";
+import { SmoothGraphics } from "@pixi/graphics-smooth";
 
 export class ItemTile extends PIXI.Container {
   private readonly _item: Item;
@@ -19,7 +20,7 @@ export class ItemTile extends PIXI.Container {
   private _shapeLayer: PIXI.Container = new PIXI.Container();
   private _primaryShape: PIXI.Sprite = new PIXI.Sprite();
   private _primaryShapeLayer: PIXI.Container = new PIXI.Container();
-  private _secondaryShape: PIXI.Graphics = new PIXI.Graphics();
+  private _secondaryShape: SmoothGraphics = new SmoothGraphics();
   private _secondaryShapeLayer: PIXI.Container = new PIXI.Container();
   private _background: PIXI.Graphics = new PIXI.Graphics();
 
@@ -238,12 +239,9 @@ export class ItemTile extends PIXI.Container {
   }
 }
 
-function createSecondaryGraphics(settings: SecondarySettings): PIXI.Graphics {
+function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
   // general
-  const gfx = new PIXI.Graphics();
-  gfx.width = GRID_SIZE;
-  gfx.height = GRID_SIZE;
-  gfx.visible = settings.enabled;
+  const gfx = new SmoothGraphics();
   gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
   gfx.scale.set(settings.scale);
   gfx.rotation = settings.rotation * (Math.PI / 180);

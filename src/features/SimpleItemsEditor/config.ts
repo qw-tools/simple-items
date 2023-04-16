@@ -1,6 +1,6 @@
 import { ItemSettings } from "@/features/SimpleItemsEditor/types";
 
-export const GRID_SIZE = 120;
+export const GRID_SIZE = 160;
 export const GRID_CENTER = { x: GRID_SIZE / 2, y: GRID_SIZE / 2 };
 export const GRID_DIM = { width: GRID_SIZE, height: GRID_SIZE };
 

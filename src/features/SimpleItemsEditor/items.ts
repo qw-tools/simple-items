@@ -27,20 +27,20 @@ const GreenArmor: Item = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.svg", { color: "#00cc00" }),
+  ...toSettings("armor.png", { color: "#00cc00" }),
 };
 
 const YellowArmor: Item = {
   name: "Yellow Armor",
   filename: "simple_armor_1.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.svg", { color: "#ffff00" }),
+  ...toSettings("armor.png", { color: "#ffff00" }),
 };
 const RedArmor: Item = {
   name: "Red Armor",
   filename: "simple_armor_2.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.svg", { color: "#ff0000" }),
+  ...toSettings("armor.png", { color: "#ff0000" }),
 };
 
 export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];
@@ -50,37 +50,37 @@ const SuperShotgun: Item = {
   name: "Super Shotgun",
   filename: "simple_shot_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("sshotgun.svg", { color: "#ff9933" }),
+  ...toSettings("ssg.png", { color: "#ff9933" }),
 };
 const Nailgun: Item = {
   name: "Nailgun",
   filename: "simple_g_nail_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("nails.svg", { color: "#cc00ff" }),
+  ...toSettings("ng.png", { color: "#cc00ff" }),
 };
 const SuperNailgun: Item = {
   name: "Super Nailgun",
   filename: "simple_g_nail2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("snails.svg", { color: "#0066ff" }),
+  ...toSettings("sng.png", { color: "#0066ff" }),
 };
 const GrenadeLauncher: Item = {
   name: "Grenade Launcher",
   filename: "simple_g_rock_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("grenade.svg", { color: "#66ff00" }),
+  ...toSettings("gl.png", { color: "#66ff00" }),
 };
 const RocketLauncher: Item = {
   name: "Rocket Launcher",
   filename: "simple_g_rock2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("rocket.svg", { color: "#ff3300" }),
+  ...toSettings("rl.png", { color: "#ff3300" }),
 };
 const LightningGun: Item = {
   name: "Lightning Gun",
   filename: "simple_g_light_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("bolt.svg", { color: "#ffffff" }),
+  ...toSettings("lg.png", { color: "#ffffff" }),
 };
 
 export const weapons = [
@@ -97,13 +97,13 @@ const Quad: Item = {
   name: "Quad",
   filename: "simple_quaddama_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("quad.svg", { color: "#0099ff" }),
+  ...toSettings("quad.png", { color: "#0099ff" }),
 };
 const Pent: Item = {
   name: "Pent",
   filename: "simple_invulner_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("pent.svg", {
+  ...toSettings("pent.png", {
     color: "#ff0000",
     primary: { ...ds.primary, scale: 0.8 },
     secondary: {
@@ -120,14 +120,14 @@ const Ring: Item = {
   name: "Ring",
   filename: "simple_invisibl_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("ring.svg", { color: "#ffff00" }),
+  ...toSettings("ring.png", { color: "#ffff00" }),
 };
 
 const Suit: Item = {
   name: "Suit",
   filename: "simple_suit_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("biohazard.png", { color: "#66ff00" }),
+  ...toSettings("suit.png", { color: "#66ff00" }),
 };
 
 export const powerups = [Quad, Pent, Ring, Suit];
@@ -172,7 +172,7 @@ const ShellsSmall: Item = {
   name: "Shells (small)",
   filename: "simple_b_shell0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("shotgun.svg", {
+  ...toSettings("sg.png", {
     color: "#ffff00",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -182,7 +182,7 @@ const ShellsLarge: Item = {
   name: "Shells (large)",
   filename: "simple_b_shell1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("sshotgun.svg", {
+  ...toSettings("ssg.png", {
     color: "#ff9933",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -192,7 +192,7 @@ const NailsSmall: Item = {
   name: "Nails (small)",
   filename: "simple_b_nail0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("nails.svg", {
+  ...toSettings("ng.png", {
     color: "#cc00ff",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -203,7 +203,7 @@ const NailsLarge: Item = {
   name: "Nails (large)",
   filename: "simple_b_nail1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("snails.svg", {
+  ...toSettings("sng.png", {
     color: "#0066ff",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -213,7 +213,7 @@ const RocketsSmall: Item = {
   name: "Rockets (small)",
   filename: "simple_b_rock0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("grenade.svg", {
+  ...toSettings("gl.png", {
     color: "#66ff00",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -223,7 +223,7 @@ const RocketsLarge: Item = {
   name: "Rockets (large)",
   filename: "simple_b_rock1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("rocket.svg", {
+  ...toSettings("rl.png", {
     color: "#ff3300",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -233,7 +233,7 @@ const CellsSmall: Item = {
   name: "Cells (small)",
   filename: "simple_b_batt0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("bolt.svg", {
+  ...toSettings("lg.png", {
     color: "#ffffff",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },
@@ -243,7 +243,7 @@ const CellsLarge: Item = {
   name: "Cells (large)",
   filename: "simple_b_batt1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("bolt.svg", {
+  ...toSettings("lg.png", {
     color: "#ffffff",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },

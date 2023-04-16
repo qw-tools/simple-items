@@ -7,7 +7,6 @@ import {
   GraphicsShape,
   Item,
   ItemSettings,
-  SecondarySettings,
 } from "@/features/SimpleItemsEditor/types";
 import { deepCopy } from "@/pkg/dataUtil";
 import { SmoothGraphics } from "@pixi/graphics-smooth";
@@ -39,10 +38,7 @@ export class ItemTile extends PIXI.Container {
 
     // shape layers
     this.addChild(this._shapeLayer);
-
-    const shapeFilters = [this._colorOverlay, this._outline];
-    this._primaryShapeLayer.filters = shapeFilters;
-    this._secondaryShapeLayer.filters = shapeFilters;
+    this._primaryShapeLayer.filters = [this._colorOverlay, this._outline];
 
     this._shapeLayer.addChild(
       this._secondaryShapeLayer,
@@ -74,16 +70,19 @@ export class ItemTile extends PIXI.Container {
   set outlineEnabled(value: boolean) {
     this._item.settings.outline.enabled = value;
     this._outline.enabled = value;
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set outlineColor(value: string) {
     this._item.settings.outline.color = value;
     this._outline.color = new PIXI.Color(value).toNumber();
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set outlineWidth(value: number) {
     this._item.settings.outline.width = value;
     this._outline.thickness = value;
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set color(value: string) {
@@ -129,7 +128,7 @@ export class ItemTile extends PIXI.Container {
 
   set secondaryScale(value: number) {
     this._item.settings.secondary.scale = value;
-    this._secondaryShape.scale.set(value);
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set secondaryOuterScale(value: number) {
@@ -148,9 +147,13 @@ export class ItemTile extends PIXI.Container {
   }
 
   private _updateSecondaryGraphics(settings: ItemSettings): void {
+    if (!settings.secondary.enabled) {
+      return;
+    }
+
     this._secondaryShape.destroy(true);
-    this._secondaryShape = createSecondaryGraphics(settings.secondary);
-    this._secondaryShapeLayer.addChildAt(this._secondaryShape, 0);
+    this._secondaryShape = createSecondaryGraphics(settings);
+    this._secondaryShapeLayer.addChild(this._secondaryShape);
   }
 
   public toggleSelect(): void {
@@ -243,14 +246,23 @@ function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
   // general
   const gfx = new SmoothGraphics();
   gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
-  gfx.scale.set(settings.scale);
-  gfx.rotation = settings.rotation * (Math.PI / 180);
+  gfx.scale.set(settings.secondary.scale);
+  gfx.rotation = settings.secondary.rotation * (Math.PI / 180);
+
+  // outline
+  if (settings.outline.enabled) {
+    const outlineWidth = Math.round(
+      settings.outline.width / settings.secondary.scale
+    );
+    gfx.lineStyle(outlineWidth, settings.outline.color, 1, 1);
+  }
 
   // outer
-  const { outerScale, shape } = settings;
+  const { shape, outerScale } = settings.secondary;
   const outerSize = GRID_SIZE * outerScale;
   const outerRadius = outerSize / 2;
-  gfx.beginFill();
+
+  gfx.beginFill(settings.color);
 
   if ("circle" === shape) {
     gfx.drawCircle(0, 0, outerRadius);
@@ -265,11 +277,12 @@ function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
   gfx.endFill();
 
   // inner
-  const { innerScale } = settings;
+  const { innerScale } = settings.secondary;
 
   if (innerScale > 0) {
     const innerSize = innerScale * outerSize;
     const innerRadius = innerSize / 2;
+
     gfx.beginHole();
 
     if ("circle" === shape) {

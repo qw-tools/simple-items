@@ -169,10 +169,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _getTileCanvas(tile: ItemTile): HTMLCanvasElement {
-    return this.renderer.extract.canvas(
-      tile.shapeLayer,
-      TILE_RECT
-    ) as HTMLCanvasElement;
+    return this.renderer.extract.canvas(tile, TILE_RECT) as HTMLCanvasElement;
   }
 
   private async _getTileBlob(tile: ItemTile): Promise<Blob | null> {

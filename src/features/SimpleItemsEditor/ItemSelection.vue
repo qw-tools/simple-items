@@ -10,17 +10,9 @@ function onSelectionChange(e: CustomEvent) {
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
 
-function onSelectAll(): void {
-  document.dispatchEvent(new CustomEvent(EE.Name.SELECT_ALL));
-}
-
-function onDeselectAll(): void {
-  document.dispatchEvent(new CustomEvent(EE.Name.SELECT_NONE));
-}
-
-function onSelectInvert(): void {
-  document.dispatchEvent(new CustomEvent(EE.Name.SELECT_INVERT));
-}
+const onSelectAll = () => dispatch(EE.Name.SELECT_ALL);
+const onDeselectAll = () => dispatch(EE.Name.SELECT_NONE);
+const onSelectInvert = () => dispatch(EE.Name.SELECT_INVERT);
 </script>
 <template>
   <div class="flex items-center space-x-3 text-sm justify-center mb-4">

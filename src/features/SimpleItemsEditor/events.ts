@@ -41,3 +41,7 @@ export function createSelectionChange(items: Item[]): CustomEvent {
     detail: { items: deepCopy(items) },
   });
 }
+
+export function dispatch(name: Name): void {
+  document.dispatchEvent(new CustomEvent(name));
+}

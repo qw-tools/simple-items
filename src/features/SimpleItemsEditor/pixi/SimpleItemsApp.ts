@@ -13,10 +13,8 @@ import {
   ZipWriter,
 } from "@zip.js/zip.js";
 
-import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { GRID_DIM, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import { canvasToBlob } from "@/pkg/canvas";
-
-const TILE_RECT = new PIXI.Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
 
 export interface SimpleItemsAppSettings {
   containerId: string;
@@ -169,7 +167,9 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _getTileCanvas(tile: ItemTile): HTMLCanvasElement {
-    return this.renderer.extract.canvas(tile, TILE_RECT) as HTMLCanvasElement;
+    const renderTexture = PIXI.RenderTexture.create(GRID_DIM);
+    this.renderer.render(tile.shapeLayer, { renderTexture });
+    return this.renderer.extract.canvas(renderTexture) as HTMLCanvasElement;
   }
 
   private async _getTileBlob(tile: ItemTile): Promise<Blob | null> {
@@ -399,16 +399,6 @@ export class SimpleItemsApp extends PIXI.Application {
 
   private _getSelectedItems(): Item[] {
     return this._getSelectedTiles().map((i: ItemTile) => i.item);
-  }
-
-  download(filename = ""): void {
-    // todo: download as zip
-    this.render();
-    saveAs(this.toDataUrl(), filename || "download");
-  }
-
-  toDataUrl(): string {
-    return this._getCanvas().toDataURL();
   }
 
   _getCanvas(): HTMLCanvasElement {

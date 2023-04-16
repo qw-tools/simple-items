@@ -23,7 +23,7 @@ onMounted(async () => {
     },
   });
 
-  document.getElementById(props.containerId)?.append(editor.getCanvas());
+  document.getElementById(props.containerId)?.append(editor._getCanvas());
 });
 
 onBeforeUnmount(() => {

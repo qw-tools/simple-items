@@ -1,14 +1,22 @@
 import * as PIXI from "pixi.js";
 import { saveAs } from "file-saver";
 import { nullOperation } from "@/pkg/functions";
-import { publicUrl } from "@/pkg/viteUtil";
 import { ItemTile } from "@/features/SimpleItemsEditor/pixi/ItemTile";
 import { Point2D } from "@/pkg/geometry";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "../events";
 import { createSelectionChange } from "../events";
+import {
+  BlobReader,
+  BlobWriter,
+  EntryMetaData,
+  ZipWriter,
+} from "@zip.js/zip.js";
 
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { canvasToBlob } from "@/pkg/canvas";
+
+const TILE_RECT = new PIXI.Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
 
 export interface SimpleItemsAppSettings {
   containerId: string;
@@ -43,7 +51,7 @@ export class SimpleItemsApp extends PIXI.Application {
 
     // HTML elements
     this._containerDiv = containerDiv;
-    const canvas = this.getCanvas();
+    const canvas = this._getCanvas();
     canvas.id = `${containerId}-canvas`;
     canvas.classList.add("editor-canvas");
 
@@ -80,11 +88,9 @@ export class SimpleItemsApp extends PIXI.Application {
     });
 
     this._containerDiv.addEventListener("dragenter", () => {
-      console.log("dragenter");
       this._highlight.visible = true;
     });
     this._containerDiv.addEventListener("dragleave", () => {
-      console.log("dragenter");
       this._highlight.visible = false;
     });
 
@@ -111,6 +117,66 @@ export class SimpleItemsApp extends PIXI.Application {
 
     this._onSelectInvert = this._onSelectInvert.bind(this);
     document.addEventListener(EE.Name.SELECT_INVERT, this._onSelectInvert);
+
+    this._onDownload = this._onDownload.bind(this);
+    document.addEventListener(EE.Name.DOWNLOAD, this._onDownload);
+  }
+
+  private async _onDownload(): Promise<void> {
+    let selectedTiles = this._getSelectedTiles();
+
+    if (1 === selectedTiles.length) {
+      return await this._downloadTile(selectedTiles[0]);
+    }
+
+    if (selectedTiles.length === 0) {
+      selectedTiles = this._getTiles();
+    }
+
+    await this._downloadTiles(selectedTiles);
+  }
+
+  private async _downloadTiles(tiles: ItemTile[]): Promise<void> {
+    const zipWriter = new ZipWriter(new BlobWriter("application/zip"));
+    const zipOperations: Promise<EntryMetaData>[] = [];
+
+    for (let i = 0; i < tiles.length; i++) {
+      const tile = tiles[i];
+      const tileBlob = await this._getTileBlob(tile);
+
+      if (tileBlob != null) {
+        const { filename, textureDirPath } = tile.item;
+        const filePath = `${textureDirPath}/${filename}`;
+        zipOperations.push(zipWriter.add(filePath, new BlobReader(tileBlob)));
+      }
+    }
+
+    if (0 === zipOperations.length) {
+      return;
+    }
+
+    await Promise.all(zipOperations);
+    const zipBlob = await zipWriter.close();
+    saveAs(zipBlob, "simpleitems.pk3");
+  }
+
+  private async _downloadTile(tile: ItemTile): Promise<void> {
+    const tileBlob = await this._getTileBlob(tile);
+
+    if (tileBlob) {
+      saveAs(tileBlob, tile.item.filename);
+    }
+  }
+
+  private _getTileCanvas(tile: ItemTile): HTMLCanvasElement {
+    return this.renderer.extract.canvas(
+      tile.shapeLayer,
+      TILE_RECT
+    ) as HTMLCanvasElement;
+  }
+
+  private async _getTileBlob(tile: ItemTile): Promise<Blob | null> {
+    return canvasToBlob(this._getTileCanvas(tile));
   }
 
   private _onSelectAll(): void {
@@ -331,7 +397,7 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   private _getSelectedTiles(): ItemTile[] {
-    return this._getTiles().filter((item: ItemTile) => item.isSelected);
+    return this._getTiles().filter((tile: ItemTile) => tile.isSelected());
   }
 
   private _getSelectedItems(): Item[] {
@@ -345,10 +411,10 @@ export class SimpleItemsApp extends PIXI.Application {
   }
 
   toDataUrl(): string {
-    return this.getCanvas().toDataURL();
+    return this._getCanvas().toDataURL();
   }
 
-  getCanvas(): HTMLCanvasElement {
+  _getCanvas(): HTMLCanvasElement {
     return this.view as HTMLCanvasElement;
   }
 }

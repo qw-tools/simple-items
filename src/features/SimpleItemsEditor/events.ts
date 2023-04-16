@@ -8,6 +8,7 @@ export enum Name {
   SELECT_NONE = "Editor.SELECT_NONE",
   SELECT_INVERT = "Editor.SELECT_INVERT",
   SELECT_CHANGE = "Editor.SELECT_CHANGE",
+  DOWNLOAD = "Editor.DOWNLOAD_SELECTED",
 }
 
 export enum Prop {

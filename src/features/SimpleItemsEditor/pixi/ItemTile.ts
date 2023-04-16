@@ -16,6 +16,7 @@ export class ItemTile extends PIXI.Container {
   private readonly _colorOverlay: ColorOverlayFilter = new ColorOverlayFilter();
   private readonly _outline: OutlineFilter = new OutlineFilter(2, 0x000000, 1);
   private readonly _checkbox: Checkbox = new Checkbox();
+  private _shapeLayer: PIXI.Container = new PIXI.Container();
   private _primaryShape: PIXI.Sprite = new PIXI.Sprite();
   private _primaryShapeLayer: PIXI.Container = new PIXI.Container();
   private _secondaryShape: PIXI.Graphics = new PIXI.Graphics();
@@ -35,12 +36,16 @@ export class ItemTile extends PIXI.Container {
     this.addChild(this._background);
 
     // shape layers
+    this.addChild(this._shapeLayer);
+
     const filters = [this._colorOverlay, this._outline];
     this._primaryShapeLayer.filters = filters;
     this._secondaryShapeLayer.filters = filters;
 
-    this.addChild(this._secondaryShapeLayer, this._primaryShapeLayer);
-    //this._shapeLayer.filters = [this._colorOverlay];
+    this._shapeLayer.addChild(
+      this._secondaryShapeLayer,
+      this._primaryShapeLayer
+    );
 
     // item
     this._item = deepCopy(item);
@@ -54,6 +59,10 @@ export class ItemTile extends PIXI.Container {
 
     // events
     this._listen();
+  }
+
+  get shapeLayer(): PIXI.Container {
+    return this._shapeLayer;
   }
 
   get item(): Item {
@@ -172,7 +181,7 @@ export class ItemTile extends PIXI.Container {
     this._checkbox.visible = false;
   }
 
-  get isSelected(): boolean {
+  public isSelected(): boolean {
     return this._checkbox.isSelected();
   }
 
@@ -203,19 +212,17 @@ export class ItemTile extends PIXI.Container {
     };
 
     this.addEventListener("click", () => {
-      console.log("Item.onClick");
       this.toggleSelect();
     });
 
     this.addEventListener("mouseover", (e: MouseEvent) => {
       stopEvent(e);
-
       this._focus();
     });
     this.addEventListener("mouseleave", (e: MouseEvent) => {
       stopEvent(e);
 
-      if (!this.isSelected) {
+      if (!this.isSelected()) {
         this._unfocus();
       }
     });

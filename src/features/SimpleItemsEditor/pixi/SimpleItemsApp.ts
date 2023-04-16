@@ -55,8 +55,8 @@ export class SimpleItemsApp extends PIXI.Application {
     this.onReady = settings.onReady;
 
     // load textures
-    const textureUrls = settings.items.map((item: Item) =>
-      publicUrl(`/assets/textures/${item.filename}`)
+    const textureUrls = settings.items.map(
+      (item: Item) => item.defaultSettings.texturePath
     );
 
     PIXI.Assets.load(textureUrls)

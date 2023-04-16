@@ -26,6 +26,7 @@ export class ItemTile extends PIXI.Container {
   constructor(item: Item) {
     super();
 
+    // stage
     this.hitArea = new PIXI.Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
 
     // background
@@ -38,9 +39,9 @@ export class ItemTile extends PIXI.Container {
     // shape layers
     this.addChild(this._shapeLayer);
 
-    const filters = [this._colorOverlay, this._outline];
-    this._primaryShapeLayer.filters = filters;
-    this._secondaryShapeLayer.filters = filters;
+    const shapeFilters = [this._colorOverlay, this._outline];
+    this._primaryShapeLayer.filters = shapeFilters;
+    this._secondaryShapeLayer.filters = shapeFilters;
 
     this._shapeLayer.addChild(
       this._secondaryShapeLayer,

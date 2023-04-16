@@ -88,6 +88,7 @@ export class ItemTile extends PIXI.Container {
   set color(value: string) {
     this._item.settings.color = value;
     this._colorOverlay.color = new PIXI.Color(value).toNumber();
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set primaryScale(value: number) {

@@ -5,7 +5,7 @@ import { ItemTile } from "@/features/SimpleItemsEditor/pixi/ItemTile";
 import { Point2D } from "@/pkg/geometry";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "../events";
-import { createSelectionChange } from "../events";
+import { dispatch, Name } from "../events";
 import {
   BlobReader,
   BlobWriter,
@@ -15,6 +15,7 @@ import {
 
 import { GRID_DIM, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 import { canvasToBlob } from "@/pkg/canvas";
+import { deepCopy } from "@/pkg/dataUtil";
 
 export interface SimpleItemsAppSettings {
   containerId: string;
@@ -250,7 +251,8 @@ export class ItemGrid extends PIXI.Application {
   }
 
   private _onSelectionChange(): void {
-    document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
+    const items = deepCopy(this._getSelectedItems());
+    dispatch(Name.SELECT_CHANGE, { items });
   }
 
   private _onSelectAll(): void {

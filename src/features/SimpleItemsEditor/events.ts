@@ -1,6 +1,3 @@
-import { Item } from "@/features/SimpleItemsEditor/types";
-import { deepCopy } from "@/pkg/dataUtil";
-
 export enum Name {
   SETTINGS_CHANGE = "Editor.SETTINGS_CHANGE",
   SETTINGS_RESET = "Editor.SETTINGS_RESET",
@@ -8,7 +5,7 @@ export enum Name {
   SELECT_NONE = "Editor.SELECT_NONE",
   SELECT_INVERT = "Editor.SELECT_INVERT",
   SELECT_CHANGE = "Editor.SELECT_CHANGE",
-  DOWNLOAD = "Editor.DOWNLOAD_SELECTED",
+  DOWNLOAD = "Editor.DOWNLOAD",
 }
 
 export enum Prop {
@@ -28,21 +25,43 @@ export enum Prop {
   SECONDARY_INNER_SCALE,
 }
 
-export interface ChangeDetails {
+export interface ChangeDetail {
   property: Prop;
   value: number | string | boolean;
 }
 
-export function createSettingsChange(detail: ChangeDetails): CustomEvent {
-  return new CustomEvent(Name.SETTINGS_CHANGE, { detail: deepCopy(detail) });
+export function dispatch(
+  name: Name,
+  detail: ChangeDetail | object | undefined = undefined
+): void {
+  let event: CustomEvent;
+
+  if (detail) {
+    event = new CustomEvent(name, { detail });
+  } else {
+    event = new CustomEvent(name);
+  }
+
+  document.dispatchEvent(event);
 }
 
-export function createSelectionChange(items: Item[]): CustomEvent {
-  return new CustomEvent(Name.SELECT_CHANGE, {
-    detail: { items: deepCopy(items) },
-  });
+export function dispatchChange(detail: ChangeDetail): void {
+  dispatch(Name.SETTINGS_CHANGE, detail);
 }
 
-export function dispatch(name: Name): void {
-  document.dispatchEvent(new CustomEvent(name));
+export function onSettingsInputChange(e: InputEvent): void {
+  dispatchChange(inputEventToDetails(e));
+}
+
+function inputEventToDetails(e: InputEvent): ChangeDetail {
+  const inputElement = e.target as HTMLInputElement;
+  const value =
+    inputElement.type === "checkbox"
+      ? inputElement.checked
+      : inputElement.value;
+
+  return {
+    property: parseInt(inputElement.name),
+    value,
+  };
 }

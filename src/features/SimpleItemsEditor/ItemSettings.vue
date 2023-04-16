@@ -7,29 +7,15 @@ import {
   ItemSettings,
 } from "@/features/SimpleItemsEditor/types";
 import * as EE from "./events";
+import { dispatch, dispatchChange, onSettingsInputChange } from "./events";
 import { deepCopy } from "@/pkg/dataUtil";
 import classNames from "classnames";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 
-function onChange(e: InputEvent): void {
-  const inputElement = e.target as HTMLInputElement;
-  const value =
-    inputElement.type === "checkbox"
-      ? inputElement.checked
-      : inputElement.value;
-
-  const changeEvent = EE.createSettingsChange({
-    property: parseInt(inputElement.name),
-    value,
-  });
-
-  document.dispatchEvent(changeEvent);
-}
-
 function onReset(): void {
-  document.dispatchEvent(new Event(EE.Name.SETTINGS_RESET));
+  dispatch(EE.Name.SETTINGS_RESET);
   settings.value = deepCopy(defaults.value);
 }
 
@@ -42,13 +28,8 @@ function onSelectionChange(e: CustomEvent): void {
 }
 
 function setShape(value: GraphicsShape): void {
+  dispatchChange({ property: EE.Prop.SECONDARY_SHAPE, value });
   settings.value.secondary.shape = value;
-
-  const changeEvent = EE.createSettingsChange({
-    property: EE.Prop.SECONDARY_SHAPE,
-    value,
-  });
-  document.dispatchEvent(changeEvent);
 }
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
@@ -67,7 +48,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           v-model="settings.color"
           :name="EE.Prop.COLOR"
           type="color"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
         <span class="text-gray-600 text-xs">{{ settings.color }}</span>
       </div>
@@ -79,7 +60,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
               v-model="settings.outline.enabled"
               :name="EE.Prop.OUTLINE_ENABLED"
               type="checkbox"
-              @change="onChange"
+              @change="onSettingsInputChange"
             />
             Outline
           </label>
@@ -90,7 +71,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
             v-model="settings.outline.color"
             :name="EE.Prop.OUTLINE_COLOR"
             type="color"
-            @input="onChange"
+            @input="onSettingsInputChange"
           />
         </label>
 
@@ -102,7 +83,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="1"
           step="1"
           type="number"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
         <span class="text-gray-600 text-xs">px</span>
       </div>
@@ -117,7 +98,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="0.1"
           step="0.05"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
         <span class="text-gray-600 text-xs">{{ settings.primary.scale }}</span>
       </div>
@@ -132,7 +113,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="-180"
           step="15"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
 
         <span class="text-gray-600 text-xs">{{
@@ -147,7 +128,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           v-model="settings.secondary.enabled"
           :name="EE.Prop.SECONDARY_ENABLED"
           type="checkbox"
-          @change="onChange"
+          @change="onSettingsInputChange"
         />
         Secondary graphics
       </label>
@@ -196,7 +177,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="0.1"
           step="0.05"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
         <span class="text-gray-600 text-xs">{{
           settings.secondary.scale
@@ -213,7 +194,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="-180"
           step="15"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
 
         <span class="text-gray-600 text-xs">{{
@@ -231,7 +212,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="0.1"
           step="0.05"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
 
         <span class="text-gray-600 text-xs">{{
@@ -249,7 +230,7 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
           min="0"
           step="0.05"
           type="range"
-          @input="onChange"
+          @input="onSettingsInputChange"
         />
 
         <span class="text-gray-600 text-xs">{{

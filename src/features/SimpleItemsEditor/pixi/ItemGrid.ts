@@ -19,13 +19,13 @@ import { canvasToBlob } from "@/pkg/canvas";
 export interface SimpleItemsAppSettings {
   containerId: string;
   items: Item[];
-  onReady: () => void;
-  onChange: () => void;
+  onReady?: () => void;
+  onChange?: () => void;
 }
 
-export class SimpleItemsApp extends PIXI.Application {
+export class ItemGrid extends PIXI.Application {
   private readonly _containerDiv: HTMLElement;
-  private _tiles: PIXI.Container = new PIXI.Container();
+  private readonly _tiles: PIXI.Container = new PIXI.Container();
   private _gridLines: PIXI.Graphics = new PIXI.Graphics();
   private _highlight: PIXI.Graphics = new PIXI.Graphics();
   private _gridSizeCache: Point2D = { x: 1, y: 1 };
@@ -34,8 +34,6 @@ export class SimpleItemsApp extends PIXI.Application {
 
   constructor(settings: SimpleItemsAppSettings) {
     const { containerId } = settings;
-    const containerDiv = document.getElementById(containerId) as HTMLElement;
-
     super({ antialias: true, backgroundAlpha: 0 });
 
     this._highlight.visible = false;
@@ -48,17 +46,23 @@ export class SimpleItemsApp extends PIXI.Application {
     this.stage.addChild(this._gridLines);
 
     // HTML elements
-    this._containerDiv = containerDiv;
     const canvas = this._getCanvas();
     canvas.id = `${containerId}-canvas`;
     canvas.classList.add("editor-canvas");
+    this._containerDiv = document.getElementById(containerId) as HTMLElement;
+    this._containerDiv.append(canvas);
 
     // events
     this._listen();
 
     // callbacks
-    this.onChange = settings.onChange;
-    this.onReady = settings.onReady;
+    if (settings.onChange) {
+      this.onChange = settings.onChange;
+    }
+
+    if (settings.onReady) {
+      this.onReady = settings.onReady;
+    }
 
     // load textures
     const textureUrls = settings.items.map(
@@ -120,20 +124,6 @@ export class SimpleItemsApp extends PIXI.Application {
     document.addEventListener(EE.Name.DOWNLOAD, this._onDownload);
   }
 
-  private async _onDownload(): Promise<void> {
-    let selectedTiles = this._getSelectedTiles();
-
-    if (1 === selectedTiles.length) {
-      return await this._downloadTile(selectedTiles[0]);
-    }
-
-    if (selectedTiles.length === 0) {
-      selectedTiles = this._getTiles();
-    }
-
-    await this._downloadTiles(selectedTiles);
-  }
-
   private async _downloadTiles(tiles: ItemTile[]): Promise<void> {
     const zipWriter = new ZipWriter(new BlobWriter("application/zip"));
     const zipOperations: Promise<EntryMetaData>[] = [];
@@ -172,8 +162,95 @@ export class SimpleItemsApp extends PIXI.Application {
     return this.renderer.extract.canvas(renderTexture) as HTMLCanvasElement;
   }
 
+  private _getCanvas(): HTMLCanvasElement {
+    return this.view as HTMLCanvasElement;
+  }
+
   private async _getTileBlob(tile: ItemTile): Promise<Blob | null> {
     return canvasToBlob(this._getTileCanvas(tile));
+  }
+
+  private _getTileByIndex(index: number): ItemTile {
+    return this._getTiles()[index];
+  }
+
+  private _getTiles(): ItemTile[] {
+    return this._tiles.children as ItemTile[];
+  }
+
+  private _getSelectedTiles(): ItemTile[] {
+    return this._getTiles().filter((tile: ItemTile) => tile.isSelected());
+  }
+
+  private _getSelectedItems(): Item[] {
+    return this._getSelectedTiles().map((i: ItemTile) => i.item);
+  }
+
+  private _onClick(): void {
+    this._onSelectionChange();
+  }
+
+  private async _onDownload(): Promise<void> {
+    let selectedTiles = this._getSelectedTiles();
+
+    if (1 === selectedTiles.length) {
+      return await this._downloadTile(selectedTiles[0]);
+    }
+
+    if (selectedTiles.length === 0) {
+      selectedTiles = this._getTiles();
+    }
+
+    await this._downloadTiles(selectedTiles);
+  }
+
+  private _onDragOver(event: DragEvent): void {
+    const itemIndex = this._eventToTileIndex(event);
+
+    if (itemIndex === -1) {
+      this._highlight.visible = false;
+      return;
+    }
+
+    const item = this._tiles.getChildAt(itemIndex);
+    this._highlight.x = item.x;
+    this._highlight.y = item.y;
+    this._highlight.visible = true;
+  }
+
+  private _onFileDrop(event: DragEvent): void {
+    event.preventDefault();
+    this._highlight.visible = false;
+
+    if (!event.dataTransfer) {
+      return;
+    }
+
+    const files: File[] = Array.from(event.dataTransfer.files);
+    const imageFiles: File[] = files.filter((f) => f.type.startsWith("image"));
+
+    if (0 === imageFiles.length) {
+      return;
+    }
+
+    const tileIndex = this._eventToTileIndex(event);
+
+    if (tileIndex < 0) {
+      return;
+    }
+
+    try {
+      const tile: ItemTile = this._getTileByIndex(tileIndex);
+      tile.primaryTexture = URL.createObjectURL(imageFiles[0]);
+      tile.select();
+      this._onSelectionChange();
+    } catch (e) {
+      // do nothing
+    }
+  }
+
+  private _onSelectionChange(): void {
+    document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
   }
 
   private _onSelectAll(): void {
@@ -198,20 +275,6 @@ export class SimpleItemsApp extends PIXI.Application {
     });
 
     this._onSelectionChange();
-  }
-
-  private _onClick(): void {
-    this._onSelectionChange();
-  }
-
-  private _onSelectionChange(): void {
-    document.dispatchEvent(createSelectionChange(this._getSelectedItems()));
-  }
-
-  private _onSettingsReset(): void {
-    this._getSelectedTiles().forEach((item: ItemTile) => {
-      item.resetSettings();
-    });
   }
 
   private _onSettingsChange(e: Event): void {
@@ -257,11 +320,22 @@ export class SimpleItemsApp extends PIXI.Application {
     this._getSelectedTiles().map(action);
   }
 
-  private _resize(): void {
-    const { x, y } = this._calcGridSize();
-    this._gridSizeCache = { x, y };
-    this.renderer.resize(x * GRID_SIZE, y * GRID_SIZE);
-    this._alignItems();
+  private _onSettingsReset(): void {
+    this._getSelectedTiles().forEach((item: ItemTile) => {
+      item.resetSettings();
+    });
+  }
+
+  private _alignItems(): void {
+    const items = this._tiles.children;
+    const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
+
+    for (let i = 0; i < items.length; i++) {
+      items[i].x = (i % itemsPerRow) * GRID_SIZE;
+      items[i].y = Math.floor(i / itemsPerRow) * GRID_SIZE;
+    }
+
+    this._drawGrid();
   }
 
   private _calcGridSize(): Point2D {
@@ -286,18 +360,6 @@ export class SimpleItemsApp extends PIXI.Application {
     };
   }
 
-  private _alignItems(): void {
-    const items = this._tiles.children;
-    const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
-
-    for (let i = 0; i < items.length; i++) {
-      items[i].x = (i % itemsPerRow) * GRID_SIZE;
-      items[i].y = Math.floor(i / itemsPerRow) * GRID_SIZE;
-    }
-
-    this._drawGrid();
-  }
-
   private _drawGrid(): void {
     this._gridLines.clear();
     this._gridLines.lineStyle(1, "black", 0.1);
@@ -319,28 +381,21 @@ export class SimpleItemsApp extends PIXI.Application {
     }
   }
 
-  private _onDragOver(event: DragEvent): void {
-    const itemIndex = this._eventToTileIndex(event);
-
-    if (itemIndex === -1) {
-      this._highlight.visible = false;
-      return;
-    }
-
-    const item = this._tiles.getChildAt(itemIndex);
-    this._highlight.x = item.x;
-    this._highlight.y = item.y;
-    this._highlight.visible = true;
+  private _resize(): void {
+    const { x, y } = this._calcGridSize();
+    this._gridSizeCache = { x, y };
+    this.renderer.resize(x * GRID_SIZE, y * GRID_SIZE);
+    this._alignItems();
   }
 
   private _eventToTileIndex(event: MouseEvent): number {
     const containerBounds = this._containerDiv.getBoundingClientRect();
     const x = event.clientX - containerBounds.left;
     const y = event.clientY - containerBounds.top;
-    return this._pointToIndex({ x, y });
+    return this._pointToTileIndex({ x, y });
   }
 
-  private _pointToIndex(point: Point2D): number {
+  private _pointToTileIndex(point: Point2D): number {
     const { x, y } = point;
     const colIndex = Math.floor(x / GRID_SIZE);
     const rowIndex = Math.floor(y / GRID_SIZE);
@@ -352,56 +407,5 @@ export class SimpleItemsApp extends PIXI.Application {
     }
 
     return tileIndex;
-  }
-
-  private _onFileDrop(event: DragEvent): void {
-    event.preventDefault();
-    this._highlight.visible = false;
-
-    if (!event.dataTransfer) {
-      return;
-    }
-
-    const files: File[] = Array.from(event.dataTransfer.files);
-    const imageFiles: File[] = files.filter((f) => f.type.startsWith("image"));
-
-    if (0 === imageFiles.length) {
-      return;
-    }
-
-    const tileIndex = this._eventToTileIndex(event);
-
-    if (tileIndex < 0) {
-      return;
-    }
-
-    try {
-      const tile: ItemTile = this._getTileByIndex(tileIndex);
-      tile.primaryTexture = URL.createObjectURL(imageFiles[0]);
-      tile.select();
-      this._onSelectionChange();
-    } catch (e) {
-      // do nothing
-    }
-  }
-
-  private _getTiles(): ItemTile[] {
-    return this._tiles.children as ItemTile[];
-  }
-
-  private _getTileByIndex(index: number): ItemTile {
-    return this._getTiles()[index];
-  }
-
-  private _getSelectedTiles(): ItemTile[] {
-    return this._getTiles().filter((tile: ItemTile) => tile.isSelected());
-  }
-
-  private _getSelectedItems(): Item[] {
-    return this._getSelectedTiles().map((i: ItemTile) => i.item);
-  }
-
-  _getCanvas(): HTMLCanvasElement {
-    return this.view as HTMLCanvasElement;
   }
 }

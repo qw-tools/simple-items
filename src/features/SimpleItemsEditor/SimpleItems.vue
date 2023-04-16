@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
-import { SimpleItemsApp } from "./pixi/SimpleItemsApp";
-import { nullOperation } from "@/pkg/functions";
+import { ItemGrid } from "./pixi/ItemGrid";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "@/features/SimpleItemsEditor/events";
+import { dispatch } from "@/features/SimpleItemsEditor/events";
 
 interface Props {
   items: Item[];
@@ -11,19 +11,16 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-let editor: SimpleItemsApp;
+let editor: ItemGrid;
 
 onMounted(async () => {
-  editor = new SimpleItemsApp({
+  editor = new ItemGrid({
     containerId: props.containerId,
     items: props.items,
-    onChange: nullOperation,
     onReady: () => {
-      document.dispatchEvent(new CustomEvent(EE.Name.SELECT_ALL));
+      dispatch(EE.Name.SELECT_ALL);
     },
   });
-
-  document.getElementById(props.containerId)?.append(editor._getCanvas());
 });
 
 onBeforeUnmount(() => {

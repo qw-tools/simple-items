@@ -6,7 +6,7 @@ export interface Item {
   defaultSettings: ItemSettings;
 }
 
-export type GraphicsShape = "square" | "circle" | "hexagon";
+export type GraphicsShape = "square" | "circle" | "hexagon" | "rounded_square";
 
 export interface SecondarySettings {
   enabled: boolean;

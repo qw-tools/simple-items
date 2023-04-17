@@ -261,18 +261,21 @@ function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
 
   // outer
   const { shape, outerScale } = settings.secondary;
-  const outerSize = GRID_SIZE * outerScale;
-  const outerRadius = outerSize / 2;
+  const oSize = GRID_SIZE * outerScale;
+  const oRadius = oSize / 2;
 
   gfx.beginFill(settings.color);
 
   if ("circle" === shape) {
-    gfx.drawCircle(0, 0, outerRadius);
+    gfx.drawCircle(0, 0, oRadius);
   } else if ("square" === shape) {
-    gfx.drawRect(-outerRadius, -outerRadius, outerSize, outerSize);
+    gfx.drawRect(-oRadius, -oRadius, oSize, oSize);
+  } else if ("rounded_square" === shape) {
+    const radius = Math.round(oRadius * 0.24);
+    gfx.drawRoundedRect(-oRadius, -oRadius, oSize, oSize, radius);
   } else {
     // hexagon
-    const path = getPolygonPath(6).map((n: number) => n * outerRadius);
+    const path = getPolygonPath(6).map((n: number) => n * oRadius);
     gfx.drawPolygon(path);
   }
 
@@ -282,18 +285,21 @@ function createSecondaryGraphics(settings: ItemSettings): SmoothGraphics {
   const { innerScale } = settings.secondary;
 
   if (innerScale > 0) {
-    const innerSize = innerScale * outerSize;
-    const innerRadius = innerSize / 2;
+    const iSize = innerScale * oSize;
+    const iRadius = iSize / 2;
 
     gfx.beginHole();
 
     if ("circle" === shape) {
-      gfx.drawCircle(0, 0, innerRadius);
+      gfx.drawCircle(0, 0, iRadius);
     } else if ("square" === shape) {
-      gfx.drawRect(-innerRadius, -innerRadius, innerSize, innerSize);
+      gfx.drawRect(-iRadius, -iRadius, iSize, iSize);
+    } else if ("rounded_square" === shape) {
+      const radius = Math.round(iRadius * 0.16);
+      gfx.drawRoundedRect(-iRadius, -iRadius, iSize, iSize, radius);
     } else {
       // hexagon
-      gfx.drawPolygon(getPolygonPath(6).map((n: number) => n * innerRadius));
+      gfx.drawPolygon(getPolygonPath(6).map((n: number) => n * iRadius));
     }
 
     gfx.endHole();

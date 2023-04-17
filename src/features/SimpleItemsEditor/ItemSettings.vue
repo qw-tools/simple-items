@@ -33,6 +33,13 @@ function setShape(value: GraphicsShape): void {
 }
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
+
+const shapes: GraphicsShape[] = [
+  "square",
+  "rounded_square",
+  "circle",
+  "hexagon",
+];
 </script>
 <template>
   <div class="divide-y divide-black/20">
@@ -133,37 +140,20 @@ document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
         Secondary graphics
       </label>
 
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-1">
         <div class="text-sm w-20">Shape</div>
+
         <img
-          class="w-6 h-6 cursor-pointer grayscale hover:grayscale-0"
-          src="/assets/img/icons/square.png"
+          v-for="shape in shapes"
+          :key="shape"
+          class="w-6 h-6 cursor-pointer grayscale"
+          :src="`/assets/img/icons/${shape}_48.png`"
           :class="
             classNames({
-              'grayscale-0': settings.secondary.shape === 'square',
+              'grayscale-0': settings.secondary.shape === shape,
             })
           "
-          @click.prevent="() => setShape('square')"
-        />
-        <img
-          class="w-7 h-7 cursor-pointer grayscale hover:grayscale-0"
-          src="/assets/img/icons/circle.png"
-          :class="
-            classNames({
-              'grayscale-0': settings.secondary.shape === 'circle',
-            })
-          "
-          @click.prevent="() => setShape('circle')"
-        />
-        <img
-          class="w-7 h-7 cursor-pointer grayscale hover:grayscale-0"
-          src="/assets/img/icons/hexagon.png"
-          :class="
-            classNames({
-              'grayscale-0': settings.secondary.shape === 'hexagon',
-            })
-          "
-          @click.prevent="() => setShape('hexagon')"
+          @click.prevent="() => setShape(shape)"
         />
       </div>
 

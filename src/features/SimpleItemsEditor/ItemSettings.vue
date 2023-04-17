@@ -10,6 +10,7 @@ import * as EE from "./events";
 import { dispatch, dispatchChange, onSettingsInputChange } from "./events";
 import { deepCopy } from "@/pkg/dataUtil";
 import classNames from "classnames";
+import { publicUrl } from "@/pkg/viteUtil";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
@@ -147,7 +148,7 @@ const shapes: GraphicsShape[] = [
           v-for="shape in shapes"
           :key="shape"
           class="w-6 h-6 cursor-pointer grayscale"
-          :src="`/assets/img/icons/${shape}_48.png`"
+          :src="publicUrl(`/assets/img/icons/${shape}_48.png`)"
           :class="
             classNames({
               'grayscale-0': settings.secondary.shape === shape,

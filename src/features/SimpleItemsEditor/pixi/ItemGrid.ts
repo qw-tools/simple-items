@@ -146,7 +146,7 @@ export class ItemGrid extends PIXI.Application {
 
     await Promise.all(zipOperations);
     const zipBlob = await zipWriter.close();
-    saveAs(zipBlob, "simpleitems.pk3");
+    saveAs(zipBlob, "simpleitems.zip");
   }
 
   private async _downloadTile(tile: ItemTile): Promise<void> {

@@ -119,7 +119,7 @@ export class ItemTile extends PIXI.Container {
 
   set secondaryEnabled(value: boolean) {
     this._item.settings.secondary.enabled = value;
-    this._secondaryShape.visible = value;
+    this._updateSecondaryGraphics(this._item.settings);
   }
 
   set secondaryShape(value: GraphicsShape) {

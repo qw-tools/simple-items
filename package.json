@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@pixi/graphics-smooth": "^1.1.0",
-    "@zip.js/zip.js": "^2.7.5",
+    "@zip.js/zip.js": "^2.7.6",
     "classnames": "^2.3.2",
     "deepmerge": "^4.3.1",
     "lodash.throttle": "^4.1.1",
@@ -25,8 +25,8 @@
     "@types/file-saver": "^2.0.5",
     "@types/lodash.throttle": "^4.1.7",
     "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.58.0",
-    "@typescript-eslint/parser": "^5.58.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "autoprefixer": "^10.4.14",
@@ -39,7 +39,7 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "tailwindcss": "^3.3.1",
     "typescript": "^5.0.4",
-    "vite": "^4.2.1",
+    "vite": "^4.2.2",
     "vue-eslint-parser": "^9.1.1",
     "vue-tsc": "^1.2.0"
   }

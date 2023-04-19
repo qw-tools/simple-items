@@ -4,6 +4,8 @@
 
 Built with Vite, Tailwind CSS and PixiJS.
 
+![image](https://user-images.githubusercontent.com/1616817/233013473-0ed6c25e-8989-44ad-9119-3b7ee157b424.png)
+
 ## Development
 
 ### Setup

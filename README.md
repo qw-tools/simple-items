@@ -1,6 +1,4 @@
-# Simple Items
-
-> QuakeWorld simple items texture editor.
+# QuakeWorld Simple Items Texture Editor
 
 Built with Vite, Tailwind CSS and PixiJS.
 

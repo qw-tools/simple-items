@@ -1,10 +1,11 @@
 # QuakeWorld Simple Items Texture Editor
 
-Built with Vite, Tailwind CSS and PixiJS.
+**https://tools.quake.world/simple-items/**
 
-![image](https://user-images.githubusercontent.com/1616817/233013473-0ed6c25e-8989-44ad-9119-3b7ee157b424.png)
+<a href="https://tools.quake.world/model-textures/">![image](https://user-images.githubusercontent.com/1616817/233013473-0ed6c25e-8989-44ad-9119-3b7ee157b424.png)</a>
 
 ## Development
+Built with Vite, Tailwind CSS and PixiJS.
 
 ### Setup
 

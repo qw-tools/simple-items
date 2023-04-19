@@ -27,20 +27,20 @@ const GreenArmor: Item = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.png", { color: "#00cc00" }),
+  ...toSettings("armor_00.webp", { color: "#00cc00" }),
 };
 
 const YellowArmor: Item = {
   name: "Yellow Armor",
   filename: "simple_armor_1.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.png", { color: "#ffff00" }),
+  ...toSettings("armor_00.webp", { color: "#ffff00" }),
 };
 const RedArmor: Item = {
   name: "Red Armor",
   filename: "simple_armor_2.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor.png", { color: "#ff0000" }),
+  ...toSettings("armor_00.webp", { color: "#ff0000" }),
 };
 
 export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];
@@ -137,9 +137,9 @@ const HealthSmall: Item = {
   name: "Small health",
   filename: "simple_b_bh10_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("cross.svg", {
+  ...toSettings("health_01.webp", {
     color: "#33ff33",
-    primary: { ...ds.primary, scale: 0.6 },
+    primary: { ...ds.primary, scale: 0.45 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
   }),
 };
@@ -147,9 +147,9 @@ const HealthLarge: Item = {
   name: "Large health",
   filename: "simple_b_bh25_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("cross.svg", {
+  ...toSettings("health_01.webp", {
     color: "#eeee00",
-    primary: { ...ds.primary, scale: 0.6 },
+    primary: { ...ds.primary, scale: 0.45 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
   }),
 };
@@ -158,9 +158,9 @@ const MegaHealth: Item = {
   name: "Mega health",
   filename: "simple_b_bh100_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("cross.svg", {
+  ...toSettings("health_01.webp", {
     color: "#66ddee",
-    primary: { ...ds.primary, scale: 0.8 },
+    primary: { ...ds.primary, scale: 0.6 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.8 },
   }),
 };

@@ -48,10 +48,10 @@ export class ItemTile extends PIXI.Container {
 
     // mask (prevent content overflow)
     const shapeMask = new PIXI.Graphics();
-    shapeMask.beginFill(0xff00ff);
+    shapeMask.beginFill();
     shapeMask.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
     shapeMask.endFill();
-    this.addChild(shapeMask);
+    this._shapeLayer.addChild(shapeMask);
     this._shapeLayer.mask = shapeMask;
 
     // item

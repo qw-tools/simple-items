@@ -46,6 +46,14 @@ export class ItemTile extends PIXI.Container {
       this._primaryShapeLayer
     );
 
+    // mask (prevent content overflow)
+    const tileMask = new PIXI.Graphics();
+    tileMask.beginFill(0xff00ff);
+    tileMask.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
+    tileMask.endFill();
+    this.addChild(tileMask);
+    this._shapeLayer.mask = tileMask;
+
     // item
     this._item = deepCopy(item);
     this.applySettings(this._item.defaultSettings);

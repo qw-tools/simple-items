@@ -47,12 +47,12 @@ export class ItemTile extends PIXI.Container {
     );
 
     // mask (prevent content overflow)
-    const tileMask = new PIXI.Graphics();
-    tileMask.beginFill(0xff00ff);
-    tileMask.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
-    tileMask.endFill();
-    this.addChild(tileMask);
-    this._shapeLayer.mask = tileMask;
+    const shapeMask = new PIXI.Graphics();
+    shapeMask.beginFill(0xff00ff);
+    shapeMask.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
+    shapeMask.endFill();
+    this.addChild(shapeMask);
+    this._shapeLayer.mask = shapeMask;
 
     // item
     this._item = deepCopy(item);

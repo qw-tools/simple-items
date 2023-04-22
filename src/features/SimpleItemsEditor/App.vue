@@ -15,10 +15,20 @@ import {
 import SimpleItems from "./SimpleItems.vue";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import ItemSelection from "@/features/SimpleItemsEditor/ItemSelection.vue";
+import LoadingIndicator from "@/Site/LoadingIndicator.vue";
+
+import * as EE from "@/features/SimpleItemsEditor/events";
+import classNames from "classnames";
 
 const items = ref<Item[]>(
   [weapons, ammo, powerups, healthPacks, runes, armors, misc].flat(1)
 );
+
+const isReady = ref<boolean>(false);
+
+document.addEventListener(EE.Name.READY, () => {
+  isReady.value = true;
+});
 </script>
 <template>
   <SiteHeader current-app="simple-items" />
@@ -39,7 +49,14 @@ const items = ref<Item[]>(
     <div class="container mt-4 mb-8">
       <div id="AppContainerWidth" />
 
-      <div class="flex justify-around">
+      <div v-if="!isReady" class="container">
+        <LoadingIndicator class="h-96" />
+      </div>
+
+      <div
+        :class="classNames({ 'opacity-0': !isReady, fadeIn: isReady })"
+        class="flex justify-around"
+      >
         <div>
           <ItemSelection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />

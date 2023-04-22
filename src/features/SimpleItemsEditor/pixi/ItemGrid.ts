@@ -78,6 +78,7 @@ export class ItemGrid extends PIXI.Application {
         });
 
         this._resize();
+        dispatch(Name.READY);
         this.onReady();
       })
       .catch((e) => {

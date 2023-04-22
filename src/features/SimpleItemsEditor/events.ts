@@ -1,4 +1,5 @@
 export enum Name {
+  READY = "Editor.READY",
   SETTINGS_CHANGE = "Editor.SETTINGS_CHANGE",
   SETTINGS_RESET = "Editor.SETTINGS_RESET",
   SELECT_ALL = "Editor.SELECT_ALL",

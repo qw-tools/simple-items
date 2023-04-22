@@ -18,9 +18,9 @@ import ItemSelection from "@/features/SimpleItemsEditor/ItemSelection.vue";
 import LoadingIndicator from "@/Site/LoadingIndicator.vue";
 
 import * as EE from "@/features/SimpleItemsEditor/events";
+import { dispatch } from "@/features/SimpleItemsEditor/events";
 import classNames from "classnames";
 import { SIDEBAR_WIDTH } from "@/features/SimpleItemsEditor/config";
-import { dispatch } from "@/features/SimpleItemsEditor/events";
 
 const items = ref<Item[]>(
   [weapons, ammo, powerups, healthPacks, runes, armors, misc].flat(1)
@@ -64,11 +64,10 @@ document.addEventListener(EE.Name.READY, () => {
           <ItemSelection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
         </div>
-        <div
-          :class="classNames(`w-[${SIDEBAR_WIDTH}px]`)"
-          class="bg-gray-200 p-4 border border-black/10 shadow-md mt-12"
-        >
-          <ItemSettings />
+        <div :class="`w-[${SIDEBAR_WIDTH}px]`">
+          <div class="bg-gray-200 p-4 border border-black/10 shadow-md mt-12">
+            <ItemSettings />
+          </div>
         </div>
       </div>
     </div>

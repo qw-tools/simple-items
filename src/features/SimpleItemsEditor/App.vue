@@ -20,6 +20,7 @@ import LoadingIndicator from "@/Site/LoadingIndicator.vue";
 import * as EE from "@/features/SimpleItemsEditor/events";
 import classNames from "classnames";
 import { SIDEBAR_WIDTH } from "@/features/SimpleItemsEditor/config";
+import { dispatch } from "@/features/SimpleItemsEditor/events";
 
 const items = ref<Item[]>(
   [weapons, ammo, powerups, healthPacks, runes, armors, misc].flat(1)
@@ -29,6 +30,7 @@ const editorIsReady = ref<boolean>(false);
 
 document.addEventListener(EE.Name.READY, () => {
   editorIsReady.value = true;
+  dispatch(EE.Name.SELECT_ALL);
 });
 </script>
 <template>

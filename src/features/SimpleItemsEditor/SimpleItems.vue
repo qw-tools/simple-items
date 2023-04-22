@@ -2,8 +2,6 @@
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { ItemGrid } from "./pixi/ItemGrid";
 import { Item } from "@/features/SimpleItemsEditor/types";
-import * as EE from "@/features/SimpleItemsEditor/events";
-import { dispatch } from "@/features/SimpleItemsEditor/events";
 import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
 
 interface Props {
@@ -18,9 +16,6 @@ onMounted(async () => {
   editor = new ItemGrid({
     containerId: props.containerId,
     items: props.items,
-    onReady: () => {
-      dispatch(EE.Name.SELECT_ALL);
-    },
   });
 });
 

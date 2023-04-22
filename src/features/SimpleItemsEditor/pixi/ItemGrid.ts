@@ -5,7 +5,6 @@ import { ItemTile } from "@/features/SimpleItemsEditor/pixi/ItemTile";
 import { Point2D } from "@/pkg/geometry";
 import { Item } from "@/features/SimpleItemsEditor/types";
 import * as EE from "../events";
-import { dispatch, Name } from "../events";
 import {
   BlobReader,
   BlobWriter,
@@ -26,8 +25,6 @@ import { deepCopy } from "@/pkg/dataUtil";
 export interface SimpleItemsAppSettings {
   containerId: string;
   items: Item[];
-  onReady?: () => void;
-  onChange?: () => void;
 }
 
 export class ItemGrid extends PIXI.Application {
@@ -36,8 +33,6 @@ export class ItemGrid extends PIXI.Application {
   private _gridLines: PIXI.Graphics = new PIXI.Graphics();
   private _highlight: PIXI.Graphics = new PIXI.Graphics();
   private _gridSizeCache: Point2D = { x: 1, y: 1 };
-  onReady: () => void = nullOperation;
-  onChange: () => void = nullOperation;
 
   constructor(settings: SimpleItemsAppSettings) {
     const { containerId } = settings;
@@ -62,15 +57,6 @@ export class ItemGrid extends PIXI.Application {
     // events
     this._listen();
 
-    // callbacks
-    if (settings.onChange) {
-      this.onChange = settings.onChange;
-    }
-
-    if (settings.onReady) {
-      this.onReady = settings.onReady;
-    }
-
     // load textures
     const textureUrls = settings.items.map(
       (item: Item) => item.defaultSettings.texturePath
@@ -84,12 +70,7 @@ export class ItemGrid extends PIXI.Application {
         });
 
         this._resize();
-
-        window.setTimeout(() => {
-          dispatch(Name.READY);
-        }, 1000);
-
-        this.onReady();
+        EE.dispatch(EE.Name.READY);
       })
       .catch((e) => {
         console.log("FAIL LOAD", e);
@@ -263,7 +244,7 @@ export class ItemGrid extends PIXI.Application {
 
   private _onSelectionChange(): void {
     const items = deepCopy(this._getSelectedItems());
-    dispatch(Name.SELECT_CHANGE, { items });
+    EE.dispatch(EE.Name.SELECT_CHANGE, { items });
   }
 
   private _onSelectAll(): void {

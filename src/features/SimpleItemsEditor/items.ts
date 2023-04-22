@@ -97,7 +97,7 @@ const Quad: Item = {
   name: "Quad",
   filename: "simple_quaddama_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("quad.png", { color: "#0099ff" }),
+  ...toSettings("quake_logo.webp", { color: "#0099ff" }),
 };
 const Pent: Item = {
   name: "Pent",

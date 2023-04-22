@@ -262,36 +262,50 @@ export const ammo = [
 ];
 
 // Runes
+const runePrimary = { ...ds.primary, scale: 0.7 };
+
 const RuneResistance: Item = {
   name: "Resistance",
   filename: "simple_end1_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end1_0.png", { color: "#00ff00" }),
+  ...toSettings("rune_resistance.webp", {
+    color: "#00ff00",
+    primary: runePrimary,
+  }),
 };
 const RuneStrength: Item = {
   name: "Strength",
   filename: "simple_end2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end2_0.png", { color: "#ff0000" }),
+  ...toSettings("rune_strength.webp", {
+    color: "#ff0000",
+    primary: runePrimary,
+  }),
 };
 const RuneHaste: Item = {
   name: "Haste",
   filename: "simple_end3_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end3_0.png", { color: "#ffff00" }),
+  ...toSettings("rune_haste.webp", {
+    color: "#ffff00",
+    primary: runePrimary,
+  }),
 };
 const RuneRegeneration: Item = {
   name: "Regeneration",
   filename: "simple_end4_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("simple_end4_0.png", { color: "#00ffff" }),
+  ...toSettings("rune_regeneration.webp", {
+    color: "#00ffff",
+    primary: runePrimary,
+  }),
 };
 
 export const runes = [
-  RuneResistance,
-  RuneStrength,
   RuneHaste,
   RuneRegeneration,
+  RuneResistance,
+  RuneStrength,
 ];
 
 // misc

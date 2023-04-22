@@ -1,5 +1,10 @@
 import { ItemSettings } from "@/features/SimpleItemsEditor/types";
 
+export const SIDEBAR_WIDTH = 240;
+export const SIDEBAR_MARGIN = 24;
+
+export const GRID_COLUMNS_MIN = 3;
+
 export const GRID_SIZE = 160;
 export const GRID_CENTER = { x: GRID_SIZE / 2, y: GRID_SIZE / 2 };
 export const GRID_DIM = { width: GRID_SIZE, height: GRID_SIZE };

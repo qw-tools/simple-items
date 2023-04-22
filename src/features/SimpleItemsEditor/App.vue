@@ -19,15 +19,16 @@ import LoadingIndicator from "@/Site/LoadingIndicator.vue";
 
 import * as EE from "@/features/SimpleItemsEditor/events";
 import classNames from "classnames";
+import { SIDEBAR_WIDTH } from "@/features/SimpleItemsEditor/config";
 
 const items = ref<Item[]>(
   [weapons, ammo, powerups, healthPacks, runes, armors, misc].flat(1)
 );
 
-const isReady = ref<boolean>(false);
+const editorIsReady = ref<boolean>(false);
 
 document.addEventListener(EE.Name.READY, () => {
-  isReady.value = true;
+  editorIsReady.value = true;
 });
 </script>
 <template>
@@ -49,23 +50,23 @@ document.addEventListener(EE.Name.READY, () => {
     <div class="container mt-4 mb-8">
       <div id="AppContainerWidth" />
 
-      <div v-if="!isReady" class="container">
+      <div v-if="!editorIsReady" class="fadeIn">
         <LoadingIndicator class="h-96" />
       </div>
 
       <div
-        :class="classNames({ 'opacity-0': !isReady, fadeIn: isReady })"
+        :class="classNames({ hidden: !editorIsReady, fadeIn: editorIsReady })"
         class="flex justify-around"
       >
         <div>
           <ItemSelection />
           <SimpleItems :items="items" container-id="SimpleItemsApp" />
-          <div id="SimpleItemsApp" />
         </div>
-        <div id="AppSettings" class="w-[240px]">
-          <div class="bg-gray-200 p-4 border border-black/10 shadow-md mt-12">
-            <ItemSettings />
-          </div>
+        <div
+          :class="classNames(`w-[${SIDEBAR_WIDTH}px]`)"
+          class="bg-gray-200 p-4 border border-black/10 shadow-md mt-12"
+        >
+          <ItemSettings />
         </div>
       </div>
     </div>

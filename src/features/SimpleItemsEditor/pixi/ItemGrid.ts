@@ -13,7 +13,13 @@ import {
   ZipWriter,
 } from "@zip.js/zip.js";
 
-import { GRID_DIM, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import {
+  GRID_COLUMNS_MIN,
+  GRID_DIM,
+  GRID_SIZE,
+  SIDEBAR_MARGIN,
+  SIDEBAR_WIDTH,
+} from "@/features/SimpleItemsEditor/config";
 import { canvasToBlob } from "@/pkg/canvas";
 import { deepCopy } from "@/pkg/dataUtil";
 
@@ -78,7 +84,11 @@ export class ItemGrid extends PIXI.Application {
         });
 
         this._resize();
-        dispatch(Name.READY);
+
+        window.setTimeout(() => {
+          dispatch(Name.READY);
+        }, 1000);
+
         this.onReady();
       })
       .catch((e) => {
@@ -343,18 +353,15 @@ export class ItemGrid extends PIXI.Application {
 
   private _calcGridSize(): Point2D {
     const container = document.getElementById("AppContainerWidth");
-    const sidebar = document.getElementById("AppSettings");
 
-    if (!container || !sidebar) {
-      return { x: 1, y: 1 };
+    if (!container) {
+      return { x: GRID_SIZE, y: GRID_SIZE };
     }
 
-    const sidebarGapWidth = 16;
     const availableWidth =
-      container.clientWidth - sidebar.clientWidth - sidebarGapWidth;
+      container.clientWidth - (SIDEBAR_WIDTH + SIDEBAR_MARGIN);
     const availableColumnCount = Math.floor(availableWidth / GRID_SIZE);
-    const minColumnCount = 3;
-    const columnCount = Math.max(minColumnCount, availableColumnCount);
+    const columnCount = Math.max(GRID_COLUMNS_MIN, availableColumnCount);
     const rowCount = Math.ceil(this._tiles.children.length / columnCount);
 
     return {

@@ -1,6 +1,6 @@
 import { ItemSettings } from "@/features/SimpleItemsEditor/types";
 
-export const SIDEBAR_WIDTH = 240;
+export const SIDEBAR_WIDTH = 260;
 export const SIDEBAR_MARGIN = 24;
 
 export const GRID_COLUMNS_MIN = 3;

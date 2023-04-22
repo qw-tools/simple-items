@@ -2,7 +2,7 @@
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { ItemGrid } from "./pixi/ItemGrid";
 import { Item } from "@/features/SimpleItemsEditor/types";
-import { GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { ITEM_SIZE } from "@/features/SimpleItemsEditor/config";
 
 interface Props {
   items: Item[];
@@ -44,7 +44,7 @@ onBeforeMount(() => {
 <template>
   <div
     :id="`${props.containerId}`"
-    :style="`min-height: ${GRID_SIZE}px`"
+    :style="`min-height: ${ITEM_SIZE}px`"
     class="editor-container border border-black/20 shadow-md app-bg-checker cursor-pointer"
   />
 </template>

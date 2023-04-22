@@ -14,8 +14,8 @@ import {
 
 import {
   GRID_COLUMNS_MIN,
-  GRID_DIM,
-  GRID_SIZE,
+  ITEM_DIM,
+  ITEM_SIZE,
   SIDEBAR_MARGIN,
   SIDEBAR_WIDTH,
 } from "@/features/SimpleItemsEditor/config";
@@ -40,7 +40,7 @@ export class ItemGrid extends PIXI.Application {
 
     this._highlight.visible = false;
     this._highlight.beginFill("#00ff00", 0.2);
-    this._highlight.drawRect(0, 0, GRID_SIZE, GRID_SIZE);
+    this._highlight.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
     this._highlight.endFill();
 
     this.stage.addChild(this._highlight);
@@ -150,7 +150,7 @@ export class ItemGrid extends PIXI.Application {
   }
 
   private _getTileCanvas(tile: ItemTile): HTMLCanvasElement {
-    const renderTexture = PIXI.RenderTexture.create(GRID_DIM);
+    const renderTexture = PIXI.RenderTexture.create(ITEM_DIM);
     this.renderer.render(tile.shapeLayer, { renderTexture });
     return this.renderer.extract.canvas(renderTexture) as HTMLCanvasElement;
   }
@@ -322,11 +322,11 @@ export class ItemGrid extends PIXI.Application {
 
   private _alignItems(): void {
     const items = this._tiles.children;
-    const itemsPerRow = Math.floor(this.screen.width / GRID_SIZE);
+    const itemsPerRow = Math.floor(this.screen.width / ITEM_SIZE);
 
     for (let i = 0; i < items.length; i++) {
-      items[i].x = (i % itemsPerRow) * GRID_SIZE;
-      items[i].y = Math.floor(i / itemsPerRow) * GRID_SIZE;
+      items[i].x = (i % itemsPerRow) * ITEM_SIZE;
+      items[i].y = Math.floor(i / itemsPerRow) * ITEM_SIZE;
     }
 
     this._drawGrid();
@@ -336,12 +336,12 @@ export class ItemGrid extends PIXI.Application {
     const container = document.getElementById("AppContainerWidth");
 
     if (!container) {
-      return { x: GRID_SIZE, y: GRID_SIZE };
+      return { x: ITEM_SIZE, y: ITEM_SIZE };
     }
 
     const availableWidth =
       container.clientWidth - (SIDEBAR_WIDTH + SIDEBAR_MARGIN);
-    const availableColumnCount = Math.floor(availableWidth / GRID_SIZE);
+    const availableColumnCount = Math.floor(availableWidth / ITEM_SIZE);
     const columnCount = Math.max(GRID_COLUMNS_MIN, availableColumnCount);
     const rowCount = Math.ceil(this._tiles.children.length / columnCount);
 
@@ -355,27 +355,27 @@ export class ItemGrid extends PIXI.Application {
     this._gridLines.clear();
     this._gridLines.lineStyle(1, "black", 0.1);
 
-    let x = GRID_SIZE;
+    let x = ITEM_SIZE;
 
     while (x < this.screen.width) {
       this._gridLines.moveTo(x, 0);
       this._gridLines.lineTo(x, 1600);
-      x += GRID_SIZE;
+      x += ITEM_SIZE;
     }
 
-    let y = GRID_SIZE;
+    let y = ITEM_SIZE;
 
     while (y < 1600) {
       this._gridLines.moveTo(0, y);
       this._gridLines.lineTo(this.screen.width, y);
-      y += GRID_SIZE;
+      y += ITEM_SIZE;
     }
   }
 
   private _resize(): void {
     const { x, y } = this._calcGridSize();
     this._gridSizeCache = { x, y };
-    this.renderer.resize(x * GRID_SIZE, y * GRID_SIZE);
+    this.renderer.resize(x * ITEM_SIZE, y * ITEM_SIZE);
     this._alignItems();
   }
 
@@ -388,8 +388,8 @@ export class ItemGrid extends PIXI.Application {
 
   private _pointToTileIndex(point: Point2D): number {
     const { x, y } = point;
-    const colIndex = Math.floor(x / GRID_SIZE);
-    const rowIndex = Math.floor(y / GRID_SIZE);
+    const colIndex = Math.floor(x / ITEM_SIZE);
+    const rowIndex = Math.floor(y / ITEM_SIZE);
     const tileIndex = colIndex + rowIndex * this._gridSizeCache.x;
     const maxTileIndex = this._tiles.children.length - 1;
 

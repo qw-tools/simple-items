@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { ColorOverlayFilter, OutlineFilter } from "pixi-filters";
 import { calculateAspectRatioFit } from "@/pkg/geometry";
 import { Checkbox } from "@/features/SimpleItemsEditor/pixi/Checkbox";
-import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { ITEM_CENTER, ITEM_SIZE } from "@/features/SimpleItemsEditor/config";
 import {
   GraphicsShape,
   Item,
@@ -28,11 +28,11 @@ export class ItemTile extends PIXI.Container {
     super();
 
     // stage
-    this.hitArea = new PIXI.Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
+    this.hitArea = new PIXI.Rectangle(0, 0, ITEM_SIZE, ITEM_SIZE);
 
     // background
     this._background.beginFill(0x3366ff, 0.12);
-    this._background.drawRect(0, 0, GRID_SIZE, GRID_SIZE);
+    this._background.drawRect(0, 0, ITEM_SIZE, ITEM_SIZE);
     this._background.endFill();
     this._background.visible = false;
     this.addChild(this._background);
@@ -52,7 +52,7 @@ export class ItemTile extends PIXI.Container {
 
     // checkbox
     this._checkbox.visible = false;
-    const checkboxPos: number = GRID_SIZE - 28;
+    const checkboxPos: number = ITEM_SIZE - 28;
     this._checkbox.position.set(checkboxPos, checkboxPos);
     this.addChild(this._checkbox);
 
@@ -112,7 +112,7 @@ export class ItemTile extends PIXI.Container {
       this._primaryShape?.destroy();
       this._primaryShape = newSprite;
       this._primaryShape.anchor.set(0.5);
-      this._primaryShape.position.set(GRID_CENTER.x, GRID_CENTER.y);
+      this._primaryShape.position.set(ITEM_CENTER.x, ITEM_CENTER.y);
       this._scalePrimaryToFit();
       this._primaryShapeLayer.addChild(this._primaryShape);
     }, loadGraceTimeout);
@@ -233,7 +233,7 @@ export class ItemTile extends PIXI.Container {
 
   private _scalePrimaryToFit(): void {
     const { width, height } = this._primaryShape.texture.orig;
-    const maxSize = GRID_SIZE * this._item.settings.primary.scale;
+    const maxSize = ITEM_SIZE * this._item.settings.primary.scale;
     const fittedSize = calculateAspectRatioFit(width, height, maxSize, maxSize);
     this._primaryShape.width = fittedSize.width;
     this._primaryShape.height = fittedSize.height;

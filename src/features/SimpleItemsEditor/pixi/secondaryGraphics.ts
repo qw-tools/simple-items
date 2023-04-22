@@ -1,6 +1,6 @@
 import { ItemSettings } from "@/features/SimpleItemsEditor/types";
 import { SmoothGraphics } from "@pixi/graphics-smooth";
-import { GRID_CENTER, GRID_SIZE } from "@/features/SimpleItemsEditor/config";
+import { ITEM_CENTER, ITEM_SIZE } from "@/features/SimpleItemsEditor/config";
 import { getPolygonPath } from "@/pkg/geometry";
 
 export function createSecondaryGraphics(
@@ -13,7 +13,7 @@ export function createSecondaryGraphics(
     return gfx;
   }
 
-  gfx.position.set(GRID_CENTER.x, GRID_CENTER.y);
+  gfx.position.set(ITEM_CENTER.x, ITEM_CENTER.y);
   gfx.scale.set(settings.secondary.scale);
   gfx.rotation = settings.secondary.rotation * (Math.PI / 180);
 
@@ -27,7 +27,7 @@ export function createSecondaryGraphics(
 
   // outer
   const { shape, outerScale } = settings.secondary;
-  const oSize = GRID_SIZE * outerScale;
+  const oSize = ITEM_SIZE * outerScale;
   const oRadius = oSize / 2;
 
   gfx.beginFill(settings.color);

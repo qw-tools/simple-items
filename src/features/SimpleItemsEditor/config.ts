@@ -5,9 +5,9 @@ export const SIDEBAR_MARGIN = 24;
 
 export const GRID_COLUMNS_MIN = 3;
 
-export const GRID_SIZE = 160;
-export const GRID_CENTER = { x: GRID_SIZE / 2, y: GRID_SIZE / 2 };
-export const GRID_DIM = { width: GRID_SIZE, height: GRID_SIZE };
+export const ITEM_SIZE = 160;
+export const ITEM_CENTER = { x: ITEM_SIZE / 2, y: ITEM_SIZE / 2 };
+export const ITEM_DIM = { width: ITEM_SIZE, height: ITEM_SIZE };
 
 export const ITEM_SETTINGS: ItemSettings = {
   texturePath: "",

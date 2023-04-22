@@ -14,6 +14,7 @@ import { publicUrl } from "@/pkg/viteUtil";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
+const isDisabled = ref<boolean>(false);
 
 function onReset(): void {
   dispatch(EE.Name.SETTINGS_RESET);
@@ -21,7 +22,10 @@ function onReset(): void {
 }
 
 function onSelectionChange(e: CustomEvent): void {
-  if (e.detail.items.length === 1) {
+  const selectionCount = e.detail.items.length;
+  isDisabled.value = 0 === selectionCount;
+
+  if (1 === selectionCount) {
     const item: Item = e.detail.items[0];
     settings.value = item.settings;
     defaults.value = item.defaultSettings;
@@ -43,7 +47,12 @@ const shapes: GraphicsShape[] = [
 ];
 </script>
 <template>
-  <div class="divide-y divide-black/20">
+  <div
+    :class="
+      classNames({ 'pointer-events-none grayscale opacity-50': isDisabled })
+    "
+    class="divide-y divide-black/20"
+  >
     <div class="pb-4">
       <div class="flex items-center justify-between mb-3">
         <div class="text-sm font-bold">Settings</div>
@@ -147,13 +156,13 @@ const shapes: GraphicsShape[] = [
         <img
           v-for="shape in shapes"
           :key="shape"
-          class="w-6 h-6 cursor-pointer grayscale"
-          :src="publicUrl(`/assets/img/icons/${shape}_48.png`)"
           :class="
             classNames({
               'grayscale-0': settings.secondary.shape === shape,
             })
           "
+          :src="publicUrl(`/assets/img/icons/${shape}_48.png`)"
+          class="w-6 h-6 cursor-pointer grayscale"
           @click.prevent="() => setShape(shape)"
         />
       </div>

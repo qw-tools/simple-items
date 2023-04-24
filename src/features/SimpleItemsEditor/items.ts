@@ -27,20 +27,29 @@ const GreenArmor: Item = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_01.png", { color: "#00cc00" }),
+  ...toSettings("armor_01.png", {
+    color: "#00cc00",
+    primary: { ...ds.primary, scale: 0.75 },
+  }),
 };
 
 const YellowArmor: Item = {
   name: "Yellow Armor",
   filename: "simple_armor_1.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_01.png", { color: "#ffff00" }),
+  ...toSettings("armor_01.png", {
+    color: "#ffff00",
+    primary: { ...ds.primary, scale: 0.75 },
+  }),
 };
 const RedArmor: Item = {
   name: "Red Armor",
   filename: "simple_armor_2.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_01.png", { color: "#ff0000" }),
+  ...toSettings("armor_01.png", {
+    color: "#ff0000",
+    primary: { ...ds.primary, scale: 0.75 },
+  }),
 };
 
 export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];

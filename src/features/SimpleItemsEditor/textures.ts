@@ -24,6 +24,7 @@ export const textures = [
 
   // powerups
   "pent.png",
+  "pent_rune.png",
   "pent_scroll.png",
   "quake_logo.png",
   "ring_01.png",
@@ -54,6 +55,7 @@ export const textures = [
   "armor_02.png",
   "armor_03.png",
   "armor_04.png",
+  "armor_05.png",
   "armor_05.png",
   "armor_06.png",
   "armor_07.png",

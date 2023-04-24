@@ -50,7 +50,7 @@ const SuperShotgun: Item = {
   name: "Super Shotgun",
   filename: "simple_shot_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("shells_01.png", {
+  ...toSettings("simple_ssg.png", {
     color: "#ff9933",
     primary: { ...ds.primary, scale: 0.6 },
   }),
@@ -59,7 +59,7 @@ const Nailgun: Item = {
   name: "Nailgun",
   filename: "simple_g_nail_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("nails_01.png", {
+  ...toSettings("simple_ng.png", {
     color: "#cc00ff",
     primary: { ...ds.primary, scale: 0.6 },
   }),
@@ -68,7 +68,7 @@ const SuperNailgun: Item = {
   name: "Super Nailgun",
   filename: "simple_g_nail2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("nails_02.png", {
+  ...toSettings("simple_sng.png", {
     color: "#0066ff",
     primary: { ...ds.primary, scale: 0.6 },
   }),
@@ -193,7 +193,7 @@ const ShellsSmall: Item = {
   name: "Shells (small)",
   filename: "simple_b_shell0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("shell_01.png", {
+  ...toSettings("simple_sg.png", {
     color: "#ffff00",
     primary: { ...ds.primary, scale: 0.35 },
     secondary: { ...ds.secondary, enabled: true },
@@ -203,7 +203,7 @@ const ShellsLarge: Item = {
   name: "Shells (large)",
   filename: "simple_b_shell1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("shells_01.png", {
+  ...toSettings("simple_ssg.png", {
     color: "#ff9933",
     primary: { ...ds.primary, scale: 0.35 },
     secondary: { ...ds.secondary, enabled: true },
@@ -213,7 +213,7 @@ const NailsSmall: Item = {
   name: "Nails (small)",
   filename: "simple_b_nail0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("nails_01.png", {
+  ...toSettings("simple_ng.png", {
     color: "#cc00ff",
     primary: { ...ds.primary, scale: 0.35 },
     secondary: { ...ds.secondary, enabled: true },
@@ -224,7 +224,7 @@ const NailsLarge: Item = {
   name: "Nails (large)",
   filename: "simple_b_nail1_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("nails_02.png", {
+  ...toSettings("simple_sng.png", {
     color: "#0066ff",
     primary: { ...ds.primary, scale: 0.35 },
     secondary: { ...ds.secondary, enabled: true },

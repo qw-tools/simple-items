@@ -2,17 +2,17 @@ import { publicUrl } from "@/pkg/viteUtil";
 
 export const textures = [
   // weapons, ammo
+  "simple_sg.png",
+  "simple_ssg.png",
+  "simple_ng.png",
+  "simple_sng.png",
   "shell_01.png",
-  "shell_02.png",
-  "shells_02.png",
+  "shells_01.png",
   "bullet_01.png",
   "bullets_01.png",
-  "shells_01.png",
   "nail_01.png",
-  "nail_02.png",
   "nails_01.png",
   "nails_02.png",
-  "nails_03.png",
   "grenade_01.png",
   "grenade_02.png",
   "missile_01.png",

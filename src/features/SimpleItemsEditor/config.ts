@@ -20,9 +20,9 @@ export const ITEM_SETTINGS: ItemSettings = {
     enabled: false,
     shape: "square",
     rotation: 0,
-    scale: 0.6,
+    scale: 0.65,
     outerScale: 1.0,
-    innerScale: 0.8,
+    innerScale: 0.75,
   },
   outline: {
     enabled: true,

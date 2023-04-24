@@ -248,7 +248,7 @@ const shapes: GraphicsShape[] = [
     <div class="pt-4 space-y-1.5">
       <div class="font-bold text-sm">Shapes</div>
 
-      <div class="grid grid-cols-5 overflow-auto">
+      <div class="grid grid-cols-6 overflow-auto">
         <img
           v-for="filePath in textures"
           :key="filePath"

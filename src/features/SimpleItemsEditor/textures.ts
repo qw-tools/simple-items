@@ -2,34 +2,53 @@ import { publicUrl } from "@/pkg/viteUtil";
 
 export const textures = [
   // weapons, ammo
-  "sg.png",
-  "ssg.png",
+  "shell_01.png",
+  "shell_02.png",
+  "shells_02.png",
+  "bullet_01.png",
+  "bullets_01.png",
+  "shells_01.png",
+  "nail_01.png",
+  "nail_02.png",
   "nails_01.png",
   "nails_02.png",
-  "sng.png",
-  "gl.png",
-  "rl.png",
-  "lg.png",
+  "nails_03.png",
+  "grenade_01.png",
+  "grenade_02.png",
+  "missile_01.png",
+  "missile_02.png",
+  "bolt_01.png",
+  "bolt_02.png",
+  "bolt_03.png",
+  "bolts_01.png",
 
   // powerups
   "pent.png",
+  "pent_scroll.png",
   "quake_logo.png",
-  "ring.png",
-  "suit.png",
+  "ring_01.png",
+  "ring_02.png",
+  "ring_03.png",
+  "eye_01.png",
+  "ghost_01.png",
+  "biohazard_01.png",
+  "biohazard_02.png",
+  "radioactivity_01.png",
 
   // health
-  "health_01.png",
-  "health_02.png",
-  "health_03.png",
+  "plus_01.png",
+  "plus_02.png",
+  "plus_03.png",
 
   // runes
   "rune_haste.png",
+  "run_01.png",
   "rune_regeneration.png",
+  "recycle_01.png",
   "rune_resistance.png",
   "rune_strength.png",
 
   // armors
-  "armor_00.png",
   "armor_01.png",
   "armor_02.png",
   "armor_03.png",
@@ -43,5 +62,11 @@ export const textures = [
   "armor_11.png",
 
   // misc
-  "backpack.png",
+  "backpack_01.png",
+  "backpack_02.png",
+  "tombstone_01.png",
+  "tombstone_02.png",
+  "coffin_01.png",
+  "star_01.png",
+  "heart_01.png",
 ].map((filename) => publicUrl(`/assets/textures/${filename}`));

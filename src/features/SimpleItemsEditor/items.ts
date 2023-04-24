@@ -120,7 +120,10 @@ const Ring: Item = {
   name: "Ring",
   filename: "simple_invisibl_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("ring.png", { color: "#ffff00" }),
+  ...toSettings("ring_01.png", {
+    color: "#ffff00",
+    primary: { ...ds.primary, scale: 0.6 },
+  }),
 };
 
 const Suit: Item = {

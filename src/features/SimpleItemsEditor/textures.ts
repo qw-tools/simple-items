@@ -39,6 +39,7 @@ export const textures = [
   "plus_01.png",
   "plus_02.png",
   "plus_03.png",
+  "heart_01.png",
 
   // runes
   "rune_haste.png",
@@ -58,8 +59,6 @@ export const textures = [
   "armor_07.png",
   "armor_08.png",
   "armor_09.png",
-  "armor_10.png",
-  "armor_11.png",
 
   // misc
   "backpack_01.png",
@@ -67,6 +66,4 @@ export const textures = [
   "tombstone_01.png",
   "tombstone_02.png",
   "coffin_01.png",
-  "star_01.png",
-  "heart_01.png",
 ].map((filename) => publicUrl(`/assets/textures/${filename}`));

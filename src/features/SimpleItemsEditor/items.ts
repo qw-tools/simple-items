@@ -170,7 +170,14 @@ const HealthSmall: Item = {
   ...toSettings("plus_01.png", {
     color: "#33ff33",
     primary: { ...ds.primary, scale: 0.45 },
-    secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
+    secondary: {
+      ...ds.secondary,
+      enabled: true,
+      shape: "circle",
+      scale: 0.6,
+      innerScale: 0.8,
+      outerScale: 1.0,
+    },
   }),
 };
 const HealthLarge: Item = {
@@ -180,7 +187,14 @@ const HealthLarge: Item = {
   ...toSettings("plus_01.png", {
     color: "#eeee00",
     primary: { ...ds.primary, scale: 0.45 },
-    secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
+    secondary: {
+      ...ds.secondary,
+      enabled: true,
+      shape: "circle",
+      scale: 0.6,
+      innerScale: 0.8,
+      outerScale: 1.0,
+    },
   }),
 };
 
@@ -191,7 +205,14 @@ const MegaHealth: Item = {
   ...toSettings("plus_01.png", {
     color: "#66ddee",
     primary: { ...ds.primary, scale: 0.6 },
-    secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.8 },
+    secondary: {
+      ...ds.secondary,
+      enabled: true,
+      shape: "circle",
+      scale: 0.8,
+      innerScale: 0.8,
+      outerScale: 1.0,
+    },
   }),
 };
 

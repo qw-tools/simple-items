@@ -56,7 +56,6 @@ export const textures = [
   "armor_03.png",
   "armor_04.png",
   "armor_05.png",
-  "armor_05.png",
   "armor_06.png",
   "armor_07.png",
   "armor_08.png",

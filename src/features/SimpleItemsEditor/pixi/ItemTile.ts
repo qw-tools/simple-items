@@ -117,10 +117,12 @@ export class ItemTile extends PIXI.Container {
     const loadGraceTimeout = 64; // ms
 
     window.setTimeout(() => {
+      const rotation = this._primaryShape.rotation;
       this._primaryShape?.destroy();
       this._primaryShape = newSprite;
       this._primaryShape.anchor.set(0.5);
       this._primaryShape.position.set(ITEM_CENTER.x, ITEM_CENTER.y);
+      this._primaryShape.rotation = rotation;
       this._scalePrimaryToFit();
       this._primaryShapeLayer.addChild(this._primaryShape);
     }, loadGraceTimeout);

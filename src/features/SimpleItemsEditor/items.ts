@@ -27,20 +27,20 @@ const GreenArmor: Item = {
   name: "Green Armor",
   filename: "simple_armor_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_00.webp", { color: "#00cc00" }),
+  ...toSettings("armor_00.png", { color: "#00cc00" }),
 };
 
 const YellowArmor: Item = {
   name: "Yellow Armor",
   filename: "simple_armor_1.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_00.webp", { color: "#ffff00" }),
+  ...toSettings("armor_00.png", { color: "#ffff00" }),
 };
 const RedArmor: Item = {
   name: "Red Armor",
   filename: "simple_armor_2.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("armor_00.webp", { color: "#ff0000" }),
+  ...toSettings("armor_00.png", { color: "#ff0000" }),
 };
 
 export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];
@@ -97,7 +97,7 @@ const Quad: Item = {
   name: "Quad",
   filename: "simple_quaddama_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("quake_logo.webp", { color: "#0099ff" }),
+  ...toSettings("quake_logo.png", { color: "#0099ff" }),
 };
 const Pent: Item = {
   name: "Pent",
@@ -137,7 +137,7 @@ const HealthSmall: Item = {
   name: "Small health",
   filename: "simple_b_bh10_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("health_01.webp", {
+  ...toSettings("health_01.png", {
     color: "#33ff33",
     primary: { ...ds.primary, scale: 0.45 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
@@ -147,7 +147,7 @@ const HealthLarge: Item = {
   name: "Large health",
   filename: "simple_b_bh25_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("health_01.webp", {
+  ...toSettings("health_01.png", {
     color: "#eeee00",
     primary: { ...ds.primary, scale: 0.45 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.6 },
@@ -158,7 +158,7 @@ const MegaHealth: Item = {
   name: "Mega health",
   filename: "simple_b_bh100_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("health_01.webp", {
+  ...toSettings("health_01.png", {
     color: "#66ddee",
     primary: { ...ds.primary, scale: 0.6 },
     secondary: { ...ds.secondary, enabled: true, shape: "circle", scale: 0.8 },
@@ -268,7 +268,7 @@ const RuneResistance: Item = {
   name: "Resistance",
   filename: "simple_end1_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("rune_resistance.webp", {
+  ...toSettings("rune_resistance.png", {
     color: "#00ff00",
     primary: runePrimary,
   }),
@@ -277,7 +277,7 @@ const RuneStrength: Item = {
   name: "Strength",
   filename: "simple_end2_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("rune_strength.webp", {
+  ...toSettings("rune_strength.png", {
     color: "#ff0000",
     primary: runePrimary,
   }),
@@ -286,7 +286,7 @@ const RuneHaste: Item = {
   name: "Haste",
   filename: "simple_end3_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("rune_haste.webp", {
+  ...toSettings("rune_haste.png", {
     color: "#ffff00",
     primary: runePrimary,
   }),
@@ -295,7 +295,7 @@ const RuneRegeneration: Item = {
   name: "Regeneration",
   filename: "simple_end4_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("rune_regeneration.webp", {
+  ...toSettings("rune_regeneration.png", {
     color: "#00ffff",
     primary: runePrimary,
   }),

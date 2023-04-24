@@ -276,6 +276,8 @@ export class ItemGrid extends PIXI.Application {
 
     const getAction = () => {
       switch (property) {
+        case EE.Prop.PRIMARY_TEXTURE:
+          return (item: ItemTile) => (item.primaryTexture = value);
         case EE.Prop.COLOR:
           return (item: ItemTile) => (item.color = value);
         case EE.Prop.PRIMARY_ROTATION:

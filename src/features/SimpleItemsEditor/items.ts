@@ -56,7 +56,7 @@ const Nailgun: Item = {
   name: "Nailgun",
   filename: "simple_g_nail_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("ng.png", { color: "#cc00ff" }),
+  ...toSettings("nails_01.png", { color: "#cc00ff" }),
 };
 const SuperNailgun: Item = {
   name: "Super Nailgun",
@@ -192,7 +192,7 @@ const NailsSmall: Item = {
   name: "Nails (small)",
   filename: "simple_b_nail0_0.png",
   textureDirPath: bmodelsDirPath,
-  ...toSettings("ng.png", {
+  ...toSettings("nails_01.png", {
     color: "#cc00ff",
     primary: { ...ds.primary, scale: 0.5 },
     secondary: { ...ds.secondary, enabled: true },

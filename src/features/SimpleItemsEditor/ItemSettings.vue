@@ -11,6 +11,7 @@ import { dispatch, dispatchChange, onSettingsInputChange } from "./events";
 import { deepCopy } from "@/pkg/dataUtil";
 import classNames from "classnames";
 import { publicUrl } from "@/pkg/viteUtil";
+import { textures } from "@/features/SimpleItemsEditor/textures";
 
 const settings = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
 const defaults = ref<ItemSettings>(deepCopy(ITEM_SETTINGS));
@@ -35,6 +36,11 @@ function onSelectionChange(e: CustomEvent): void {
 function setShape(value: GraphicsShape): void {
   dispatchChange({ property: EE.Prop.SECONDARY_SHAPE, value });
   settings.value.secondary.shape = value;
+}
+
+function setPrimaryTexturePath(value: string): void {
+  dispatchChange({ property: EE.Prop.PRIMARY_TEXTURE, value });
+  settings.value.texturePath = value;
 }
 
 document.addEventListener(EE.Name.SELECT_CHANGE, onSelectionChange);
@@ -139,7 +145,7 @@ const shapes: GraphicsShape[] = [
       </div>
     </div>
 
-    <div class="pt-4 space-y-1.5">
+    <div class="py-4 space-y-1.5">
       <label class="text-sm flex items-center font-bold">
         <input
           v-model="settings.secondary.enabled"
@@ -236,6 +242,20 @@ const shapes: GraphicsShape[] = [
         <span class="text-gray-600 text-xs">{{
           settings.secondary.innerScale
         }}</span>
+      </div>
+    </div>
+
+    <div class="pt-4 space-y-1.5">
+      <div class="font-bold text-sm">Shapes</div>
+
+      <div class="grid grid-cols-5 overflow-auto">
+        <img
+          v-for="filePath in textures"
+          :key="filePath"
+          :src="filePath"
+          class="cursor-pointer border-2 hover:bg-white border-sky-600/0 hover:border-sky-600"
+          @click="() => setPrimaryTexturePath(filePath)"
+        />
       </div>
     </div>
   </div>

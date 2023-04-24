@@ -103,14 +103,14 @@ const Pent: Item = {
   name: "Pent",
   filename: "simple_invulner_0.png",
   textureDirPath: modelsDirPath,
-  ...toSettings("pent.svg", {
+  ...toSettings("pent.png", {
     color: "#ff0000",
-    primary: { ...ds.primary, scale: 0.8 },
+    primary: { ...ds.primary, scale: 0.7 },
     secondary: {
       ...ds.secondary,
       enabled: true,
       shape: "circle",
-      scale: 0.75,
+      scale: 0.8,
       innerScale: 0.85,
       outerScale: 1,
     },

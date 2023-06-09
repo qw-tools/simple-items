@@ -57,7 +57,7 @@ export const armors: Item[] = [GreenArmor, YellowArmor, RedArmor];
 // weapons
 const SuperShotgun: Item = {
   name: "Super Shotgun",
-  filename: "simple_shot_0.png",
+  filename: "simple_g_shot_0.png",
   textureDirPath: modelsDirPath,
   ...toSettings("simple_ssg.png", {
     color: "#ff9933",
